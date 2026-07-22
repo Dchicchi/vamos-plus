@@ -115,6 +115,20 @@ nav button{border:0;background:none;padding:6px 2px;color:#737b82;font-size:10px
     <button class="btn ghost" onclick="importDaichiWeights()">過去の体重を読み込む</button>
   </div>
   <div class="form">
+    <h3>🤖 チャッピーに共有</h3>
+    <p class="notice">記録を読みやすい文章にまとめます。共有画面からChatGPTを選ぶか、文章をコピーしてチャッピーに貼り付けてください。</p>
+    <div class="field"><label>共有する期間</label>
+      <select id="shareRange">
+        <option value="today">今日</option>
+        <option value="7">直近7日</option>
+        <option value="30">直近30日</option>
+        <option value="all">全期間</option>
+      </select>
+    </div>
+    <button class="btn accent" onclick="shareWithChatty()">チャッピーに共有</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="copyForChatty()">共有文をコピー</button>
+  </div>
+  <div class="form">
     <h3>バックアップ</h3>
     <p class="notice">記録はこの端末のSafari内にだけ保存されます。機種変更やSafariデータ削除に備えて、定期的にバックアップしてください。</p>
     <button class="btn ghost" onclick="exportData()">バックアップを書き出す</button>
@@ -124,7 +138,7 @@ nav button{border:0;background:none;padding:6px 2px;color:#737b82;font-size:10px
   <div class="form">
     <h3>データ削除</h3><button class="btn danger" onclick="clearAll()">すべての記録を削除</button>
   </div>
-  <p class="notice">VAMOS+ v1.0<br>個人データはGitHubへ送信されません。写真も端末内保存です。</p>
+  <p class="notice">VAMOS+ v1.1<br>個人データはGitHubへ送信されません。写真も端末内保存です。</p>
 </section>
 </div>
 
@@ -211,6 +225,103 @@ function drawChart(id){
 function saveSettings(){db.settings={name:settingName.value.trim()||'大地',goal:Number(settingGoal.value)||60,start:Number(settingStart.value)||65};save();alert('設定を保存した！')}
 const oldWeights=[['2026-06-15',65.0],['2026-06-16',64.4],['2026-06-17',65.6],['2026-06-18',64.0],['2026-06-24',64.6],['2026-06-25',64.0],['2026-06-26',64.4],['2026-06-27',65.0],['2026-06-28',64.5],['2026-06-29',64.0],['2026-06-30',64.4],['2026-07-01',65.0],['2026-07-02',65.0],['2026-07-03',64.6],['2026-07-04',64.0],['2026-07-05',65.8],['2026-07-06',64.5],['2026-07-07',64.4],['2026-07-08',64.6],['2026-07-09',65.4],['2026-07-10',64.6],['2026-07-11',63.8],['2026-07-13',64.8],['2026-07-15',64.8],['2026-07-16',64.8],['2026-07-17',65.0],['2026-07-18',64.8],['2026-07-19',64.2],['2026-07-20',65.6],['2026-07-21',65.4],['2026-07-22',64.6]];
 function importDaichiWeights(){let dates=new Set(db.weights.map(x=>x.date)),n=0;oldWeights.forEach(([date,value])=>{if(!dates.has(date)){db.weights.push({id:id(),date,value,memo:'過去記録'});n++}});save();alert(`${n}件読み込んだ！`)}
+
+function shareStartDate(){
+  const range=document.getElementById('shareRange').value;
+  if(range==='all') return '0000-00-00';
+  if(range==='today') return iso();
+  const d=new Date();
+  d.setDate(d.getDate()-Number(range)+1);
+  return d.toISOString().slice(0,10);
+}
+function buildChattyText(){
+  const from=shareStartDate();
+  const range=document.getElementById('shareRange').value;
+  const rangeLabel={today:'今日',7:'直近7日',30:'直近30日',all:'全期間'}[range];
+  const ws=[...db.weights].filter(x=>x.date>=from).sort((a,b)=>a.date.localeCompare(b.date));
+  const ms=[...db.meals].filter(x=>x.date>=from).sort((a,b)=>a.date.localeCompare(b.date));
+  const es=[...db.exercises].filter(x=>x.date>=from).sort((a,b)=>a.date.localeCompare(b.date));
+  const hs=[...db.health].filter(x=>x.date>=from).sort((a,b)=>a.date.localeCompare(b.date));
+
+  const lines=[];
+  lines.push(`VAMOS+ 健康記録（${rangeLabel}）`);
+  lines.push(`名前：${db.settings.name||'大地'}`);
+  lines.push(`目標体重：${Number(db.settings.goal||60).toFixed(1)}kg`);
+  lines.push('');
+
+  if(ws.length){
+    lines.push('【体重】');
+    ws.forEach(x=>lines.push(`${x.date}：${Number(x.value).toFixed(1)}kg${x.memo?`（${x.memo}）`:''}`));
+    const first=ws[0],latest=ws.at(-1),diff=latest.value-first.value;
+    lines.push(`期間内の変化：${diff>=0?'+':''}${diff.toFixed(1)}kg`);
+    lines.push('');
+  }
+
+  if(ms.length){
+    lines.push('【食事】');
+    ms.forEach(x=>lines.push(`${x.date} ${x.type}：${x.text||'写真のみ'}`));
+    lines.push('');
+  }
+
+  if(es.length){
+    lines.push('【運動】');
+    es.forEach(x=>{
+      const detail=[x.distance?`${x.distance}km`:'',x.minutes?`${x.minutes}分`:'',x.memo||''].filter(Boolean).join(' / ');
+      lines.push(`${x.date} ${x.type}${detail?`：${detail}`:''}`);
+    });
+    lines.push('');
+  }
+
+  if(hs.length){
+    lines.push('【健康・血液検査】');
+    hs.forEach(x=>{
+      const detail=[
+        x.alt!=null?`ALT ${x.alt}`:'',
+        x.ggt!=null?`γ-GTP ${x.ggt}`:'',
+        x.ast!=null?`AST ${x.ast}`:'',
+        x.chol!=null?`総コレステロール ${x.chol}`:'',
+        x.memo||''
+      ].filter(Boolean).join(' / ');
+      lines.push(`${x.date}${detail?`：${detail}`:''}`);
+    });
+    lines.push('');
+  }
+
+  if(!ws.length&&!ms.length&&!es.length&&!hs.length){
+    lines.push('この期間の記録はありません。');
+    lines.push('');
+  }
+
+  lines.push('この記録をもとに、体重・食事・運動・健康面をまとめて分析して、次にやることを具体的に教えて。');
+  return lines.join('\\n');
+}
+async function copyForChatty(){
+  const text=buildChattyText();
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
+  alert('共有文をコピーした！ChatGPTに貼り付けてな👍');
+}
+async function shareWithChatty(){
+  const text=buildChattyText();
+  if(navigator.share){
+    try{
+      await navigator.share({title:'VAMOS+ 健康記録',text});
+      return;
+    }catch(e){
+      if(e && e.name==='AbortError') return;
+    }
+  }
+  await copyForChatty();
+}
+
 function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`VAMOS+_backup_${iso()}.json`;a.click();URL.revokeObjectURL(a.href)}
 function importData(){let f=importFile.files[0];if(!f)return alert('バックアップファイルを選んでな');let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.weights||!x.meals||!x.exercises||!x.health)throw Error();db=x;save();alert('復元できた！')}catch(e){alert('VAMOS+のバックアップファイルではないみたい')} };r.readAsText(f)}
 function clearAll(){if(confirm('本当に全部消す？この操作は戻せません。')&&confirm('最終確認：すべて削除していい？')){db=structuredClone(defaultData);save()}}
