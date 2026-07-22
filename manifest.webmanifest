@@ -1,0 +1,26 @@
+{
+  "name": "VAMOS+",
+  "short_name": "VAMOS+",
+  "description": "大地専用の体重・食事・運動・健康記録アプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f3ef",
+  "theme_color": "#101820",
+  "lang": "ja",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

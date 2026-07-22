@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101820">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VAMOS+">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>VAMOS+</title>
+<style>
+:root{--ink:#101820;--paper:#f4f3ef;--card:#fff;--accent:#f5c542;--muted:#6f7780;--line:#dde0e3;--good:#18864b;--danger:#bf3434}
+*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",sans-serif}
+button,input,select,textarea{font:inherit}.app{max-width:720px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 14px calc(92px + env(safe-area-inset-bottom))}
+header{padding:20px 4px 12px;display:flex;align-items:end;justify-content:space-between}.brand{font-weight:950;font-size:32px;letter-spacing:-1px}.brand b{color:#d39e00}.date{font-size:13px;color:var(--muted)}
+.view{display:none}.view.active{display:block}.hero{background:var(--ink);color:#fff;border-radius:24px;padding:22px;box-shadow:0 10px 30px #10182022}
+.hero .eyebrow{font-size:13px;opacity:.72}.weight{font-size:48px;font-weight:900;line-height:1.1;margin:6px 0}.weight small{font-size:18px}.progress{height:10px;background:#ffffff24;border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:var(--accent);border-radius:999px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 6px 18px #1018200c}.card h3{margin:0 0 8px;font-size:15px}.metric{font-size:28px;font-weight:850}.sub{font-size:12px;color:var(--muted)}
+.coach{background:#fff7d7;border:1px solid #ead271;border-radius:20px;padding:16px;margin:14px 0}.coach b{display:block;margin-bottom:5px}
+.section-title{font-size:20px;font-weight:900;margin:22px 2px 10px}.form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}
+input,select,textarea{width:100%;border:1px solid #ccd1d5;background:#fff;border-radius:13px;padding:12px;color:var(--ink)}textarea{min-height:86px;resize:vertical}
+.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:850;background:var(--ink);color:#fff;width:100%}.btn.accent{background:var(--accent);color:var(--ink)}.btn.ghost{background:#eef0f1;color:var(--ink)}.btn.danger{background:#ffe8e8;color:var(--danger)}
+.list{display:flex;flex-direction:column;gap:10px}.item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px}.item-head{display:flex;justify-content:space-between;gap:10px}.item-title{font-weight:850}.tag{font-size:11px;background:#eef0f1;padding:4px 8px;border-radius:999px}.item p{margin:7px 0 0;color:#4d555b;font-size:13px;white-space:pre-wrap}.thumb{width:100%;border-radius:12px;margin-top:10px;max-height:260px;object-fit:cover}
+canvas{width:100%;height:220px;background:#fff;border-radius:18px;border:1px solid var(--line)}.empty{padding:28px 10px;text-align:center;color:var(--muted)}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(720px,100%);padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#ffffffee;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:20}
+nav button{border:0;background:none;padding:6px 2px;color:#737b82;font-size:10px;font-weight:750}nav button span{display:block;font-size:21px;margin-bottom:2px}nav button.active{color:var(--ink)}
+.small-actions{display:flex;gap:8px;margin-top:10px}.small-actions button{flex:1;border:0;border-radius:11px;padding:9px;background:#eef0f1;font-size:12px;font-weight:750}.small-actions .del{color:var(--danger)}
+.notice{font-size:12px;color:var(--muted);line-height:1.6}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef0f1;font-size:12px;margin:2px}
+@media(max-width:400px){.weight{font-size:42px}.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">VAMOS<b>+</b></div><div class="date" id="today"></div></header>
+
+<section id="home" class="view active">
+  <div class="hero">
+    <div class="eyebrow">最新の体重</div>
+    <div class="weight"><span id="latestWeight">--.-</span><small> kg</small></div>
+    <div class="sub" id="goalText" style="color:#ffffffb8;margin-bottom:10px">目標を設定しよう</div>
+    <div class="progress"><span id="goalProgress" style="width:0%"></span></div>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>🏃 今月の運動</h3><div class="metric" id="monthExercise">0</div><div class="sub">回</div></div>
+    <div class="card"><h3>🍚 今日の食事</h3><div class="metric" id="todayMeals">0</div><div class="sub">件</div></div>
+    <div class="card"><h3>📉 開始から</h3><div class="metric" id="weightChange">--</div><div class="sub">kg</div></div>
+    <div class="card"><h3>🔥 連続記録</h3><div class="metric" id="streak">0</div><div class="sub">日</div></div>
+  </div>
+  <div class="coach"><b>🤖 チャッピー</b><span id="coachText">今日の記録を1つ入れてみよう。積み重ねが一番強い。</span></div>
+  <div class="section-title">体重グラフ</div><canvas id="chart" width="680" height="220"></canvas>
+</section>
+
+<section id="record" class="view">
+  <div class="section-title">記録する</div>
+  <div class="form">
+    <h3>⚖️ 体重</h3>
+    <div class="row"><div class="field"><label>日付</label><input id="weightDate" type="date"></div><div class="field"><label>体重（kg）</label><input id="weightValue" type="number" inputmode="decimal" step="0.1" placeholder="64.6"></div></div>
+    <div class="field"><label>メモ</label><input id="weightMemo" placeholder="朝・トイレ後など"></div>
+    <button class="btn accent" onclick="addWeight()">体重を保存</button>
+  </div>
+  <div class="form">
+    <h3>🍚 食事</h3>
+    <div class="row"><div class="field"><label>日付</label><input id="mealDate" type="date"></div><div class="field"><label>区分</label><select id="mealType"><option>朝</option><option selected>昼</option><option>夜</option><option>間食</option></select></div></div>
+    <div class="field"><label>内容</label><textarea id="mealText" placeholder="おにぎり2個、サラダチキンなど"></textarea></div>
+    <div class="field"><label>写真（任意）</label><input id="mealPhoto" type="file" accept="image/*"></div>
+    <button class="btn accent" onclick="addMeal()">食事を保存</button>
+  </div>
+  <div class="form">
+    <h3>🏃 運動</h3>
+    <div class="row"><div class="field"><label>日付</label><input id="exerciseDate" type="date"></div><div class="field"><label>種目</label><select id="exerciseType"><option>ランニング</option><option>水泳</option><option>筋トレ</option><option>バレー</option><option>ウォーキング</option><option>その他</option></select></div></div>
+    <div class="row"><div class="field"><label>距離（km・任意）</label><input id="exerciseDistance" type="number" step="0.01" inputmode="decimal"></div><div class="field"><label>時間（分・任意）</label><input id="exerciseMinutes" type="number" inputmode="numeric"></div></div>
+    <div class="field"><label>メモ</label><textarea id="exerciseMemo" placeholder="息は余裕、ふくらはぎ問題なし等"></textarea></div>
+    <button class="btn accent" onclick="addExercise()">運動を保存</button>
+  </div>
+  <div class="form">
+    <h3>❤️ 健康・血液検査</h3>
+    <div class="field"><label>日付</label><input id="healthDate" type="date"></div>
+    <div class="row"><div class="field"><label>ALT</label><input id="alt" type="number"></div><div class="field"><label>γ-GTP</label><input id="ggt" type="number"></div></div>
+    <div class="row"><div class="field"><label>AST</label><input id="ast" type="number"></div><div class="field"><label>総コレステロール</label><input id="chol" type="number"></div></div>
+    <div class="field"><label>その他・メモ</label><textarea id="healthMemo"></textarea></div>
+    <button class="btn accent" onclick="addHealth()">健康記録を保存</button>
+  </div>
+</section>
+
+<section id="history" class="view">
+  <div class="section-title">履歴</div>
+  <div class="field"><select id="historyFilter" onchange="renderHistory()"><option value="all">すべて</option><option value="weight">体重</option><option value="meal">食事</option><option value="exercise">運動</option><option value="health">健康</option></select></div>
+  <div id="historyList" class="list"></div>
+</section>
+
+<section id="stats" class="view">
+  <div class="section-title">分析</div>
+  <div class="grid">
+    <div class="card"><h3>平均体重（7件）</h3><div class="metric" id="avg7">--</div><div class="sub">kg</div></div>
+    <div class="card"><h3>最軽量</h3><div class="metric" id="minWeight">--</div><div class="sub">kg</div></div>
+    <div class="card"><h3>総ラン距離</h3><div class="metric" id="runDistance">0</div><div class="sub">km</div></div>
+    <div class="card"><h3>総運動時間</h3><div class="metric" id="exerciseTime">0</div><div class="sub">分</div></div>
+  </div>
+  <div class="section-title">体重グラフ</div><canvas id="chart2" width="680" height="220"></canvas>
+  <div class="section-title">最近の健康数値</div><div id="healthSummary" class="card notice">まだ記録がありません。</div>
+</section>
+
+<section id="settings" class="view">
+  <div class="section-title">設定</div>
+  <div class="form">
+    <div class="row"><div class="field"><label>名前</label><input id="settingName" value="大地"></div><div class="field"><label>目標体重（kg）</label><input id="settingGoal" type="number" step="0.1" value="60"></div></div>
+    <div class="field"><label>開始体重（kg）</label><input id="settingStart" type="number" step="0.1" value="65"></div>
+    <button class="btn accent" onclick="saveSettings()">設定を保存</button>
+  </div>
+  <div class="form">
+    <h3>過去データ</h3>
+    <p class="notice">これまでチャッピーに記録した体重データ（2026/6/15〜7/22）を読み込めます。すでに同じ日付のデータがある場合は追加しません。</p>
+    <button class="btn ghost" onclick="importDaichiWeights()">過去の体重を読み込む</button>
+  </div>
+  <div class="form">
+    <h3>バックアップ</h3>
+    <p class="notice">記録はこの端末のSafari内にだけ保存されます。機種変更やSafariデータ削除に備えて、定期的にバックアップしてください。</p>
+    <button class="btn ghost" onclick="exportData()">バックアップを書き出す</button>
+    <div class="field"><label>バックアップを復元</label><input id="importFile" type="file" accept=".json,application/json"></div>
+    <button class="btn ghost" onclick="importData()">バックアップを読み込む</button>
+  </div>
+  <div class="form">
+    <h3>データ削除</h3><button class="btn danger" onclick="clearAll()">すべての記録を削除</button>
+  </div>
+  <p class="notice">VAMOS+ v1.0<br>個人データはGitHubへ送信されません。写真も端末内保存です。</p>
+</section>
+</div>
+
+<nav>
+<button class="active" data-view="home"><span>🏠</span>ホーム</button>
+<button data-view="record"><span>✍️</span>記録</button>
+<button data-view="history"><span>📚</span>履歴</button>
+<button data-view="stats"><span>📊</span>分析</button>
+<button data-view="settings"><span>⚙️</span>設定</button>
+</nav>
+
+<script>
+const KEY='vamosPlusDataV1';
+const defaultData={settings:{name:'大地',goal:60,start:65},weights:[],meals:[],exercises:[],health:[]};
+let db=load();
+function load(){try{return Object.assign(structuredClone(defaultData),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return structuredClone(defaultData)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+const iso=()=>new Date().toISOString().slice(0,10);
+document.querySelectorAll('input[type=date]').forEach(e=>e.value=iso());
+document.getElementById('today').textContent=new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short'}).format(new Date());
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(b.dataset.view).classList.add('active');
+ if(b.dataset.view==='stats') setTimeout(()=>{drawChart('chart2')},20);
+});
+
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function addWeight(){let v=parseFloat(weightValue.value);if(!v)return alert('体重を入力してな');db.weights.push({id:id(),date:weightDate.value,value:v,memo:weightMemo.value});weightValue.value='';weightMemo.value='';save();alert('体重を保存した！')}
+async function addMeal(){if(!mealText.value.trim()&&!mealPhoto.files[0])return alert('食事内容か写真を入れてな');let photo='';if(mealPhoto.files[0])photo=await compressImage(mealPhoto.files[0]);db.meals.push({id:id(),date:mealDate.value,type:mealType.value,text:mealText.value.trim(),photo});mealText.value='';mealPhoto.value='';save();alert('食事を保存した！')}
+function addExercise(){db.exercises.push({id:id(),date:exerciseDate.value,type:exerciseType.value,distance:parseFloat(exerciseDistance.value)||0,minutes:parseFloat(exerciseMinutes.value)||0,memo:exerciseMemo.value.trim()});exerciseDistance.value='';exerciseMinutes.value='';exerciseMemo.value='';save();alert('運動を保存した！')}
+function addHealth(){db.health.push({id:id(),date:healthDate.value,alt:num(alt.value),ggt:num(ggt.value),ast:num(ast.value),chol:num(chol.value),memo:healthMemo.value.trim()});alt.value=ggt.value=ast.value=chol.value=healthMemo.value='';save();alert('健康記録を保存した！')}
+function num(v){return v===''?null:Number(v)}
+function compressImage(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{let w=im.width,h=im.height,max=1000;if(w>max||h>max){let s=Math.min(max/w,max/h);w*=s;h*=s}let c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);resolve(c.toDataURL('image/jpeg',.72))};im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file)})}
+
+function renderAll(){
+ let ws=[...db.weights].sort((a,b)=>a.date.localeCompare(b.date));let latest=ws.at(-1);
+ latestWeight.textContent=latest?latest.value.toFixed(1):'--.-';
+ let goal=Number(db.settings.goal||60),start=Number(db.settings.start||65);
+ if(latest){let remain=latest.value-goal;goalText.textContent=remain>0?`目標まであと ${remain.toFixed(1)} kg`:'目標達成！この調子でキープ';let p=Math.max(0,Math.min(100,(start-latest.value)/(start-goal)*100));goalProgress.style.width=p+'%'}
+ else{goalText.textContent=`目標 ${goal.toFixed(1)} kg`;goalProgress.style.width='0%'}
+ let ym=iso().slice(0,7);monthExercise.textContent=db.exercises.filter(x=>x.date.startsWith(ym)).length;
+ todayMeals.textContent=db.meals.filter(x=>x.date===iso()).length;
+ weightChange.textContent=latest?(latest.value-start).toFixed(1):'--';
+ streak.textContent=calcStreak();
+ coachText.textContent=coach(latest,ws);
+ avg7.textContent=ws.length?(ws.slice(-7).reduce((s,x)=>s+x.value,0)/Math.min(7,ws.length)).toFixed(1):'--';
+ minWeight.textContent=ws.length?Math.min(...ws.map(x=>x.value)).toFixed(1):'--';
+ runDistance.textContent=db.exercises.filter(x=>x.type==='ランニング').reduce((s,x)=>s+(x.distance||0),0).toFixed(1);
+ exerciseTime.textContent=Math.round(db.exercises.reduce((s,x)=>s+(x.minutes||0),0));
+ settingName.value=db.settings.name||'大地';settingGoal.value=db.settings.goal||60;settingStart.value=db.settings.start||65;
+ renderHistory();renderHealth();setTimeout(()=>drawChart('chart'),20);
+}
+function calcStreak(){let dates=new Set([...db.weights,...db.meals,...db.exercises,...db.health].map(x=>x.date));let n=0,d=new Date();while(dates.has(d.toISOString().slice(0,10))){n++;d.setDate(d.getDate()-1)}return n}
+function coach(latest,ws){let name=db.settings.name||'大地';if(!latest)return `${name}、まずは今日の体重を入れてスタートや。`;
+ if(latest.date!==iso())return `${name}、今日はまだ体重記録なし。測れたら1分で入れとこ👍`;
+ if(ws.length>1){let diff=latest.value-ws.at(-2).value;if(diff<=-.3)return `前回から ${Math.abs(diff).toFixed(1)}kg減。いい流れ！水分も忘れずに。`;if(diff>=.8)return `前回より増えてるけど、塩分や水分で普通に動く範囲。1日では判断せんでOK。`}
+ return `今日も記録できてえらい。食事か運動も1つ入れたら完璧。バモス！！🔥`;
+}
+function renderHistory(){
+ let type=historyFilter.value,all=[];
+ db.weights.forEach(x=>all.push({...x,k:'weight',title:`${x.value.toFixed(1)} kg`,tag:'体重',body:x.memo||''}));
+ db.meals.forEach(x=>all.push({...x,k:'meal',title:`${x.type}ごはん`,tag:'食事',body:x.text||''}));
+ db.exercises.forEach(x=>all.push({...x,k:'exercise',title:x.type,tag:'運動',body:[x.distance?`${x.distance} km`:'',x.minutes?`${x.minutes} 分`:'',x.memo].filter(Boolean).join(' / ')}));
+ db.health.forEach(x=>all.push({...x,k:'health',title:'健康・血液検査',tag:'健康',body:[x.alt!=null?`ALT ${x.alt}`:'',x.ggt!=null?`γ-GTP ${x.ggt}`:'',x.ast!=null?`AST ${x.ast}`:'',x.chol!=null?`コレステロール ${x.chol}`:'',x.memo].filter(Boolean).join(' / ')}));
+ all=all.filter(x=>type==='all'||x.k===type).sort((a,b)=>b.date.localeCompare(a.date));
+ historyList.innerHTML=all.length?all.map(x=>`<div class="item"><div class="item-head"><div><div class="item-title">${esc(x.title)}</div><div class="sub">${x.date}</div></div><span class="tag">${x.tag}</span></div>${x.body?`<p>${esc(x.body)}</p>`:''}${x.photo?`<img class="thumb" src="${x.photo}">`:''}<div class="small-actions"><button class="del" onclick="removeItem('${x.k}','${x.id}')">削除</button></div></div>`).join(''):'<div class="empty">まだ記録がありません。</div>';
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function removeItem(k,i){if(!confirm('この記録を削除する？'))return;let map={weight:'weights',meal:'meals',exercise:'exercises',health:'health'};db[map[k]]=db[map[k]].filter(x=>x.id!==i);save()}
+function renderHealth(){let x=[...db.health].sort((a,b)=>a.date.localeCompare(b.date)).at(-1);healthSummary.innerHTML=x?`<b>${x.date}</b><br>${[x.alt!=null?`ALT：${x.alt}`:'',x.ggt!=null?`γ-GTP：${x.ggt}`:'',x.ast!=null?`AST：${x.ast}`:'',x.chol!=null?`総コレステロール：${x.chol}`:'',x.memo].filter(Boolean).join('<br>')}`:'まだ記録がありません。'}
+function drawChart(id){
+ let c=document.getElementById(id),ctx=c.getContext('2d'),dpr=window.devicePixelRatio||1,w=c.clientWidth,h=220;c.width=w*dpr;c.height=h*dpr;ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
+ let arr=[...db.weights].sort((a,b)=>a.date.localeCompare(b.date)).slice(-30);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ if(arr.length<2){ctx.fillStyle='#7b8388';ctx.font='14px sans-serif';ctx.textAlign='center';ctx.fillText('体重を2件以上記録するとグラフが出ます',w/2,h/2);return}
+ let vals=arr.map(x=>x.value),min=Math.floor((Math.min(...vals)-1)*2)/2,max=Math.ceil((Math.max(...vals)+1)*2)/2,pad={l:38,r:12,t:18,b:28};
+ ctx.strokeStyle='#e1e4e6';ctx.lineWidth=1;ctx.fillStyle='#7b8388';ctx.font='11px sans-serif';ctx.textAlign='right';
+ for(let i=0;i<5;i++){let y=pad.t+(h-pad.t-pad.b)*i/4,v=max-(max-min)*i/4;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(v.toFixed(1),pad.l-6,y+4)}
+ let X=i=>pad.l+(w-pad.l-pad.r)*i/(arr.length-1),Y=v=>pad.t+(max-v)/(max-min)*(h-pad.t-pad.b);
+ ctx.strokeStyle='#101820';ctx.lineWidth=3;ctx.lineJoin='round';ctx.beginPath();arr.forEach((x,i)=>i?ctx.lineTo(X(i),Y(x.value)):ctx.moveTo(X(i),Y(x.value)));ctx.stroke();
+ ctx.fillStyle='#f5c542';arr.forEach((x,i)=>{ctx.beginPath();ctx.arc(X(i),Y(x.value),4,0,Math.PI*2);ctx.fill()});
+ ctx.fillStyle='#7b8388';ctx.textAlign='center';let step=Math.max(1,Math.ceil(arr.length/5));arr.forEach((x,i)=>{if(i%step===0||i===arr.length-1)ctx.fillText(x.date.slice(5).replace('-','/'),X(i),h-9)});
+}
+function saveSettings(){db.settings={name:settingName.value.trim()||'大地',goal:Number(settingGoal.value)||60,start:Number(settingStart.value)||65};save();alert('設定を保存した！')}
+const oldWeights=[['2026-06-15',65.0],['2026-06-16',64.4],['2026-06-17',65.6],['2026-06-18',64.0],['2026-06-24',64.6],['2026-06-25',64.0],['2026-06-26',64.4],['2026-06-27',65.0],['2026-06-28',64.5],['2026-06-29',64.0],['2026-06-30',64.4],['2026-07-01',65.0],['2026-07-02',65.0],['2026-07-03',64.6],['2026-07-04',64.0],['2026-07-05',65.8],['2026-07-06',64.5],['2026-07-07',64.4],['2026-07-08',64.6],['2026-07-09',65.4],['2026-07-10',64.6],['2026-07-11',63.8],['2026-07-13',64.8],['2026-07-15',64.8],['2026-07-16',64.8],['2026-07-17',65.0],['2026-07-18',64.8],['2026-07-19',64.2],['2026-07-20',65.6],['2026-07-21',65.4],['2026-07-22',64.6]];
+function importDaichiWeights(){let dates=new Set(db.weights.map(x=>x.date)),n=0;oldWeights.forEach(([date,value])=>{if(!dates.has(date)){db.weights.push({id:id(),date,value,memo:'過去記録'});n++}});save();alert(`${n}件読み込んだ！`)}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`VAMOS+_backup_${iso()}.json`;a.click();URL.revokeObjectURL(a.href)}
+function importData(){let f=importFile.files[0];if(!f)return alert('バックアップファイルを選んでな');let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.weights||!x.meals||!x.exercises||!x.health)throw Error();db=x;save();alert('復元できた！')}catch(e){alert('VAMOS+のバックアップファイルではないみたい')} };r.readAsText(f)}
+function clearAll(){if(confirm('本当に全部消す？この操作は戻せません。')&&confirm('最終確認：すべて削除していい？')){db=structuredClone(defaultData);save()}}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
+renderAll();
+</script>
+</body>
+</html>
