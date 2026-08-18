@@ -1,0 +1,1871 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0b0f">
+<title>VAMOS+ v2 Phase 2</title>
+<style>
+:root{--bg:#090b10;--card:#141821;--card2:#191e29;--text:#f7f8fb;--muted:#9aa3b2;--line:#2a3140;--accent:#ff6534;--accent2:#ff9b35;--good:#46d8a2;--warn:#ffbf66;--danger:#ff6b6b;--shadow:0 12px 28px rgba(0,0,0,.22)}*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:radial-gradient(circle at 85% -10%,rgba(255,101,52,.22),transparent 28%),linear-gradient(180deg,#10131a 0%,#090b10 42%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;padding-bottom:92px;min-height:100vh}.app{max-width:780px;margin:auto;padding:16px 16px 28px}.brandrow{display:flex;align-items:center;justify-content:space-between;margin:4px 0 18px}.brand{display:flex;align-items:center;gap:10px;font-weight:950;font-size:25px;letter-spacing:-.6px}.mark{width:36px;height:36px;border-radius:11px;background:#050608;display:grid;place-items:center;box-shadow:inset 0 0 0 1px #2a2e36}.mark span{font-weight:1000;font-size:21px;background:linear-gradient(135deg,var(--accent2),#ff3f3f);-webkit-background-clip:text;color:transparent}.version{font-size:11px;color:var(--muted);font-weight:800;background:#171b24;border:1px solid var(--line);padding:6px 9px;border-radius:999px}.page{display:none}.page.active{display:block}.greeting{margin:0 0 15px}.greeting h1{font-size:26px;margin:0 0 4px;letter-spacing:-.6px}.greeting p{margin:0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.hero{grid-column:1/-1;background:linear-gradient(135deg,#211e1d 0%,#171a22 58%,#292028 100%);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-65px;top:-85px;background:radial-gradient(circle,rgba(255,106,52,.38),transparent 68%)}.eyebrow{font-size:11px;color:var(--muted);font-weight:900;letter-spacing:.08em;text-transform:uppercase}.big{font-size:48px;font-weight:950;line-height:1;margin:10px 0 8px;letter-spacing:-2px}.big small{font-size:18px;color:var(--muted);letter-spacing:0}.delta{font-size:13px;font-weight:800}.good{color:var(--good)}.warn{color:var(--warn)}.progress{height:10px;background:#2a303b;border-radius:999px;overflow:hidden;margin:15px 0 7px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#ff433d,var(--accent2));border-radius:999px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.metric{font-size:25px;font-weight:950;margin-top:6px;letter-spacing:-.6px}.small{font-size:12px;color:var(--muted);line-height:1.55}h2{font-size:17px;margin:0 0 12px;letter-spacing:-.2px}.span2{grid-column:1/-1}.tasks{display:grid;gap:9px}.task{display:flex;align-items:center;justify-content:space-between;background:#11151d;border:1px solid #252c38;border-radius:15px;padding:11px 12px}.taskmain{display:flex;align-items:center;gap:10px}.check{width:24px;height:24px;border-radius:9px;display:grid;place-items:center;background:#202633;color:#7f8a9d;font-weight:950}.task.done .check{background:rgba(70,216,162,.16);color:var(--good);border:1px solid rgba(70,216,162,.32)}.task.done .taskname{color:#dfe6ec}.taskname{font-weight:850;font-size:14px}.taskmeta{font-size:11px;color:var(--muted)}.quick{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick button,.chip{border:1px solid #343b49;background:#171c26;color:#fff;border-radius:14px;padding:11px;font-size:13px;font-weight:850;cursor:pointer}.quick button:active,.btn:active,.chip:active{transform:scale(.985)}.quick button.primary{background:linear-gradient(135deg,#ff5e35,#ff8a34);border:0}.note{background:linear-gradient(135deg,#2b1b1b,#1e1920);border:1px solid #50302b;border-radius:16px;padding:14px;color:#ffe9df;line-height:1.6;font-size:13px}.todaylist{display:grid;gap:8px}.todayitem{display:flex;justify-content:space-between;gap:10px;background:#11151d;border:1px solid #262d39;border-radius:14px;padding:11px 12px}.todayitem b{font-size:13px}.todayitem span{font-size:12px;color:var(--muted);text-align:right;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stack{display:flex;flex-direction:column;gap:12px}.form2{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-size:12px;color:var(--muted);font-weight:850;margin-bottom:6px}input,select,textarea{width:100%;background:#0f131b;color:#fff;border:1px solid #343c4b;border-radius:13px;padding:12px;font-size:16px;outline:none}input:focus,select:focus,textarea:focus{border-color:#ff7841;box-shadow:0 0 0 3px rgba(255,101,52,.12)}textarea{min-height:84px;resize:vertical}.btn{width:100%;border:0;border-radius:14px;padding:13px 14px;font-size:14px;font-weight:950;background:linear-gradient(135deg,#ff5e35,#ff8734);color:#fff;margin-top:10px;cursor:pointer}.btn.secondary{background:#252c39}.btn.ghost{background:#141922;border:1px solid #343b49}.minirow{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.chip{padding:8px 10px;font-size:12px}.list{display:flex;flex-direction:column;gap:9px}.item{background:#10141c;border:1px solid var(--line);border-radius:15px;padding:12px}.top{display:flex;justify-content:space-between;gap:8px;font-weight:900}.tag{font-size:11px;background:#272e3a;border-radius:999px;padding:4px 8px}.chart{width:100%;height:190px}.empty{color:var(--muted);text-align:center;padding:14px;font-size:13px}.datebar{display:flex;align-items:end;gap:8px}.datebar>div{flex:1}.datebar .chip{width:auto;white-space:nowrap;margin-bottom:0}.sharebox{display:grid;grid-template-columns:1fr 1fr;gap:9px}.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,12px);background:#171c26;border:1px solid #394253;padding:10px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:.2s;z-index:20;font-weight:800;font-size:13px}.toast.show{opacity:1;transform:translate(-50%,0)}nav{position:fixed;left:0;right:0;bottom:0;background:rgba(9,11,16,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:10}nav button{min-width:74px;border:0;background:transparent;color:var(--muted);font-weight:900;padding:10px 11px;border-radius:12px;font-size:12px}nav button.active{background:#222834;color:#fff}@media(max-width:520px){.app{padding:14px 12px 24px}.grid{gap:10px}.card{padding:14px;border-radius:19px}.big{font-size:43px}.quick{grid-template-columns:1fr}.form2{grid-template-columns:1fr}.sharebox{grid-template-columns:1fr 1fr}nav button{min-width:0;flex:1}.metric{font-size:22px}}
+
+.analysisgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#10151d;border:1px solid #28303d;border-radius:16px;padding:13px}.stat .n{font-size:24px;font-weight:950;margin-top:4px}.stat .u{font-size:11px;color:var(--muted)}.weekbar{display:flex;gap:7px;align-items:end;height:150px;padding:8px 2px 0}.weekcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}.weektrack{height:105px;width:100%;max-width:38px;background:#222936;border-radius:10px;display:flex;align-items:end;overflow:hidden}.weekfill{width:100%;background:linear-gradient(180deg,#ff9b35,#ff5e35);border-radius:10px;min-height:3px}.weekval{font-size:10px;font-weight:900}.weekdate{font-size:10px;color:var(--muted)}.summarylist{display:grid;gap:8px}.summaryrow{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #272e39;padding:8px 0}.summaryrow:last-child{border-bottom:0}.summaryrow b{font-size:13px}.summaryrow span{font-size:12px;color:var(--muted);text-align:right}.daygroup{background:#11161e;border:1px solid #29313e;border-radius:17px;overflow:hidden}.dayhead{display:flex;justify-content:space-between;align-items:center;padding:12px 13px;background:#171d27}.dayhead b{font-size:14px}.daybody{padding:8px 12px 12px;display:grid;gap:6px}.dayline{display:grid;grid-template-columns:58px 1fr;gap:8px;font-size:12px}.dayline strong{color:#cbd3de}.dayline span{color:#edf1f6;overflow-wrap:anywhere}.filterrow{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px}.filterrow .chip.active{background:#ff6534;border-color:#ff6534}.trend{font-size:12px;font-weight:850;margin-top:5px}.analysisTitle{display:flex;justify-content:space-between;align-items:center;gap:10px}.analysisTitle select{width:auto;min-width:115px;padding:8px 10px;font-size:13px}.miniChart{height:170px;width:100%}@media(max-width:520px){.analysisgrid{grid-template-columns:1fr 1fr}.analysisgrid .stat:last-child{grid-column:1/-1}}
+
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.cal-head{font-size:11px;color:var(--muted);font-weight:900;text-align:center;padding:4px 0}
+.cal-day{min-height:58px;border:1px solid var(--line);background:#10172a;border-radius:12px;padding:7px;display:flex;flex-direction:column;justify-content:space-between}
+.cal-day.empty{opacity:.25}
+.cal-day .n{font-weight:900;font-size:13px}
+.cal-day .dots{display:flex;gap:3px;flex-wrap:wrap}
+.dot{width:7px;height:7px;border-radius:50%;background:#7180a8}
+.dot.w{background:#ff9f43}.dot.m{background:#60a5fa}.dot.e{background:#34d399}
+.month-controls{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin-bottom:12px}
+.month-title{text-align:center;font-weight:900}
+.month-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.month-summary .metric{font-size:25px}
+.edit-actions{display:flex;gap:8px;margin-top:8px}
+.mini-btn{border:1px solid var(--line);background:#182238;color:#fff;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:900}
+.mini-btn.danger{background:#331b23;border-color:#5c2a37;color:#ffd5df}
+.dialog-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.dialog-backdrop.show{display:flex}
+.dialog{width:min(720px,100%);background:#111827;border:1px solid #35415f;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:86vh;overflow:auto}
+.dialog h3{margin:0 0 14px}
+
+
+/* Phase4 */
+.nutri-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nutri{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.nutri .v{font-size:20px;font-weight:950}
+.nutri .l{font-size:10px;color:var(--muted);font-weight:800;margin-top:2px}
+.nutri .sub{font-size:9px;color:var(--muted);margin-top:2px}
+.pfc-inputs{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:10px}
+.photo-box{margin-top:10px;border:1px dashed #485675;border-radius:14px;padding:12px}
+.photo-preview{display:none;width:100%;max-height:260px;object-fit:cover;border-radius:12px;margin-top:10px}
+.photo-preview.show{display:block}
+.photo-status{font-size:11px;color:var(--muted);margin-top:7px}
+.nutri-progress{height:7px;background:#263149;border-radius:999px;overflow:hidden;margin-top:5px}
+.nutri-progress span{display:block;height:100%;background:linear-gradient(90deg,#ff5c5c,#ff9f43);width:0}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.phase-badge{font-size:10px;padding:4px 7px;border-radius:999px;background:#2b2130;color:#ffd1dc;font-weight:900}
+.photo-thumb{width:64px;height:64px;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin-top:8px}
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.photo-tile{aspect-ratio:1;border-radius:12px;overflow:hidden;background:#10172a;border:1px solid var(--line)}
+.photo-tile img{width:100%;height:100%;object-fit:cover}
+nav{gap:2px}
+nav button{padding:9px 8px;font-size:11px;flex:1}
+@media (min-width:600px){nav button{font-size:13px}}
+
+
+/* Phase5 */
+.ai-panel{margin-top:10px;background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px}
+.ai-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ai-status{font-size:11px;color:var(--muted)}
+.ai-candidates{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.ai-chip{border:1px solid #3b4868;background:#182238;color:#fff;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+.ai-result{margin-top:10px;padding:10px;border-radius:12px;background:#171f32}
+.ai-result strong{display:block;margin-bottom:5px}
+.ai-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ai-note{font-size:10px;color:var(--muted);line-height:1.5;margin-top:8px}
+.ai-confidence{font-size:10px;color:#ffd39a;font-weight:900}
+.fooddb-row{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:8px 0}
+.fooddb-row:last-child{border-bottom:0}
+.fooddb-name{font-weight:900}
+.fooddb-meta{font-size:10px;color:var(--muted)}
+.searchbox{display:grid;grid-template-columns:1fr auto;gap:8px}
+
+
+/* Phase6 */
+.scan-card{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.scan-video{width:100%;border-radius:12px;background:#000;max-height:280px;display:none}
+.scan-video.show{display:block}
+.scan-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.barcode-box{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0b1020;border:1px solid #35415f;border-radius:10px;padding:10px;margin-top:8px;word-break:break-all}
+.label-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.connector-box{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.connector-status{font-size:11px;color:var(--muted);margin-top:6px}
+.badge-ok{color:#5ee3a2}.badge-warn{color:#ffbf69}
+.food-hit{background:#10172a;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}
+.food-hit strong{display:block;margin-bottom:3px}
+.inline2{display:grid;grid-template-columns:1fr auto;gap:8px}
+.ocr-note{font-size:10px;color:var(--muted);line-height:1.5}
+
+
+/* Phase7 */
+.ai-live-card{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.live-row{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.live-dot{width:9px;height:9px;border-radius:50%;background:#667085;display:inline-block;margin-right:6px}
+.live-dot.ok{background:#35d07f}.live-dot.bad{background:#ff6b6b}
+.server-help{font-size:10px;color:var(--muted);line-height:1.55;margin-top:8px}
+
+
+/* Phase8 */
+.prod-card{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.prod-state{font-size:12px;font-weight:900}
+.prod-url{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;color:var(--muted);word-break:break-all;margin-top:5px}
+.prod-help{font-size:10px;color:var(--muted);line-height:1.55;margin-top:8px}
+
+
+/* Phase9 PWA */
+.pwa-card{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.pwa-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pwa-status{font-size:12px;font-weight:900}
+.pwa-sub{font-size:10px;color:var(--muted);line-height:1.5;margin-top:6px}
+.install-guide{display:none;margin-top:10px;background:#161e31;border:1px solid #36425e;border-radius:12px;padding:10px}
+.install-guide.show{display:block}
+.install-step{font-size:12px;line-height:1.6}
+.update-banner{position:fixed;left:12px;right:12px;bottom:88px;z-index:60;background:#171f32;border:1px solid #475471;border-radius:14px;padding:11px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.update-banner.show{display:flex}
+.offline-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;border:1px solid #3d4968;border-radius:999px;padding:5px 8px;background:#111827}
+.offline-dot{width:7px;height:7px;border-radius:50%;background:#35d07f}
+.offline-dot.off{background:#ffb15c}
+
+
+/* Phase10 Free ChatGPT Share */
+.share-card{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.share-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.share-preview{white-space:pre-wrap;background:#0b1020;border:1px solid #35415f;border-radius:12px;padding:10px;font-size:11px;line-height:1.55;margin-top:10px;max-height:260px;overflow:auto}
+.share-history{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.share-history-item{background:#10172a;border:1px solid var(--line);border-radius:12px;padding:10px}
+.share-history-date{font-size:10px;color:var(--muted);margin-bottom:4px}
+.share-mode{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.share-mode button.active{background:#ff5c5c;border-color:#ff5c5c}
+.free-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;border-radius:999px;padding:5px 8px;background:#163125;color:#9df0bd;font-weight:900}
+
+
+/* Phase10.1 delete fix */
+.dayline{display:grid!important;grid-template-columns:52px 1fr auto;gap:8px;align-items:center}
+.hist-delete{border:1px solid #5a3040;background:#351d26;color:#ffd4df;border-radius:9px;padding:6px 9px;font-size:11px;font-weight:900}
+.cleanup-card{background:#10172a;border:1px solid var(--line);border-radius:14px;padding:12px}
+.cleanup-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+
+
+/* Phase10.2 selection delete */
+.bulk-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.bulk-btn{border:1px solid #40506e;background:#182238;color:#fff;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:900}
+.bulk-btn.danger{background:#3a1e27;border-color:#6b3343;color:#ffd6df}
+.bulk-btn:disabled{opacity:.45}
+.dayline.selectable{display:grid!important;grid-template-columns:34px 52px 1fr!important;gap:8px;align-items:center}
+.pickbox{width:22px;height:22px;accent-color:#ff6238}
+.bulk-count{font-size:11px;color:var(--muted);font-weight:800}
+
+</style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0b1020">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VAMOS+">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+
+</head>
+<body>
+<div class="app">
+  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><div class="version">v2 · Phase 2</div></div>
+
+  <section id="home" class="page active">
+    <div class="greeting"><h1 id="greet">おはよう、大地☀️</h1><p id="homeDate"></p></div>
+    <div class="grid">
+      <div class="card hero">
+        <div class="eyebrow">今日の現在地</div>
+        <div class="big"><span id="lw">--</span><small> kg</small></div>
+        <div id="delta" class="delta"></div>
+        <div class="progress"><span id="bar"></span></div>
+        <div class="row small"><span id="sl"></span><span id="tl"></span></div>
+      </div>
+      <div class="card"><div class="eyebrow">目標まで</div><div class="metric"><span id="rem">--</span> kg</div><div class="small">60kgへコツコツ</div></div>
+      <div class="card"><div class="eyebrow">今日の達成</div><div class="metric"><span id="doneCount">0</span> / 5</div><div class="small">記録したら自動チェック</div></div>
+
+      <div class="card span2"><h2>今日のタスク</h2><div id="tasks" class="tasks"></div></div>
+
+      <div class="card span2">
+        <h2>すぐ記録</h2>
+        <div class="quick">
+          <button class="primary" id="quickBreakfast">🍳 いつもの朝食</button>
+          <button class="primary" id="quickLunch">🍙 いつもの昼食</button>
+          <button id="goWeight">⚖️ 体重を入力</button>
+          <button id="goExercise">🏃 運動を入力</button>
+        </div>
+      </div>
+
+      <div class="card span2"><h2>今日の記録</h2><div id="todayList" class="todaylist"></div></div>
+      
+      <div class="card span2">
+        <div class="row"><h2 style="margin:0">今日の栄養</h2><span class="phase-badge">Phase4</span></div>
+        <div class="nutri-grid" style="margin-top:12px">
+          <div class="nutri"><div class="v" id="todayKcal">0</div><div class="l">kcal</div><div class="sub" id="kcalTargetText">/ --</div></div>
+          <div class="nutri"><div class="v" id="todayP">0</div><div class="l">たんぱく質</div><div class="sub" id="pTargetText">/ -- g</div></div>
+          <div class="nutri"><div class="v" id="todayF">0</div><div class="l">脂質</div><div class="sub" id="fTargetText">/ -- g</div></div>
+          <div class="nutri"><div class="v" id="todayC">0</div><div class="l">炭水化物</div><div class="sub" id="cTargetText">/ -- g</div></div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="small">カロリー目安</div><div class="nutri-progress"><span id="kcalBar"></span></div>
+        </div>
+      </div>
+
+
+      <div class="card span2">
+        <h2>クイック入力</h2>
+        <div class="minirow">
+          <button class="chip" id="quickBarcode">バーコード</button>
+          <button class="chip" id="quickLabel">栄養表示</button>
+          <button class="chip" id="quickPhotoAI">写真AI</button>
+        </div>
+      </div>
+
+
+      <div class="card span2">
+        <div class="row"><h2 style="margin:0">ChatGPTに共有</h2><span class="free-badge">API代 0円</span></div>
+        <div class="share-card">
+          <div class="small">VAMOS+の記録を整えて、ChatGPTにそのまま持っていけるで。</div>
+          <div class="share-mode">
+            <button class="mini-btn active" data-share-mode="today">今日</button>
+            <button class="mini-btn" data-share-mode="week">7日</button>
+            <button class="mini-btn" data-share-mode="month">30日</button>
+          </div>
+          <div id="sharePreviewHome" class="share-preview">共有文を準備中…</div>
+          <div class="share-actions">
+            <button class="btn" id="copyForChatGPT">共有文をコピー</button>
+            <button class="btn secondary" id="openChatGPT">ChatGPTを開く</button>
+          </div>
+        </div>
+      </div>
+
+<div class="card span2"><h2>🔥 今日のチャッピー</h2><div class="note" id="coach"></div></div>
+      <div class="card span2"><h2>体重グラフ</h2><div id="chart"></div></div>
+    </div>
+  </section>
+
+  <section id="record" class="page">
+    <div class="stack">
+      <div class="card">
+        <div class="datebar"><div><label>記録する日</label><input type="date" id="recordDay"></div><button class="chip" id="setToday">今日</button></div>
+        <p class="small">日付が変わると自動で今日になります。過去日を手動選択した間はその日付を維持します。</p>
+      </div>
+      <div class="card" id="weightCard"><h2>体重を記録</h2><div class="form2"><div><label>日付</label><input type="date" id="wd" data-auto-date="1"></div><div><label>体重（kg）</label><input type="number" inputmode="decimal" step="0.1" id="wv" placeholder="64.8"></div></div><button class="btn" id="abw">記録する</button></div>
+      <div class="card" id="mealCard">
+        <h2>食事を記録</h2>
+        <div class="form2"><div><label>日付</label><input type="date" id="md" data-auto-date="1"></div><div><label>区分</label><select id="mt"><option>朝</option><option>昼</option><option>夜</option><option>間食</option></select></div></div>
+        <div style="margin-top:10px"><label>内容</label><textarea id="mx" placeholder="例：焼き鮭、ご飯100g、味噌汁"></textarea></div>
+        <div class="minirow"><button class="chip" id="tplBreakfast">いつもの朝</button><button class="chip" id="tplLunch">いつもの昼</button><button class="chip" id="prevMeal">前回の食事</button></div>
+        <div class="pfc-inputs">
+          <div><label>カロリー（kcal）</label><input type="number" inputmode="numeric" id="mkcal" placeholder="任意"></div>
+          <div><label>たんぱく質 P（g）</label><input type="number" inputmode="decimal" step="0.1" id="mp" placeholder="任意"></div>
+          <div><label>脂質 F（g）</label><input type="number" inputmode="decimal" step="0.1" id="mf" placeholder="任意"></div>
+          <div><label>炭水化物 C（g）</label><input type="number" inputmode="decimal" step="0.1" id="mc" placeholder="任意"></div>
+        </div>
+        <div class="photo-box">
+          <label>食事写真（任意）</label>
+          <input type="file" accept="image/*" capture="environment" id="mealPhoto">
+          <img id="mealPhotoPreview" class="photo-preview" alt="食事写真プレビュー">
+          <div class="photo-status" id="photoStatus">写真は端末内に保存します。AI解析は次フェーズで接続予定。</div>
+        </div>
+        
+        <div class="ai-panel">
+          <div class="ai-head">
+            <div><b>AI食事推定 β</b><div class="ai-status" id="aiStatus">写真または食事名から候補を出します</div></div>
+            <span class="phase-badge">Phase5</span>
+          </div>
+          <div class="ai-candidates" id="aiCandidates"></div>
+          <div class="ai-result" id="aiResult" style="display:none"></div>
+          <div class="ai-actions">
+            <button class="mini-btn" id="guessFromText">食事名から推定</button>
+            <button class="mini-btn" id="guessFromPhoto">写真から候補</button>
+          </div>
+          <div class="ai-note">※ 現在は端末内の簡易推定。写真そのものをクラウドAIへ送信していません。推定値は目安なので、量が違う時は手動調整してください。</div>
+        </div>
+
+        
+        <div class="scan-card">
+          <div class="ai-head">
+            <div><b>バーコード / 栄養表示</b><div class="ai-status" id="scanStatus">商品食品の入力を楽にする機能</div></div>
+            <span class="phase-badge">Phase6</span>
+          </div>
+
+          <div class="scan-actions">
+            <button class="mini-btn" id="startBarcode">バーコード読取</button>
+            <button class="mini-btn" id="stopBarcode">停止</button>
+          </div>
+          <video id="barcodeVideo" class="scan-video" playsinline muted></video>
+          <div id="barcodeValue" class="barcode-box" style="display:none"></div>
+
+          <div class="inline2" style="margin-top:10px">
+            <input id="barcodeManual" inputmode="numeric" placeholder="バーコードを手入力">
+            <button class="mini-btn" id="lookupBarcode">検索</button>
+          </div>
+          <div id="barcodeResult"></div>
+
+          <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
+          <b>栄養成分表示から入力</b>
+          <div class="label-grid" style="margin-top:10px">
+            <div><label>エネルギー kcal</label><input id="labelKcal" type="number"></div>
+            <div><label>たんぱく質 g</label><input id="labelP" type="number" step="0.1"></div>
+            <div><label>脂質 g</label><input id="labelF" type="number" step="0.1"></div>
+            <div><label>炭水化物 g</label><input id="labelC" type="number" step="0.1"></div>
+          </div>
+          <div style="margin-top:9px"><label>商品名</label><input id="labelName" placeholder="例：サラダチキン"></div>
+          <div class="scan-actions"><button class="btn secondary" id="applyLabel">栄養表示を食事欄へ反映</button><button class="btn secondary" id="scanLabelAI">写真AIで栄養表示を読む</button></div>
+          <p class="ocr-note">Phase6では数値入力を確実に使える形にしています。画像からの文字読取は次段階でAI接続後に自動化できます。</p>
+        </div>
+
+        <button class="btn" id="abm">記録する</button>
+      </div>
+      <div class="card" id="exerciseCard"><h2>運動を記録</h2><div class="form2"><div><label>日付</label><input type="date" id="ed" data-auto-date="1"></div><div><label>種目</label><select id="et"><option>ランニング</option><option>ウォーキング</option><option>水泳</option><option>筋トレ</option><option>バレー</option><option>ソフトバレー</option><option>ゴルフ</option><option>休養</option></select></div></div><div class="form2" style="margin-top:10px"><div><label>距離（km）</label><input type="number" inputmode="decimal" step="0.01" id="ei"></div><div><label>時間（分）</label><input type="number" inputmode="numeric" id="em"></div></div><div style="margin-top:10px"><label>メモ</label><textarea id="ex"></textarea></div><button class="btn" id="abe">記録する</button></div>
+    </div>
+  </section>
+
+  <section id="analysis" class="page"><div class="stack">
+    <div class="card"><div class="analysisTitle"><h2 style="margin:0">週間レポート</h2><select id="analysisRange"><option value="7">直近7日</option><option value="14">直近14日</option><option value="30">直近30日</option></select></div><p class="small" id="analysisPeriod"></p></div>
+    <div class="analysisgrid"><div class="stat"><div class="eyebrow">平均体重</div><div class="n"><span id="avgWeight">--</span></div><div class="u">kg</div></div><div class="stat"><div class="eyebrow">期間変化</div><div class="n"><span id="weightChange">--</span></div><div class="u">kg</div></div><div class="stat"><div class="eyebrow">運動</div><div class="n"><span id="exerciseDays">0</span></div><div class="u">日</div></div></div>
+    <div class="card"><h2>体重トレンド</h2><div id="analysisChart"></div><div id="trendText" class="trend"></div></div>
+    <div class="card"><h2>記録できた日</h2><div id="recordBars" class="weekbar"></div></div>
+    <div class="card"><h2>食事・運動まとめ</h2><div id="weeklySummary" class="summarylist"></div></div>
+    <div class="card"><h2>🔥 チャッピー週間コメント</h2><div class="note" id="weeklyCoach"></div></div>
+  </div></section>
+
+  <section id="history" class="page"><div class="stack">
+    <div class="card">
+      <h2>ChatGPT共有履歴</h2>
+      <div id="shareHistory" class="share-history"></div>
+      <p class="small" id="shareHistoryEmpty">まだ共有履歴はないよ。</p>
+    </div>
+
+    <div class="card"><h2>最近の食事写真</h2><div id="photoGallery" class="photo-gallery"></div><p class="small" id="photoGalleryEmpty">写真を記録するとここに並びます。</p></div>
+
+
+<div class="card">
+  <h2>記録を選択して削除</h2>
+  <div class="cleanup-card">
+    <div class="small">「選択モード」を押して、消したい記録にチェックを入れてな。</div>
+    <div class="bulk-toolbar">
+      <button class="bulk-btn" id="toggleSelectMode">選択モード</button>
+      <button class="bulk-btn" id="selectDuplicates">重複だけ選択</button>
+      <button class="bulk-btn danger" id="deleteSelected" disabled>選択した記録を削除</button>
+      <span class="bulk-count" id="selectedCount">0件選択</span>
+    </div>
+  </div>
+</div>
+<div class="card"><h2>日別履歴</h2><div class="filterrow" id="historyFilters"><button class="chip active" data-f="all">全部</button><button class="chip" data-f="weight">体重</button><button class="chip" data-f="meal">食事</button><button class="chip" data-f="exercise">運動</button></div></div><div id="hist" class="list"></div></div></section>
+
+  
+<section id="month" class="page">
+  <div class="card">
+    <div class="month-controls">
+      <button class="mini-btn" onclick="shiftMonth(-1)">←</button>
+      <div class="month-title" id="monthTitle">--</div>
+      <button class="mini-btn" onclick="shiftMonth(1)">→</button>
+    </div>
+    <div class="calendar" id="calendar"></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h2>月間サマリー</h2>
+    <div class="month-summary">
+      <div><div class="k">平均体重</div><div class="metric"><span id="mAvg">--</span><small> kg</small></div></div>
+      <div><div class="k">月初→月末</div><div class="metric"><span id="mDiff">--</span><small> kg</small></div></div>
+      <div><div class="k">運動日数</div><div class="metric"><span id="mExDays">0</span><small> 日</small></div></div>
+      <div><div class="k">ラン距離</div><div class="metric"><span id="mRunKm">0</span><small> km</small></div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h2>月間チャッピー</h2>
+    <div class="note" id="monthCoach">記録がたまるほど分析が育つで🔥</div>
+  </div>
+</section>
+
+<section id="settings" class="page"><div class="stack">
+    <div class="card"><h2>目標設定</h2><div class="form2"><div><label>開始体重</label><input type="number" step="0.1" id="sw"></div><div><label>目標体重</label><input type="number" step="0.1" id="tw"></div></div><button class="btn" id="sset">保存</button></div>
+    
+    <div class="card">
+      <h2>プロフィール・栄養目標</h2>
+      <div class="profile-grid">
+        <div><label>呼び名</label><input id="profileName" placeholder="大地"></div>
+        <div><label>1日カロリー目安</label><input type="number" id="targetKcal" placeholder="2000"></div>
+        <div><label>たんぱく質 P（g）</label><input type="number" id="targetP" placeholder="100"></div>
+        <div><label>脂質 F（g）</label><input type="number" id="targetF" placeholder="55"></div>
+        <div><label>炭水化物 C（g）</label><input type="number" id="targetC" placeholder="250"></div>
+      </div>
+      <button class="btn" id="saveNutrition">栄養目標を保存</button>
+      <p class="small">目標値は自分に合わせて調整できます。チャッピーコメントにも反映されます。</p>
+    </div>
+
+    
+    <div class="card">
+      <h2>食材・料理データベース</h2>
+      <div class="searchbox">
+        <input id="foodSearch" placeholder="例：砂肝、サーモン、ラーメン">
+        <button class="mini-btn" id="foodSearchBtn">検索</button>
+      </div>
+      <div id="foodSearchResult" style="margin-top:10px"></div>
+      <p class="small">Phase5ではこのデータを使って、食事名からkcal/PFCをざっくり推定します。</p>
+    </div>
+
+    <div class="card"><h2>食事テンプレート</h2><label>いつもの朝食</label><textarea id="tb"></textarea><label style="margin-top:10px">いつもの昼食</label><textarea id="tlunch"></textarea><button class="btn" id="saveTemplates">保存</button></div>
+    <div class="card"><h2>チャッピー共有</h2><div class="sharebox"><button class="btn" id="shareToday">今日をコピー</button><button class="btn secondary" id="shareWeek">直近7日をコピー</button></div><p class="small">ChatGPTに貼りやすい形でクリップボードへコピーします。</p></div>
+    <div class="card"><h2>バックアップ</h2><button class="btn secondary" id="exp">JSONを書き出す</button><label style="margin-top:12px">バックアップを読み込む</label><input type="file" accept="application/json" id="imp"><p class="small">データはこのブラウザ内に保存されます。v1データは初回起動時に自動移行します。</p></div>
+  </div></section>
+</div>
+<nav><button class="active" data-p="home">ホーム</button><button data-p="record">記録</button><button data-p="analysis">分析</button><button data-p="month">月間</button><button data-p="history">履歴</button><button data-p="settings">設定</button></nav>
+
+<div id="editBackdrop" class="dialog-backdrop" onclick="if(event.target===this)closeEditor()">
+  <div class="dialog">
+    <h3>記録を編集</h3>
+    <div id="editForm"></div>
+    <button class="btn" onclick="saveEdit()">保存</button>
+    <button class="btn secondary" onclick="closeEditor()">キャンセル</button>
+  </div>
+</div>
+
+<div id="updateBanner" class="update-banner">
+  <div><b>VAMOS+の更新あり🔥</b><div class="small">新しいバージョンに切り替えられるで</div></div>
+  <button class="mini-btn" id="applyUpdate">更新</button>
+</div>
+
+<div id="toast" class="toast"></div>
+<script>
+const SEED=[["2026-06-15",65.0],["2026-06-16",64.4],["2026-06-18",64.0],["2026-06-24",64.6],["2026-06-25",64.0],["2026-06-26",64.4],["2026-06-27",65.0],["2026-06-28",64.5],["2026-06-29",64.0],["2026-06-30",64.4],["2026-07-01",65.0],["2026-07-02",65.0],["2026-07-03",64.6],["2026-07-04",64.0],["2026-07-05",65.8],["2026-07-06",64.5],["2026-07-07",64.4],["2026-07-08",64.6],["2026-07-09",65.4],["2026-07-10",64.6],["2026-07-11",63.8],["2026-07-13",64.8],["2026-07-15",64.8],["2026-07-16",64.8],["2026-07-17",65.0],["2026-07-18",64.8],["2026-07-19",64.2],["2026-07-20",65.6],["2026-07-21",65.4],["2026-07-22",64.6]];
+const KEY='vamos_v2',OLD_KEY='vamos_v1',q=id=>document.getElementById(id);
+const DEFAULT_TEMPLATES={breakfast:'ご飯100g、ゆで卵2個、ブロッコリー、枝豆',lunch:'おにぎり2個、サラダ、サラダチキン'};
+function localDate(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
+let activeToday=localDate();
+function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.3'}}}
+function normalize(d){
+  d=d&&typeof d==='object'?d:def();
+  d.weights=Array.isArray(d.weights)?d.weights:[...SEED];
+  d.meals=Array.isArray(d.meals)?d.meals:[];
+  d.exercises=Array.isArray(d.exercises)?d.exercises:[];
+  const s=d.settings||{};
+  d.settings={
+    start:Number(s.start)||65,target:Number(s.target)||60,
+    name:s.name||'大地',
+    targetKcal:Number(s.targetKcal)||2000,
+    targetP:Number(s.targetP)||100,
+    targetF:Number(s.targetF)||55,
+    targetC:Number(s.targetC)||250
+  };
+  d.templates={breakfast:d.templates?.breakfast||DEFAULT_TEMPLATES.breakfast,lunch:d.templates?.lunch||DEFAULT_TEMPLATES.lunch};
+  d.meals=d.meals.map((m,i)=>({...m,id:m.id||('m_'+Date.now().toString(36)+'_'+i),kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0,photoId:m.photoId||null}));
+  d.meta={...(d.meta||{}),version:'2-phase10.3'};
+  return d
+}
+function load(){try{let v=localStorage.getItem(KEY);if(v)return normalize(JSON.parse(v));let old=localStorage.getItem(OLD_KEY);if(old){let migrated=normalize(JSON.parse(old));localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}return def()}catch(e){return def()}}
+function save(d){localStorage.setItem(KEY,JSON.stringify(normalize(d)))}
+function toast(s){q('toast').textContent=s;q('toast').classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>q('toast').classList.remove('show'),1700)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function fmtDate(s){if(!s)return'';const [y,m,d]=s.split('-').map(Number);return `${m}/${d}`}
+function greeting(){let h=new Date().getHours(),txt=h<11?'おはよう':h<18?'こんにちは':'こんばんは',icon=h<11?'☀️':h<18?'🔥':'🌙';q('greet').textContent=`${txt}、大地${icon}`;q('homeDate').textContent=new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'}).format(new Date())}
+function syncDates(force=false){const now=localDate();if(now!==activeToday){activeToday=now;force=true}['wd','md','ed','recordDay'].forEach(id=>{const el=q(id);if(!el)return;if(force||el.dataset.manual!=='1')el.value=now});if(force)render()}
+function bindDate(el){el.addEventListener('change',()=>{el.dataset.manual=el.value===localDate()?'0':'1'})}
+function setRecordDate(date,manual=true){['wd','md','ed','recordDay'].forEach(id=>{q(id).value=date;q(id).dataset.manual=manual&&date!==localDate()?'1':'0'})}
+function latestWeightOnOrBefore(d,date){return d.weights.filter(x=>x[0]<=date).sort((a,b)=>a[0].localeCompare(b[0])).at(-1)}
+function dayData(d,date){const weight=d.weights.find(x=>x[0]===date);const meals=d.meals.filter(x=>x.date===date);const exercises=d.exercises.filter(x=>x.date===date);return{weight,meals,exercises}}
+function taskState(d,date){const x=dayData(d,date);return[
+ {name:'体重',done:!!x.weight,meta:x.weight?`${Number(x.weight[1]).toFixed(1)} kg`:'未記録'},
+ {name:'朝食',done:x.meals.some(m=>m.type==='朝'),meta:x.meals.find(m=>m.type==='朝')?.text||'未記録'},
+ {name:'昼食',done:x.meals.some(m=>m.type==='昼'),meta:x.meals.find(m=>m.type==='昼')?.text||'未記録'},
+ {name:'夕食',done:x.meals.some(m=>m.type==='夜'),meta:x.meals.find(m=>m.type==='夜')?.text||'未記録'},
+ {name:'運動',done:x.exercises.length>0,meta:x.exercises[0]?.type||'未記録'}]}
+function coachText(d,date){const tasks=taskState(d,date),done=tasks.filter(x=>x.done).length,x=dayData(d,date);let msgs=[];if(x.weight){const w=Number(x.weight[1]),target=d.settings.target;msgs.push(`今日は${w.toFixed(1)}kg。目標まで${Math.max(0,w-target).toFixed(1)}kg！`)}else msgs.push('まず体重を記録すると、今日のスタートが見えるで。');if(done>=4)msgs.push('今日の記録かなり埋まってる。いい流れ🔥');else if(done>=2)msgs.push('ここまで順調。残りは気楽に埋めていこう。');else msgs.push('全部埋めなくてOK。記録できた分だけ前進や。');if(x.meals.some(m=>m.type==='昼'&&/ラーメン|つけ麺|坦々/.test(m.text)))msgs.push('昼が麺なら、夜は魚・鶏・豆腐＋野菜で整えれば十分。');return msgs.join(' ')}
+function render(){greeting();const d=load(),w=[...d.weights].sort((a,b)=>a[0].localeCompare(b[0])),l=w.at(-1),p=w.at(-2)||l,df=l?l[1]-p[1]:0;q('lw').textContent=l?Number(l[1]).toFixed(1):'--';q('delta').textContent=l?'前回比 '+(df>0?'+':'')+df.toFixed(1)+' kg':'まだ記録なし';q('delta').className='delta '+(df<=0?'good':'warn');q('rem').textContent=l?Math.max(0,l[1]-d.settings.target).toFixed(1):'--';q('sl').textContent='開始 '+d.settings.start.toFixed(1)+' kg';q('tl').textContent='目標 '+d.settings.target.toFixed(1)+' kg';const den=d.settings.start-d.settings.target;q('bar').style.width=l&&den!==0?Math.max(0,Math.min(100,(d.settings.start-l[1])/den*100))+'%':'0%';const tasks=taskState(d,localDate());q('doneCount').textContent=tasks.filter(x=>x.done).length;q('tasks').innerHTML=tasks.map(t=>`<div class="task ${t.done?'done':''}"><div class="taskmain"><div class="check">${t.done?'✓':'·'}</div><div><div class="taskname">${t.name}</div><div class="taskmeta">${esc(t.meta)}</div></div></div></div>`).join('');renderToday(d);q('coach').textContent=coachText(d,localDate());q('sw').value=d.settings.start;q('tw').value=d.settings.target;q('tb').value=d.templates.breakfast;q('tlunch').value=d.templates.lunch;chart(w.slice(-30))}
+function renderToday(d){const x=dayData(d,localDate()),rows=[];if(x.weight)rows.push(['体重',`${Number(x.weight[1]).toFixed(1)} kg`]);['朝','昼','夜','間食'].forEach(t=>{const m=x.meals.filter(v=>v.type===t);if(m.length)rows.push([`${t}食`,m.map(v=>v.text).join(' / ')])});if(x.exercises.length)rows.push(['運動',x.exercises.map(e=>`${e.type}${e.distance?` ${e.distance}km`:''}${e.minutes?` ${e.minutes}分`:''}`).join(' / ')]);q('todayList').innerHTML=rows.length?rows.map(r=>`<div class="todayitem"><b>${r[0]}</b><span>${esc(r[1])}</span></div>`).join(''):'<div class="empty">まだ今日の記録はないよ</div>'}
+function chart(w){if(!w.length){q('chart').innerHTML='<div class="empty">体重を記録するとグラフが出るよ</div>';return}let W=680,H=190,pad=24,v=w.map(x=>Number(x[1])),mn=Math.min(...v)-.4,mx=Math.max(...v)+.4;if(mx===mn)mx=mn+1;let pts=w.map((x,i)=>[pad+i*(W-2*pad)/Math.max(1,w.length-1),H-pad-(Number(x[1])-mn)/(mx-mn)*(H-2*pad)]),path=pts.map((a,i)=>(i?'L':'M')+a[0]+','+a[1]).join(' '),cs=pts.map((a,i)=>`<circle cx="${a[0]}" cy="${a[1]}" r="${i===pts.length-1?5:3}" fill="${i===pts.length-1?'#ff6534':'#d4d8df'}"/>`).join('');q('chart').innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><line x1="${pad}" x2="${W-pad}" y1="${H-pad}" y2="${H-pad}" stroke="#343b49"/><path d="${path}" fill="none" stroke="#ff6b3b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>${cs}</svg>`}
+let historyFilter='all';
+function dateNDaysAgo(n){let d=new Date();d.setDate(d.getDate()-n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function datesInRange(days){let a=[];for(let i=days-1;i>=0;i--)a.push(dateNDaysAgo(i));return a}
+function renderMiniChart(elId,weights){const el=q(elId);if(!weights.length){el.innerHTML='<div class="empty">この期間の体重記録がないよ</div>';return}let W=680,H=170,p=24,v=weights.map(x=>Number(x[1])),mn=Math.min(...v)-.3,mx=Math.max(...v)+.3;if(mx===mn)mx=mn+1;let pts=weights.map((x,i)=>[p+i*(W-2*p)/Math.max(1,weights.length-1),H-p-(Number(x[1])-mn)/(mx-mn)*(H-2*p)]),path=pts.map((a,i)=>(i?'L':'M')+a[0]+','+a[1]).join(' ');el.innerHTML=`<svg class="miniChart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><line x1="${p}" x2="${W-p}" y1="${H-p}" y2="${H-p}" stroke="#343b49"/><path d="${path}" fill="none" stroke="#ff6b3b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>${pts.map((a,i)=>`<circle cx="${a[0]}" cy="${a[1]}" r="${i===pts.length-1?5:3}" fill="${i===pts.length-1?'#ff9b35':'#d4d8df'}"/>`).join('')}</svg>`}
+function analysis(){const d=load(),days=parseInt(q('analysisRange').value||7),dates=datesInRange(days),start=dates[0],end=dates.at(-1),weights=[...d.weights].filter(x=>x[0]>=start&&x[0]<=end).sort((a,b)=>a[0].localeCompare(b[0])),meals=d.meals.filter(x=>x.date>=start&&x.date<=end),ex=d.exercises.filter(x=>x.date>=start&&x.date<=end);q('analysisPeriod').textContent=`${fmtDate(start)} 〜 ${fmtDate(end)}`;if(weights.length){const avg=weights.reduce((s,x)=>s+Number(x[1]),0)/weights.length,change=Number(weights.at(-1)[1])-Number(weights[0][1]);q('avgWeight').textContent=avg.toFixed(1);q('weightChange').textContent=(change>0?'+':'')+change.toFixed(1);q('weightChange').className=change<=0?'good':'warn';q('trendText').textContent=change<-0.2?'📉 期間全体では下降傾向。いい流れ！':change>0.2?'📈 少し上向き。水分や外食も含めて週平均で見よう。':'➡️ ほぼ横ばい。次の一段を狙える状態。'}else{q('avgWeight').textContent=q('weightChange').textContent='--';q('trendText').textContent='体重を記録すると傾向が見えるよ'}q('exerciseDays').textContent=new Set(ex.filter(e=>e.type!=='休養').map(e=>e.date)).size;renderMiniChart('analysisChart',weights);
+const scores=dates.map(date=>taskState(d,date).filter(t=>t.done).length),mx=5;q('recordBars').innerHTML=dates.slice(-Math.min(days,14)).map((date,i)=>{const sc=scores[days-Math.min(days,14)+i]||0,pct=sc/mx*100;return `<div class="weekcol"><div class="weekval">${sc}/5</div><div class="weektrack"><div class="weekfill" style="height:${Math.max(3,pct)}%"></div></div><div class="weekdate">${fmtDate(date)}</div></div>`}).join('');
+const mealDays=new Set(meals.map(m=>m.date)).size, breakfastDays=new Set(meals.filter(m=>m.type==='朝').map(m=>m.date)).size, fishMeals=meals.filter(m=>/鮭|サーモン|魚|海鮮|マグロ|さば|サバ|刺身/.test(m.text)).length,noodleMeals=meals.filter(m=>/ラーメン|つけ麺|そば|うどん|パスタ|坦々/.test(m.text)).length,runKm=ex.filter(e=>/ラン/.test(e.type)).reduce((s,e)=>s+(Number(e.distance)||0),0),exerciseMin=ex.reduce((s,e)=>s+(Number(e.minutes)||0),0);q('weeklySummary').innerHTML=[['食事記録',`${mealDays}/${days}日`],['朝食記録',`${breakfastDays}/${days}日`],['魚系メニュー',`${fishMeals}回`],['麺系メニュー',`${noodleMeals}回`],['ランニング',`${runKm.toFixed(1)} km`],['運動時間',`${exerciseMin}分`]].map(x=>`<div class="summaryrow"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
+let msg=[];if(weights.length>=2){let c=Number(weights.at(-1)[1])-Number(weights[0][1]);msg.push(c<-.2?'体重はいい方向に動いてる。':'体重は短期の上下より平均で見ればOK。')}if(breakfastDays>=Math.ceil(days*.6))msg.push('朝食の安定感が強みや👍');else msg.push('朝を食べられる日がもう少し増えるとさらに安定。');if(fishMeals>=2)msg.push('魚も入れられててバランス良し🐟');if(noodleMeals>=3)msg.push('麺が多めの週は、夜を魚・豆腐・野菜で整えればOK。');if(new Set(ex.filter(e=>e.type!=='休養').map(e=>e.date)).size>=2)msg.push('運動も継続できてる。休養も込みで続けよう🔥');q('weeklyCoach').textContent=msg.join(' ')||'記録が増えるほど、ここに週間傾向が出るで。バモス🔥'}
+function history(){const d=load(),dates=[...new Set([...d.weights.map(x=>x[0]),...d.meals.map(x=>x.date),...d.exercises.map(x=>x.date)])].sort((a,b)=>b.localeCompare(a));const groups=dates.slice(0,60).map(date=>{const x=dayData(d,date),lines=[];if(historyFilter==='all'||historyFilter==='weight'){if(x.weight)lines.push(['体重',`${Number(x.weight[1]).toFixed(1)} kg`])}if(historyFilter==='all'||historyFilter==='meal'){['朝','昼','夜','間食'].forEach(t=>x.meals.filter(m=>m.type===t).forEach(m=>lines.push([t,m.text])))}if(historyFilter==='all'||historyFilter==='exercise'){x.exercises.forEach(e=>lines.push(['運動',`${e.type}${e.distance?` ${e.distance}km`:''}${e.minutes?` ${e.minutes}分`:''}${e.memo?` · ${e.memo}`:''}`]))}if(!lines.length)return'';return `<div class="daygroup"><div class="dayhead"><b>${date}</b><span class="tag">${lines.length}件</span></div><div class="daybody">${lines.map(l=>`<div class="dayline"><strong>${l[0]}</strong><span>${esc(l[1])}</span></div>`).join('')}</div></div>`}).join('');q('hist').innerHTML=groups||'<div class="empty">この条件の記録はまだないよ</div>'}
+function addMeal(date,type,text){text=text.trim();if(!text)return toast('食事内容を入れてね');let d=load();d.meals.unshift({date,type,text});save(d);render();toast(`${type}食を記録したよ🔥`)}
+q('abw').onclick=()=>{let d=load(),date=q('wd').value,val=parseFloat(q('wv').value);if(!date||!Number.isFinite(val))return toast('日付と体重を入れてね');let i=d.weights.findIndex(x=>x[0]===date);i>=0?d.weights[i]=[date,val]:d.weights.push([date,val]);save(d);q('wv').value='';render();toast('体重を記録したよ🔥')};
+q('abm').onclick=()=>{addMeal(q('md').value,q('mt').value,q('mx').value);q('mx').value=''};
+q('abe').onclick=()=>{let d=load(),date=q('ed').value;if(!date)return toast('日付を入れてね');d.exercises.unshift({date,type:q('et').value,distance:parseFloat(q('ei').value)||0,minutes:parseInt(q('em').value)||0,memo:q('ex').value.trim()});save(d);q('ei').value=q('em').value=q('ex').value='';render();toast('運動を記録したよ🔥')};
+q('sset').onclick=()=>{let d=load();d.settings={start:parseFloat(q('sw').value)||65,target:parseFloat(q('tw').value)||60};save(d);render();toast('目標を保存したよ')};
+q('saveTemplates').onclick=()=>{let d=load();d.templates={breakfast:q('tb').value.trim()||DEFAULT_TEMPLATES.breakfast,lunch:q('tlunch').value.trim()||DEFAULT_TEMPLATES.lunch};save(d);render();toast('テンプレートを保存したよ')};
+q('tplBreakfast').onclick=()=>{q('mt').value='朝';q('mx').value=load().templates.breakfast};q('tplLunch').onclick=()=>{q('mt').value='昼';q('mx').value=load().templates.lunch};
+q('prevMeal').onclick=()=>{let d=load(),type=q('mt').value,cur=q('md').value,m=d.meals.filter(x=>x.type===type&&x.date<cur).sort((a,b)=>b.date.localeCompare(a.date))[0]||d.meals.filter(x=>x.type===type).sort((a,b)=>b.date.localeCompare(a.date))[0];if(!m)return toast('前回の記録がまだないよ');q('mx').value=m.text;toast('前回の食事を入れたよ')};
+q('quickBreakfast').onclick=()=>addMeal(localDate(),'朝',load().templates.breakfast);q('quickLunch').onclick=()=>addMeal(localDate(),'昼',load().templates.lunch);
+function gotoRecord(anchor){switchPage('record');setRecordDate(localDate(),false);setTimeout(()=>q(anchor).scrollIntoView({behavior:'smooth',block:'start'}),50)}q('goWeight').onclick=()=>gotoRecord('weightCard');q('goExercise').onclick=()=>gotoRecord('exerciseCard');
+q('recordDay').onchange=()=>{const d=q('recordDay').value;if(d)setRecordDate(d,true)};q('setToday').onclick=()=>{setRecordDate(localDate(),false);toast('今日の日付に戻したよ')};
+['wd','md','ed','recordDay'].forEach(id=>bindDate(q(id)));
+function shareText(days=1){const d=load(),end=localDate(),dates=[];for(let i=days-1;i>=0;i--){let dt=new Date();dt.setDate(dt.getDate()-i);dates.push(`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`)}let out=['VAMOS+ 健康記録'];dates.forEach(date=>{const x=dayData(d,date);if(!x.weight&&!x.meals.length&&!x.exercises.length)return;out.push(`\n${date}`);if(x.weight)out.push(`体重: ${Number(x.weight[1]).toFixed(1)}kg`);['朝','昼','夜','間食'].forEach(t=>x.meals.filter(m=>m.type===t).forEach(m=>out.push(`${t}: ${m.text}`)));x.exercises.forEach(e=>out.push(`運動: ${e.type}${e.distance?` ${e.distance}km`:''}${e.minutes?` ${e.minutes}分`:''}${e.memo?` ${e.memo}`:''}`))});return out.join('\n')}
+async function copyText(text){try{await navigator.clipboard.writeText(text);toast('コピーしたよ🔥')}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('コピーしたよ🔥')}}q('shareToday').onclick=()=>copyText(shareText(1));q('shareWeek').onclick=()=>copyText(shareText(7));
+q('exp').onclick=()=>{let b=new Blob([JSON.stringify(load(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='vamos_v2_backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+q('imp').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader;r.onload=()=>{try{save(JSON.parse(r.result));render();toast('バックアップを読み込んだよ')}catch(err){toast('読み込みに失敗したよ')}};r.readAsText(f)};
+function switchPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.p===id));q(id).classList.add('active');if(id==='analysis')analysis();if(id==='history')history();if(id==='home')render();window.scrollTo({top:0,behavior:'smooth'})}
+q('analysisRange').onchange=analysis;document.querySelectorAll('#historyFilters .chip').forEach(b=>b.onclick=()=>{historyFilter=b.dataset.f;document.querySelectorAll('#historyFilters .chip').forEach(x=>x.classList.toggle('active',x===b));history()});
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchPage(b.dataset.p));
+setRecordDate(localDate(),false);render();setInterval(()=>syncDates(false),60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncDates(false)});
+
+let monthCursor = new Date();
+let editing = null;
+function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function shiftMonth(n){monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()+n,1);renderMonth()}
+function renderMonth(){
+  const d=load(), mk=monthKey(monthCursor), y=monthCursor.getFullYear(), m=monthCursor.getMonth();
+  if(!q('calendar')) return;
+  q('monthTitle').textContent=`${y}年${m+1}月`;
+  const first=new Date(y,m,1), last=new Date(y,m+1,0), start=first.getDay();
+  const heads=['日','月','火','水','木','金','土'].map(x=>`<div class="cal-head">${x}</div>`).join('');
+  let cells='';
+  for(let i=0;i<start;i++) cells+='<div class="cal-day empty"></div>';
+  const weights=d.weights||[], meals=d.meals||[], ex=d.exercises||[];
+  for(let day=1;day<=last.getDate();day++){
+    const ds=`${mk}-${String(day).padStart(2,'0')}`;
+    const hasW=weights.some(x=>x[0]===ds), hasM=meals.some(x=>x.date===ds), hasE=ex.some(x=>x.date===ds);
+    cells+=`<div class="cal-day"><div class="n">${day}</div><div class="dots">${hasW?'<span class="dot w"></span>':''}${hasM?'<span class="dot m"></span>':''}${hasE?'<span class="dot e"></span>':''}</div></div>`;
+  }
+  q('calendar').innerHTML=heads+cells;
+  const mw=weights.filter(x=>x[0].startsWith(mk)).sort((a,b)=>a[0].localeCompare(b[0]));
+  q('mAvg').textContent=mw.length?(mw.reduce((s,x)=>s+x[1],0)/mw.length).toFixed(1):'--';
+  q('mDiff').textContent=mw.length>1?((mw.at(-1)[1]-mw[0][1])>=0?'+':'')+(mw.at(-1)[1]-mw[0][1]).toFixed(1):'--';
+  const mex=ex.filter(x=>x.date&&x.date.startsWith(mk));
+  q('mExDays').textContent=new Set(mex.map(x=>x.date)).size;
+  const run=mex.filter(x=>(x.type||'').includes('ラン')).reduce((s,x)=>s+(Number(x.distance)||0),0);
+  q('mRunKm').textContent=run.toFixed(1);
+  let msg='記録がたまるほど分析が育つで🔥';
+  if(mw.length>=4){
+    const diff=mw.at(-1)[1]-mw[0][1];
+    if(diff<=-0.5) msg=`今月は${Math.abs(diff).toFixed(1)}kgダウン。いい流れ！このペースで十分や🔥`;
+    else if(diff<0.3) msg='今月はかなり安定。体重の上下より、食事と運動の継続を優先していこう👌';
+    else msg='今月は少し上向き。まず3〜5日いつもの食事に戻して平均で見よう。';
+  }
+  q('monthCoach').textContent=msg;
+}
+function openEditor(kind, idx){
+  const d=load(); editing={kind,idx}; let body='';
+  if(kind==='weight'){
+    const x=d.weights[idx];
+    body=`<label>日付</label><input id="editDate" type="date" value="${esc(x[0])}">
+    <label style="margin-top:10px">体重（kg）</label><input id="editWeight" type="number" step="0.1" value="${x[1]}">
+    <button class="btn danger" style="margin-top:14px" onclick="deleteEdit()">この記録を削除</button>`;
+  }else if(kind==='meal'){
+    const x=d.meals[idx];
+    body=`<label>日付</label><input id="editDate" type="date" value="${esc(x.date)}">
+    <label style="margin-top:10px">区分</label><select id="editType"><option${x.type==='朝'?' selected':''}>朝</option><option${x.type==='昼'?' selected':''}>昼</option><option${x.type==='夜'?' selected':''}>夜</option><option${x.type==='間食'?' selected':''}>間食</option></select>
+    <label style="margin-top:10px">内容</label><textarea id="editText">${esc(x.text||'')}</textarea>
+    <button class="btn danger" style="margin-top:14px" onclick="deleteEdit()">この記録を削除</button>`;
+  }else{
+    const x=d.exercises[idx];
+    body=`<label>日付</label><input id="editDate" type="date" value="${esc(x.date)}">
+    <label style="margin-top:10px">種目</label><input id="editType" value="${esc(x.type||'')}">
+    <label style="margin-top:10px">距離（km）</label><input id="editDistance" type="number" step="0.01" value="${Number(x.distance)||0}">
+    <label style="margin-top:10px">時間（分）</label><input id="editMinutes" type="number" step="1" value="${Number(x.minutes)||0}">
+    <button class="btn danger" style="margin-top:14px" onclick="deleteEdit()">この記録を削除</button>`;
+  }
+  q('editForm').innerHTML=body; q('editBackdrop').classList.add('show');
+}
+function closeEditor(){q('editBackdrop').classList.remove('show');editing=null}
+function saveEdit(){
+  if(!editing)return; const d=load(), {kind,idx}=editing;
+  if(kind==='weight') d.weights[idx]=[q('editDate').value,Number(q('editWeight').value)];
+  else if(kind==='meal') d.meals[idx]={...d.meals[idx],date:q('editDate').value,type:q('editType').value,text:q('editText').value};
+  else d.exercises[idx]={...d.exercises[idx],date:q('editDate').value,type:q('editType').value,distance:Number(q('editDistance').value)||0,minutes:Number(q('editMinutes').value)||0};
+  save(d); closeEditor(); render(); if(typeof renderHistory==='function')renderHistory(); if(typeof renderReport==='function')renderReport(); renderMonth(); toast('更新したで👌');
+}
+function deleteEdit(){
+  if(!editing)return; const d=load(), {kind,idx}=editing;
+  if(kind==='weight') d.weights.splice(idx,1); else if(kind==='meal') d.meals.splice(idx,1); else d.exercises.splice(idx,1);
+  save(d); closeEditor(); render(); if(typeof renderHistory==='function')renderHistory(); if(typeof renderReport==='function')renderReport(); renderMonth(); toast('削除したで');
+}
+const phase2Render = render;
+render = function(){phase2Render(); setTimeout(()=>{try{renderMonth()}catch(e){}},0)}
+
+
+/* ===== Phase4: nutrition + photo foundation ===== */
+function mealNutrition(m){return {kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0}}
+function nutritionForDate(d,date){
+  return d.meals.filter(m=>m.date===date).reduce((a,m)=>{const n=mealNutrition(m);a.kcal+=n.kcal;a.p+=n.p;a.f+=n.f;a.c+=n.c;return a},{kcal:0,p:0,f:0,c:0})
+}
+function renderNutritionHome(){
+  const d=load(),n=nutritionForDate(d,localDate()),s=d.settings;
+  if(!q('todayKcal'))return;
+  q('todayKcal').textContent=Math.round(n.kcal); q('todayP').textContent=n.p.toFixed(0); q('todayF').textContent=n.f.toFixed(0); q('todayC').textContent=n.c.toFixed(0);
+  q('kcalTargetText').textContent=`/ ${s.targetKcal}`;q('pTargetText').textContent=`/ ${s.targetP} g`;q('fTargetText').textContent=`/ ${s.targetF} g`;q('cTargetText').textContent=`/ ${s.targetC} g`;
+  q('kcalBar').style.width=Math.min(100,n.kcal/Math.max(1,s.targetKcal)*100)+'%';
+}
+function nutritionCoach(d,date){
+  const n=nutritionForDate(d,date),s=d.settings,parts=[];
+  if(n.p>0){
+    if(n.p>=s.targetP*.8) parts.push(`たんぱく質${n.p.toFixed(0)}g、かなり良いライン💪`);
+    else if(n.p>=s.targetP*.5) parts.push(`たんぱく質は${n.p.toFixed(0)}g。夜でもう一品足せそう。`);
+    else parts.push(`PFC入力分ではたんぱく質${n.p.toFixed(0)}g。魚・卵・豆腐あたりを足すと◎`);
+  }
+  if(n.kcal>0&&n.kcal>s.targetKcal*1.15)parts.push('今日はカロリーが目安より高め。明日抜かずに普段の食事へ戻せばOK。');
+  return parts.join(' ');
+}
+
+/* IndexedDB photo store */
+const PHOTO_DB='vamos_photos', PHOTO_STORE='mealPhotos';
+function photoDB(){
+  return new Promise((resolve,reject)=>{
+    const r=indexedDB.open(PHOTO_DB,1);
+    r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains(PHOTO_STORE))db.createObjectStore(PHOTO_STORE,{keyPath:'id'})};
+    r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);
+  })
+}
+async function savePhotoBlob(blob){
+  const id='ph_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8),db=await photoDB();
+  return new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).put({id,blob,createdAt:Date.now()});tx.oncomplete=()=>resolve(id);tx.onerror=()=>reject(tx.error)})
+}
+async function getPhotoBlob(id){
+  if(!id)return null;const db=await photoDB();
+  return new Promise((resolve,reject)=>{const r=db.transaction(PHOTO_STORE).objectStore(PHOTO_STORE).get(id);r.onsuccess=()=>resolve(r.result?.blob||null);r.onerror=()=>reject(r.error)})
+}
+async function deletePhotoBlob(id){
+  if(!id)return;const db=await photoDB();
+  return new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})
+}
+async function compressImage(file){
+  const bmp=await createImageBitmap(file),max=1280,scale=Math.min(1,max/Math.max(bmp.width,bmp.height)),w=Math.round(bmp.width*scale),h=Math.round(bmp.height*scale);
+  const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(bmp,0,0,w,h);
+  return await new Promise(res=>c.toBlob(res,'image/jpeg',.78))
+}
+let pendingPhotoBlob=null;
+if(q('mealPhoto')){
+  q('mealPhoto').onchange=async e=>{
+    const f=e.target.files?.[0];pendingPhotoBlob=null;
+    if(!f){q('mealPhotoPreview').classList.remove('show');return}
+    try{
+      q('photoStatus').textContent='写真を準備中…';
+      pendingPhotoBlob=await compressImage(f);
+      const url=URL.createObjectURL(pendingPhotoBlob);q('mealPhotoPreview').src=url;q('mealPhotoPreview').classList.add('show');
+      q('photoStatus').textContent='写真準備OK。記録すると端末内に保存されます。';
+    }catch(err){q('photoStatus').textContent='写真を読み込めなかったよ';pendingPhotoBlob=null}
+  }
+}
+
+async function addMealRich(){
+  const date=q('md').value,type=q('mt').value,text=q('mx').value.trim();
+  if(!text)return toast('食事内容を入れてね');
+  let photoId=null;
+  if(pendingPhotoBlob){try{photoId=await savePhotoBlob(pendingPhotoBlob)}catch(e){toast('写真保存だけ失敗したよ')}}
+  const d=load();
+  d.meals.unshift({
+    id:'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,6),
+    date,type,text,
+    kcal:Number(q('mkcal').value)||0,p:Number(q('mp').value)||0,f:Number(q('mf').value)||0,c:Number(q('mc').value)||0,
+    photoId
+  });
+  save(d);
+  ['mx','mkcal','mp','mf','mc'].forEach(id=>q(id).value='');
+  q('mealPhoto').value='';q('mealPhotoPreview').src='';q('mealPhotoPreview').classList.remove('show');q('photoStatus').textContent='写真は端末内に保存します。AI解析は次フェーズで接続予定。';pendingPhotoBlob=null;
+  render();toast(`${type}食を記録したよ🔥`);
+}
+if(q('abm')) q('abm').onclick=()=>addMealRich();
+
+async function renderPhotoGallery(){
+  if(!q('photoGallery'))return;
+  const meals=load().meals.filter(m=>m.photoId).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,12),items=[];
+  for(const m of meals){
+    try{const blob=await getPhotoBlob(m.photoId);if(blob)items.push(`<div class="photo-tile" title="${esc(m.date+' '+m.type)}"><img src="${URL.createObjectURL(blob)}" alt="${esc(m.text)}"></div>`)}catch(e){}
+  }
+  q('photoGallery').innerHTML=items.join('');q('photoGalleryEmpty').style.display=items.length?'none':'block';
+}
+
+function phase4HistoryEnhance(){
+  renderPhotoGallery();
+}
+
+/* Profile / targets */
+function fillPhase4Settings(){
+  const s=load().settings;if(!q('profileName'))return;
+  q('profileName').value=s.name;q('targetKcal').value=s.targetKcal;q('targetP').value=s.targetP;q('targetF').value=s.targetF;q('targetC').value=s.targetC;
+}
+if(q('saveNutrition'))q('saveNutrition').onclick=()=>{
+  const d=load(),s=d.settings;
+  s.name=q('profileName').value.trim()||'大地';s.targetKcal=Number(q('targetKcal').value)||2000;s.targetP=Number(q('targetP').value)||100;s.targetF=Number(q('targetF').value)||55;s.targetC=Number(q('targetC').value)||250;
+  save(d);render();fillPhase4Settings();toast('栄養目標を保存したよ🔥');
+};
+
+/* Override greeting/coach with profile + PFC */
+const phase4OldGreeting=greeting;
+greeting=function(){
+  let h=new Date().getHours(),txt=h<11?'おはよう':h<18?'こんにちは':'こんばんは',icon=h<11?'☀️':h<18?'🔥':'🌙',name=load().settings.name||'大地';
+  q('greet').textContent=`${txt}、${name}${icon}`;q('todayLabel').textContent=localDate().replaceAll('-','/');
+}
+const phase4OldCoachText=coachText;
+coachText=function(d,date){
+  const base=phase4OldCoachText(d,date),extra=nutritionCoach(d,date);
+  return extra?base+' '+extra:base;
+}
+
+/* Extend render, analysis, history, page switch */
+const phase4BaseRender=render;
+render=function(){phase4BaseRender();renderNutritionHome();fillPhase4Settings()}
+const phase4BaseAnalysis=analysis;
+analysis=function(){
+  phase4BaseAnalysis();
+  const d=load(),days=parseInt(q('analysisRange').value||7),dates=datesInRange(days),start=dates[0],end=dates.at(-1),meals=d.meals.filter(m=>m.date>=start&&m.date<=end);
+  const totals=meals.reduce((a,m)=>{const n=mealNutrition(m);a.k+=n.kcal;a.p+=n.p;return a},{k:0,p:0});
+  if(q('weeklySummary')&&meals.some(m=>Number(m.kcal)||Number(m.p))){
+    q('weeklySummary').insertAdjacentHTML('beforeend',`<div class="summaryrow"><b>平均カロリー※入力分</b><span>${Math.round(totals.k/days)} kcal/日</span></div><div class="summaryrow"><b>平均たんぱく質※入力分</b><span>${(totals.p/days).toFixed(0)} g/日</span></div>`);
+  }
+}
+const phase4BaseHistory=history;
+history=function(){phase4BaseHistory();phase4HistoryEnhance()}
+
+/* Make month actually accessible */
+const phase4OldSwitch=switchPage;
+switchPage=function(id){
+  phase4OldSwitch(id);
+  if(id==='month')renderMonth();
+  if(id==='settings')fillPhase4Settings();
+  if(id==='history')renderPhotoGallery();
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchPage(b.dataset.p));
+
+/* Share nutrition too */
+const phase4OldShareText=shareText;
+shareText=function(days=1){
+  let base=phase4OldShareText(days),d=load(),date=localDate();
+  if(days===1){const n=nutritionForDate(d,date);if(n.kcal||n.p||n.f||n.c)base+=`\n栄養(入力分): ${Math.round(n.kcal)}kcal / P${n.p.toFixed(0)} F${n.f.toFixed(0)} C${n.c.toFixed(0)}g`}
+  return base;
+}
+
+/* Meal editor nutrition fields */
+const phase4OldOpenEditor=openEditor;
+openEditor=function(kind,idx){
+  phase4OldOpenEditor(kind,idx);
+  if(kind==='meal'){
+    const m=load().meals[idx],form=q('editForm');
+    form.insertAdjacentHTML('beforeend',`<div class="pfc-inputs"><div><label>kcal</label><input id="editKcal" type="number" value="${Number(m.kcal)||0}"></div><div><label>P (g)</label><input id="editP" type="number" step="0.1" value="${Number(m.p)||0}"></div><div><label>F (g)</label><input id="editF" type="number" step="0.1" value="${Number(m.f)||0}"></div><div><label>C (g)</label><input id="editC" type="number" step="0.1" value="${Number(m.c)||0}"></div></div>`);
+  }
+}
+const phase4OldSaveEdit=saveEdit;
+saveEdit=function(){
+  if(editing?.kind==='meal'){
+    const d=load(),m=d.meals[editing.idx];
+    m.date=q('editDate').value;m.type=q('editType').value;m.text=q('editText').value;
+    m.kcal=Number(q('editKcal').value)||0;m.p=Number(q('editP').value)||0;m.f=Number(q('editF').value)||0;m.c=Number(q('editC').value)||0;
+    save(d);closeEditor();render();history();analysis();renderMonth();toast('更新したで👌');return;
+  }
+  phase4OldSaveEdit();
+}
+const phase4OldDeleteEdit=deleteEdit;
+deleteEdit=async function(){
+  if(editing?.kind==='meal'){const m=load().meals[editing.idx];if(m?.photoId)try{await deletePhotoBlob(m.photoId)}catch(e){}}
+  return phase4OldDeleteEdit();
+}
+
+fillPhase4Settings();renderNutritionHome();
+
+
+/* ===== Phase5: smart food estimation ===== */
+const FOOD_DB=[
+{name:'いつもの朝食',keys:['いつもの朝','朝食','ご飯100g','ゆで卵2個','ブロッコリー','枝豆'],kcal:390,p:22,f:12,c:50},
+{name:'いつもの昼食',keys:['いつもの昼','おにぎり2個','サラダチキン','サラダ'],kcal:500,p:30,f:8,c:76},
+{name:'焼き鮭定食',keys:['焼き鮭','鮭','サーモン','紅鮭'],kcal:430,p:28,f:13,c:48},
+{name:'海鮮丼',keys:['海鮮丼','まぐろ丼','マグロ丼','刺身丼'],kcal:560,p:32,f:12,c:78},
+{name:'砂肝炒め',keys:['砂肝','砂肝炒め'],kcal:260,p:30,f:12,c:7},
+{name:'軟骨炒め',keys:['軟骨','鶏軟骨'],kcal:280,p:23,f:18,c:6},
+{name:'せせり炒め',keys:['せせり'],kcal:360,p:28,f:25,c:5},
+{name:'豚ハラミ炒め',keys:['豚ハラミ','ハラミ'],kcal:420,p:28,f:30,c:8},
+{name:'生姜焼き定食',keys:['生姜焼き'],kcal:620,p:30,f:24,c:70},
+{name:'ガパオライス',keys:['ガパオ','ガパオライス'],kcal:650,p:28,f:22,c:82},
+{name:'スンドゥブ＋ご飯',keys:['スンドゥブ'],kcal:520,p:26,f:20,c:58},
+{name:'醤油ラーメン',keys:['醤油ラーメン','ラーメン'],kcal:520,p:20,f:15,c:72},
+{name:'味噌ラーメン',keys:['味噌ラーメン'],kcal:650,p:22,f:22,c:82},
+{name:'坦々そば',keys:['坦々そば','担々そば'],kcal:620,p:22,f:22,c:80},
+{name:'つけ麺',keys:['つけ麺'],kcal:720,p:26,f:18,c:105},
+{name:'チャーシュー丼 小',keys:['チャーシュー丼'],kcal:350,p:16,f:12,c:46},
+{name:'ホットドッグ',keys:['ホットドッグ','ホットドック'],kcal:380,p:14,f:20,c:35},
+{name:'菓子パン',keys:['菓子パン'],kcal:360,p:7,f:16,c:48},
+{name:'BBQ',keys:['BBQ','バーベキュー'],kcal:800,p:45,f:45,c:45},
+{name:'豆腐',keys:['豆腐','冷奴','湯豆腐'],kcal:110,p:10,f:6,c:3},
+{name:'納豆',keys:['納豆'],kcal:100,p:8,f:5,c:6},
+{name:'ゆで卵2個',keys:['ゆで卵2個','卵2個'],kcal:150,p:13,f:10,c:1},
+{name:'きのこマリネ',keys:['きのこマリネ','キノコマリネ'],kcal:90,p:3,f:5,c:9},
+{name:'ピーマン塩昆布',keys:['ピーマン塩昆布','ピーマンとキャベツのナムル'],kcal:80,p:2,f:4,c:9},
+{name:'ご飯100g',keys:['ご飯100g','白ご飯100g'],kcal:156,p:2.5,f:.3,c:37},
+];
+
+function normFoodText(s){return String(s||'').toLowerCase().replace(/\s+/g,'')}
+function scoreFood(item,text){
+  const t=normFoodText(text);let score=0;
+  for(const k of item.keys){
+    const nk=normFoodText(k);
+    if(t===nk)score+=10;
+    else if(t.includes(nk))score+=6;
+    else{
+      const parts=nk.split(/[＋+・,/、]/).filter(Boolean);
+      score+=parts.filter(p=>p.length>1&&t.includes(p)).length*2;
+    }
+  }
+  return score;
+}
+function findFoodCandidates(text,limit=5){
+  return FOOD_DB.map(x=>({...x,score:scoreFood(x,text)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,limit)
+}
+function estimateCombo(text){
+  const t=normFoodText(text);
+  const matched=[];
+  for(const x of FOOD_DB){
+    if(x.keys.some(k=>t.includes(normFoodText(k))))matched.push(x);
+  }
+  const unique=[];const seen=new Set();
+  for(const x of matched){if(!seen.has(x.name)){seen.add(x.name);unique.push(x)}}
+  if(!unique.length)return null;
+  const n=unique.reduce((a,x)=>{a.kcal+=x.kcal;a.p+=x.p;a.f+=x.f;a.c+=x.c;return a},{kcal:0,p:0,f:0,c:0});
+  return {items:unique,...n,confidence:unique.length>1?'中':'中〜低'};
+}
+function setNutritionFields(n){
+  q('mkcal').value=Math.round(n.kcal||0);q('mp').value=(n.p||0).toFixed(1);q('mf').value=(n.f||0).toFixed(1);q('mc').value=(n.c||0).toFixed(1);
+}
+function showAIResult(n,label,confidence='中'){
+  const el=q('aiResult');el.style.display='block';
+  el.innerHTML=`<strong>${esc(label)}</strong><div>約 ${Math.round(n.kcal)} kcal / P ${Number(n.p).toFixed(1)}g / F ${Number(n.f).toFixed(1)}g / C ${Number(n.c).toFixed(1)}g</div><div class="ai-confidence">推定信頼度：${confidence}</div><button class="btn" style="margin-top:8px" id="applyAI">この推定をPFC欄へ反映</button>`;
+  q('applyAI').onclick=()=>{setNutritionFields(n);toast('推定値を反映したよ👌')};
+}
+function renderAICandidates(items){
+  const box=q('aiCandidates');box.innerHTML='';
+  for(const x of items){
+    const b=document.createElement('button');b.className='ai-chip';b.textContent=x.name;
+    b.onclick=()=>showAIResult(x,x.name,x.score>=8?'高':'中');
+    box.appendChild(b);
+  }
+}
+function guessFromText(){
+  const text=q('mx').value.trim();
+  if(!text){q('aiStatus').textContent='まず食事内容を入れてね';return}
+  const combo=estimateCombo(text),cand=findFoodCandidates(text);
+  renderAICandidates(cand);
+  if(combo){
+    showAIResult(combo,combo.items.map(x=>x.name).join(' ＋ '),combo.confidence);
+    q('aiStatus').textContent='食事名から推定しました';
+  }else{
+    q('aiResult').style.display='none';q('aiStatus').textContent='近い候補が見つからなかったよ。候補から選ぶか手入力してね。';
+  }
+}
+function guessFromPhoto(){
+  if(!pendingPhotoBlob){q('aiStatus').textContent='写真を選んでから試してね';return}
+  const text=q('mx').value.trim();
+  let cand=findFoodCandidates(text);
+  if(!cand.length){
+    // Heuristic fallback: likely meal categories from user's common foods.
+    cand=FOOD_DB.filter(x=>['焼き鮭定食','海鮮丼','砂肝炒め','生姜焼き定食','ガパオライス'].includes(x.name)).slice(0,5);
+  }
+  renderAICandidates(cand);
+  q('aiStatus').textContent='写真を確認するための候補を表示しました（端末内簡易モード）';
+}
+if(q('guessFromText'))q('guessFromText').onclick=guessFromText;
+if(q('guessFromPhoto'))q('guessFromPhoto').onclick=guessFromPhoto;
+if(q('mx'))q('mx').addEventListener('input',()=>{
+  const c=findFoodCandidates(q('mx').value,4);renderAICandidates(c);
+});
+
+/* Templates can auto-fill estimates */
+const p5OldUseTemplate=useTemplate;
+useTemplate=function(which){
+  p5OldUseTemplate(which);
+  setTimeout(()=>{const combo=estimateCombo(q('mx').value);if(combo)setNutritionFields(combo)},0);
+}
+
+/* Food DB search */
+function renderFoodSearch(){
+  if(!q('foodSearchResult'))return;
+  const term=q('foodSearch').value.trim();
+  const rows=(term?findFoodCandidates(term,12):FOOD_DB.slice(0,12)).map(x=>`<div class="fooddb-row"><div><div class="fooddb-name">${esc(x.name)}</div><div class="fooddb-meta">${Math.round(x.kcal)}kcal / P${x.p} F${x.f} C${x.c}</div></div><button class="mini-btn" data-food="${esc(x.name)}">使う</button></div>`).join('');
+  q('foodSearchResult').innerHTML=rows||'<div class="small">見つからなかったよ</div>';
+  q('foodSearchResult').querySelectorAll('[data-food]').forEach(b=>b.onclick=()=>{
+    const x=FOOD_DB.find(v=>v.name===b.dataset.food);if(!x)return;
+    q('mx').value=x.name;setNutritionFields(x);switchPage('record');toast('食事入力にセットしたよ');
+  });
+}
+if(q('foodSearchBtn'))q('foodSearchBtn').onclick=renderFoodSearch;
+if(q('foodSearch'))q('foodSearch').addEventListener('keydown',e=>{if(e.key==='Enter')renderFoodSearch()});
+
+/* AI trend analysis */
+function renderAITrend(){
+  if(!q('aiTrend'))return;
+  const d=load(),days=parseInt(q('analysisRange')?.value||7),dates=datesInRange(days),start=dates[0],end=dates.at(-1);
+  const meals=d.meals.filter(m=>m.date>=start&&m.date<=end);
+  if(!meals.length){q('aiTrend').textContent='まだ食事記録が少ないよ。';return}
+  const text=meals.map(m=>m.text).join(' ');
+  const counts={
+    fish:(text.match(/鮭|サーモン|海鮮|マグロ|まぐろ|さば|サバ/g)||[]).length,
+    noodle:(text.match(/ラーメン|そば|うどん|つけ麺|パスタ/g)||[]).length,
+    veg:(text.match(/ブロッコリー|キャベツ|ピーマン|きのこ|キノコ|枝豆|サラダ/g)||[]).length,
+    fried:(text.match(/揚げ|フライ|唐揚げ|天ぷら/g)||[]).length
+  };
+  const parts=[];
+  if(counts.fish>=2)parts.push('魚をしっかり取り入れられてる🐟');
+  else parts.push('魚を週2回くらい入れるとさらにバランス良し。');
+  if(counts.noodle>=3)parts.push('麺類がやや多め。翌日はいつもの昼に戻すと整いやすい。');
+  if(counts.veg>=4)parts.push('野菜系の記録もしっかり出てる👌');
+  if(counts.fried>=2)parts.push('揚げ物が続く時だけ脂質を少し意識しよう。');
+  q('aiTrend').textContent=parts.join(' ');
+}
+const p5OldAnalysis=analysis;
+analysis=function(){p5OldAnalysis();renderAITrend()}
+
+/* Auto-estimate after "previous meal" too */
+if(q('prevMeal')){
+  const oldPrev=q('prevMeal').onclick;
+  q('prevMeal').onclick=()=>{if(oldPrev)oldPrev();setTimeout(()=>{const combo=estimateCombo(q('mx').value);if(combo)setNutritionFields(combo)},0)}
+}
+
+/* Share AI estimation marker */
+const p5OldShareText=shareText;
+shareText=function(days=1){
+  let s=p5OldShareText(days);
+  if(days===1&&q('mx')?.value?.trim())s+=`\nVAMOS+ AI推定: 端末内簡易推定モード`;
+  return s;
+}
+
+renderFoodSearch();
+
+
+/* ===== Phase6: barcode, nutrition label, AI connector ===== */
+const LOCAL_PRODUCT_DB={
+  '4902102072618':{name:'サンプル緑茶',kcal:0,p:0,f:0,c:0},
+  '4901777300444':{name:'サンプル飲料',kcal:45,p:0,f:0,c:11},
+};
+
+let barcodeStream=null, barcodeTimer=null;
+
+function applyProduct(prod){
+  if(!prod)return;
+  q('mx').value=prod.name||q('mx').value;
+  q('mkcal').value=Number(prod.kcal)||0;
+  q('mp').value=Number(prod.p)||0;
+  q('mf').value=Number(prod.f)||0;
+  q('mc').value=Number(prod.c)||0;
+  toast('商品データを反映したよ👌');
+}
+function renderBarcodeHit(code,prod){
+  const box=q('barcodeResult');
+  if(prod){
+    box.innerHTML=`<div class="food-hit"><strong>${esc(prod.name)}</strong><div class="fooddb-meta">${Math.round(prod.kcal)}kcal / P${prod.p} F${prod.f} C${prod.c}</div><button class="mini-btn" id="useBarcodeProduct" style="margin-top:8px">この商品を使う</button></div>`;
+    q('useBarcodeProduct').onclick=()=>applyProduct(prod);
+  }else{
+    box.innerHTML=`<div class="food-hit"><strong>未登録の商品</strong><div class="fooddb-meta">コード: ${esc(code)}</div><div class="small" style="margin-top:5px">商品名と栄養表示を入力すれば、そのまま食事記録できます。</div></div>`;
+  }
+}
+async function lookupBarcode(code){
+  code=String(code||'').trim();if(!code)return;
+  q('barcodeManual').value=code;
+  q('barcodeValue').style.display='block';q('barcodeValue').textContent=code;
+  q('scanStatus').textContent='バーコードを読み取りました';
+  const local=LOCAL_PRODUCT_DB[code];
+  if(local){renderBarcodeHit(code,local);return}
+  const d=load(),url=d.settings.aiProxyUrl||'';
+  if(url){
+    try{
+      q('scanStatus').textContent='商品情報を問い合わせ中…';
+      const res=await fetch(url.replace(/\/$/,'')+'/barcode',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({barcode:code})
+      });
+      if(res.ok){
+        const data=await res.json();
+        if(data&&data.name){renderBarcodeHit(code,{name:data.name,kcal:Number(data.kcal)||0,p:Number(data.p)||0,f:Number(data.f)||0,c:Number(data.c)||0});q('scanStatus').textContent='商品情報を取得しました';return}
+      }
+    }catch(e){}
+  }
+  renderBarcodeHit(code,null);q('scanStatus').textContent='商品DBには未登録でした';
+}
+async function startBarcode(){
+  if(!navigator.mediaDevices?.getUserMedia){q('scanStatus').textContent='このブラウザではカメラ読取に対応していないよ';return}
+  if(!('BarcodeDetector' in window)){q('scanStatus').textContent='自動読取非対応。バーコード番号を手入力してね';return}
+  try{
+    const formats=await BarcodeDetector.getSupportedFormats();
+    const preferred=['ean_13','ean_8','upc_a','upc_e','code_128'].filter(x=>formats.includes(x));
+    const detector=new BarcodeDetector({formats:preferred.length?preferred:formats});
+    barcodeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+    const v=q('barcodeVideo');v.srcObject=barcodeStream;await v.play();v.classList.add('show');
+    q('scanStatus').textContent='バーコードをカメラ中央に合わせてね';
+    barcodeTimer=setInterval(async()=>{
+      try{
+        const codes=await detector.detect(v);
+        if(codes?.length){const code=codes[0].rawValue;stopBarcode();await lookupBarcode(code)}
+      }catch(e){}
+    },450);
+  }catch(e){q('scanStatus').textContent='カメラを開始できなかったよ'}
+}
+function stopBarcode(){
+  if(barcodeTimer){clearInterval(barcodeTimer);barcodeTimer=null}
+  if(barcodeStream){barcodeStream.getTracks().forEach(t=>t.stop());barcodeStream=null}
+  if(q('barcodeVideo')){q('barcodeVideo').pause();q('barcodeVideo').srcObject=null;q('barcodeVideo').classList.remove('show')}
+}
+if(q('startBarcode'))q('startBarcode').onclick=startBarcode;
+if(q('stopBarcode'))q('stopBarcode').onclick=stopBarcode;
+if(q('lookupBarcode'))q('lookupBarcode').onclick=()=>lookupBarcode(q('barcodeManual').value);
+
+if(q('applyLabel'))q('applyLabel').onclick=()=>{
+  const name=q('labelName').value.trim();
+  if(name)q('mx').value=name;
+  q('mkcal').value=Number(q('labelKcal').value)||0;
+  q('mp').value=Number(q('labelP').value)||0;
+  q('mf').value=Number(q('labelF').value)||0;
+  q('mc').value=Number(q('labelC').value)||0;
+  toast('栄養表示を反映したよ👌');
+};
+
+function goRecordAndFocus(id){
+  switchPage('record');setTimeout(()=>q(id)?.scrollIntoView({behavior:'smooth',block:'center'}),80)
+}
+if(q('quickBarcode'))q('quickBarcode').onclick=()=>goRecordAndFocus('startBarcode');
+if(q('quickLabel'))q('quickLabel').onclick=()=>goRecordAndFocus('labelKcal');
+if(q('quickPhotoAI'))q('quickPhotoAI').onclick=()=>goRecordAndFocus('mealPhoto');
+
+/* AI Proxy */
+function fillConnector(){
+  if(!q('aiProxyUrl'))return;
+  q('aiProxyUrl').value=load().settings.aiProxyUrl||'';
+  const has=!!load().settings.aiProxyUrl;
+  q('connectorStatus').innerHTML=has?'<span class="badge-ok">接続先設定済み</span>':'未設定：現在は端末内AI推定モードです。';
+}
+if(q('aiProxyUrl'))q('aiProxyUrl').addEventListener('change',()=>{
+  const d=load();d.settings.aiProxyUrl=q('aiProxyUrl').value.trim();save(d);fillConnector();toast('AI接続先を保存したよ');
+});
+if(q('testConnector'))q('testConnector').onclick=async()=>{
+  const url=q('aiProxyUrl').value.trim();if(!url){q('connectorStatus').textContent='URLを入力してね';return}
+  q('connectorStatus').textContent='接続確認中…';
+  try{
+    const res=await fetch(url.replace(/\/$/,'')+'/health',{method:'GET'});
+    q('connectorStatus').innerHTML=res.ok?'<span class="badge-ok">接続OK</span>':'<span class="badge-warn">応答はあるけど正常ではないよ</span>';
+  }catch(e){q('connectorStatus').innerHTML='<span class="badge-warn">接続できなかったよ</span>'}
+};
+
+/* Cloud AI image analysis hook. Falls back to Phase5 local suggestions. */
+async function analyzeWithProxy(){
+  const d=load(),url=d.settings.aiProxyUrl||'';
+  if(!url||!pendingPhotoBlob)return false;
+  try{
+    q('aiStatus').textContent='AIで写真を解析中…';
+    const fd=new FormData();fd.append('image',pendingPhotoBlob,'meal.jpg');fd.append('text',q('mx').value||'');
+    const res=await fetch(url.replace(/\/$/,'')+'/meal-analyze',{method:'POST',body:fd});
+    if(!res.ok)throw new Error('bad');
+    const data=await res.json();
+    if(data){
+      if(data.name)q('mx').value=data.name;
+      const n={kcal:Number(data.kcal)||0,p:Number(data.p)||0,f:Number(data.f)||0,c:Number(data.c)||0};
+      showAIResult(n,data.name||'AI推定',data.confidence||'AI');
+      q('aiStatus').textContent='AI解析が完了しました';
+      return true;
+    }
+  }catch(e){q('aiStatus').textContent='AI接続に失敗。端末内候補に切り替えます。'}
+  return false;
+}
+const p6LocalPhotoGuess=guessFromPhoto;
+guessFromPhoto=async function(){
+  const used=await analyzeWithProxy();
+  if(!used)p6LocalPhotoGuess();
+};
+if(q('guessFromPhoto'))q('guessFromPhoto').onclick=guessFromPhoto;
+
+/* Nutrition-label AI hook for future OCR endpoint */
+async function analyzeNutritionLabelPhoto(){
+  const d=load(),url=d.settings.aiProxyUrl||'';
+  if(!url||!pendingPhotoBlob)return false;
+  try{
+    const fd=new FormData();fd.append('image',pendingPhotoBlob,'label.jpg');
+    const res=await fetch(url.replace(/\/$/,'')+'/nutrition-label',{method:'POST',body:fd});
+    if(!res.ok)return false;
+    const x=await res.json();
+    q('labelName').value=x.name||'';q('labelKcal').value=Number(x.kcal)||0;q('labelP').value=Number(x.p)||0;q('labelF').value=Number(x.f)||0;q('labelC').value=Number(x.c)||0;
+    return true;
+  }catch(e){return false}
+}
+
+/* Extend normalize to preserve connector URL */
+const p6OldNormalize=normalize;
+normalize=function(d){
+  const x=p6OldNormalize(d);
+  x.settings.aiProxyUrl=x.settings.aiProxyUrl||'';
+  x.meta={...(x.meta||{}),version:'2-phase10.3'};
+  return x;
+};
+
+/* Ensure connector setting shown */
+const p6OldRender=render;
+render=function(){p6OldRender();fillConnector()};
+
+/* Stop camera when leaving record */
+const p6OldSwitch=switchPage;
+switchPage=function(id){if(id!=='record')stopBarcode();p6OldSwitch(id);if(id==='settings')fillConnector()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchPage(b.dataset.p));
+
+fillConnector();
+
+
+/* ===== Phase7: real AI server integration ===== */
+async function serverHealth(){
+  if(!q('liveDot'))return false;
+  const url=(load().settings.aiProxyUrl||'').replace(/\/$/,'');
+  if(!url){q('liveDot').className='live-dot';q('liveText').textContent='未設定';return false}
+  q('liveText').textContent='確認中…';
+  try{
+    const r=await fetch(url+'/health');
+    const j=await r.json().catch(()=>({}));
+    if(r.ok){
+      q('liveDot').className='live-dot ok';
+      q('liveText').textContent=j.ai_enabled?'AI接続OK':'サーバーOK（AIキー未設定）';
+      return !!j.ai_enabled;
+    }
+  }catch(e){}
+  q('liveDot').className='live-dot bad';q('liveText').textContent='接続できない';
+  return false;
+}
+if(q('liveCheck'))q('liveCheck').onclick=serverHealth;
+
+if(q('scanLabelAI'))q('scanLabelAI').onclick=async()=>{
+  if(!pendingPhotoBlob){toast('先に栄養表示の写真を選んでね');return}
+  q('scanStatus').textContent='栄養表示をAI解析中…';
+  const ok=await analyzeNutritionLabelPhoto();
+  if(ok){q('scanStatus').textContent='栄養表示を読み取ったよ';toast('AI解析完了🔥')}
+  else{q('scanStatus').textContent='解析できなかったよ。接続設定か写真を確認してね'}
+};
+
+/* Add richer server response handling */
+const p7AnalyzeWithProxy=analyzeWithProxy;
+analyzeWithProxy=async function(){
+  const d=load(),url=(d.settings.aiProxyUrl||'').replace(/\/$/,'');
+  if(!url||!pendingPhotoBlob)return false;
+  try{
+    q('aiStatus').textContent='VAMOS AIで写真を解析中…';
+    const fd=new FormData();fd.append('image',pendingPhotoBlob,'meal.jpg');fd.append('text',q('mx').value||'');
+    const res=await fetch(url+'/meal-analyze',{method:'POST',body:fd});
+    if(!res.ok)throw new Error('bad');
+    const data=await res.json();
+    if(!data)return false;
+    if(data.name)q('mx').value=data.name;
+    const n={kcal:Number(data.kcal)||0,p:Number(data.p)||0,f:Number(data.f)||0,c:Number(data.c)||0};
+    showAIResult(n,data.name||'VAMOS AI推定',data.confidence||'AI');
+    if(Array.isArray(data.items)&&data.items.length){
+      q('aiCandidates').innerHTML=data.items.slice(0,6).map(x=>`<button class="ai-chip">${esc(typeof x==='string'?x:(x.name||''))}</button>`).join('');
+    }
+    q('aiStatus').textContent=data.note||'VAMOS AI解析が完了しました';
+    return true;
+  }catch(e){
+    q('aiStatus').textContent='AIサーバー接続に失敗。端末内推定へ切替';
+    return false;
+  }
+};
+
+/* Barcode server response supports common fields */
+const p7LookupBarcode=lookupBarcode;
+lookupBarcode=async function(code){
+  code=String(code||'').trim();if(!code)return;
+  q('barcodeManual').value=code;q('barcodeValue').style.display='block';q('barcodeValue').textContent=code;
+  const local=LOCAL_PRODUCT_DB[code];
+  if(local){renderBarcodeHit(code,local);return}
+  const url=(load().settings.aiProxyUrl||'').replace(/\/$/,'');
+  if(url){
+    try{
+      q('scanStatus').textContent='商品情報を検索中…';
+      const r=await fetch(url+'/barcode',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({barcode:code})});
+      if(r.ok){
+        const x=await r.json();
+        if(x?.name){renderBarcodeHit(code,{name:x.name,kcal:Number(x.kcal)||0,p:Number(x.p)||0,f:Number(x.f)||0,c:Number(x.c)||0});q('scanStatus').textContent='商品情報を取得したよ';return}
+      }
+    }catch(e){}
+  }
+  renderBarcodeHit(code,null);q('scanStatus').textContent='商品情報が見つからなかったよ';
+};
+
+const p7Render=render;
+render=function(){p7Render();serverHealth()}
+serverHealth();
+
+
+/* ===== Phase8: production deployment status ===== */
+async function productionCheck(){
+  if(!q('prodDot'))return false;
+  const url=(load().settings.aiProxyUrl||'').replace(/\/$/,'');
+  q('prodUrl').textContent=url||'AIサーバーURL未設定';
+  if(!url){
+    q('prodDot').className='live-dot';q('prodState').textContent='未接続';return false;
+  }
+  q('prodState').textContent='確認中…';
+  try{
+    const r=await fetch(url+'/health',{cache:'no-store'});
+    const x=await r.json().catch(()=>({}));
+    if(r.ok&&x.ok){
+      q('prodDot').className='live-dot ok';
+      q('prodState').textContent=x.ai_enabled?'本番AI稼働中🔥':'サーバー稼働中（APIキー未設定）';
+      return !!x.ai_enabled;
+    }
+  }catch(e){}
+  q('prodDot').className='live-dot bad';q('prodState').textContent='接続できない';
+  return false;
+}
+if(q('prodCheck'))q('prodCheck').onclick=productionCheck;
+if(q('useLocalServer'))q('useLocalServer').onclick=()=>{
+  const d=load();d.settings.aiProxyUrl='http://localhost:8787';save(d);
+  if(q('aiProxyUrl'))q('aiProxyUrl').value=d.settings.aiProxyUrl;
+  render();toast('ローカルAIサーバーに設定したよ');
+};
+const p8Render=render;
+render=function(){p8Render();productionCheck()}
+productionCheck();
+
+
+/* ===== Phase9: PWA install, offline, update ===== */
+let deferredInstallPrompt=null;
+let swRegistration=null;
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+function isIOS(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+function renderPwaState(){
+  if(!q('pwaStatus'))return;
+  if(isStandalone()){
+    q('pwaStatus').textContent='アプリモードで起動中🔥';
+    q('pwaSub').textContent='ホーム画面からVAMOS+を起動できてるで。';
+    q('iosGuide').classList.remove('show');
+    q('installPwa').textContent='追加済み';
+    q('installPwa').disabled=true;
+  }else{
+    q('pwaStatus').textContent='ブラウザで起動中';
+    q('pwaSub').textContent='ホーム画面に追加すると全画面のアプリとして使えます。';
+    q('installPwa').disabled=false;
+  }
+}
+function renderNetwork(){
+  if(!q('networkDot'))return;
+  const on=navigator.onLine;
+  q('networkDot').className='offline-dot'+(on?'':' off');
+  q('networkText').textContent=on?'オンライン':'オフライン';
+}
+window.addEventListener('online',renderNetwork);
+window.addEventListener('offline',renderNetwork);
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredInstallPrompt=e;renderPwaState();
+});
+window.addEventListener('appinstalled',()=>{
+  deferredInstallPrompt=null;renderPwaState();toast('VAMOS+をホーム画面に追加したで🔥');
+});
+
+if(q('installPwa'))q('installPwa').onclick=async()=>{
+  if(isStandalone())return;
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice.catch(()=>{});
+    deferredInstallPrompt=null;renderPwaState();return;
+  }
+  if(isIOS()){
+    q('iosGuide').classList.toggle('show');return;
+  }
+  q('iosGuide').classList.add('show');
+};
+
+async function registerVAMOSServiceWorker(){
+  if(!('serviceWorker' in navigator))return;
+  try{
+    swRegistration=await navigator.serviceWorker.register('./sw.js',{scope:'./'});
+    swRegistration.addEventListener('updatefound',()=>{
+      const w=swRegistration.installing;
+      if(!w)return;
+      w.addEventListener('statechange',()=>{
+        if(w.state==='installed' && navigator.serviceWorker.controller){
+          q('updateBanner')?.classList.add('show');
+        }
+      });
+    });
+    navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
+  }catch(e){
+    console.warn('SW registration failed',e);
+  }
+}
+if(q('checkPwaUpdate'))q('checkPwaUpdate').onclick=async()=>{
+  if(!swRegistration){toast('更新機能を準備中');return}
+  try{await swRegistration.update();toast('更新を確認したよ👌')}catch(e){toast('更新確認できなかったよ')}
+};
+if(q('applyUpdate'))q('applyUpdate').onclick=()=>{
+  const w=swRegistration?.waiting;
+  if(w)w.postMessage({type:'SKIP_WAITING'});
+  else location.reload();
+};
+
+const p9OldRender=render;
+render=function(){p9OldRender();renderPwaState();renderNetwork()}
+
+renderPwaState();renderNetwork();registerVAMOSServiceWorker();
+
+
+/* ===== Phase10: Free ChatGPT sharing ===== */
+let shareMode='today';
+
+function defaultShareSettings(){
+  return {
+    tail:'今日の食事・運動・体重を見て、減量・健康・ランニングの観点から短く評価して。改善点があれば1〜2個だけ教えて。',
+    weight:true,meals:true,exercise:true,nutrition:true
+  }
+}
+function getShareSettings(){
+  const d=load();
+  return {...defaultShareSettings(),...(d.settings.share||{})}
+}
+function dateRangeForMode(mode){
+  const end=localDate();
+  const days=mode==='today'?1:mode==='week'?7:30;
+  const dates=datesInRange(days);
+  return {start:dates[0],end,days}
+}
+function buildFreeShare(mode='today'){
+  const d=load(),cfg=getShareSettings(),r=dateRangeForMode(mode);
+  const lines=[];
+  lines.push('VAMOS+ 健康記録');
+  lines.push(`期間: ${r.start}${r.start===r.end?'':' 〜 '+r.end}`);
+  lines.push('');
+
+  if(cfg.weight){
+    const ws=d.weights.filter(x=>x[0]>=r.start&&x[0]<=r.end).sort((a,b)=>a[0].localeCompare(b[0]));
+    if(ws.length){
+      if(mode==='today'){
+        const w=ws.at(-1);lines.push(`体重: ${w[1].toFixed(1)}kg`);
+      }else{
+        const avg=ws.reduce((s,x)=>s+x[1],0)/ws.length;
+        lines.push(`体重: 平均${avg.toFixed(1)}kg / 最新${ws.at(-1)[1].toFixed(1)}kg`);
+        if(ws.length>1)lines.push(`期間変化: ${(ws.at(-1)[1]-ws[0][1]>=0?'+':'')+(ws.at(-1)[1]-ws[0][1]).toFixed(1)}kg`);
+      }
+    }
+  }
+
+  if(cfg.meals){
+    const meals=d.meals.filter(m=>m.date>=r.start&&m.date<=r.end).sort((a,b)=>a.date.localeCompare(b.date));
+    if(meals.length){
+      lines.push('');
+      lines.push('食事:');
+      let last='';
+      for(const m of meals){
+        if(mode!=='today'&&m.date!==last){lines.push(`【${m.date}】`);last=m.date}
+        let x=`- ${m.type}: ${m.text}`;
+        if(cfg.nutrition&&(m.kcal||m.p||m.f||m.c)){
+          x+=` (${Math.round(m.kcal||0)}kcal / P${Number(m.p||0).toFixed(0)} F${Number(m.f||0).toFixed(0)} C${Number(m.c||0).toFixed(0)}g)`;
+        }
+        lines.push(x);
+      }
+    }
+  }
+
+  if(cfg.exercise){
+    const ex=d.exercises.filter(e=>e.date>=r.start&&e.date<=r.end).sort((a,b)=>a.date.localeCompare(b.date));
+    if(ex.length){
+      lines.push('');
+      lines.push('運動:');
+      for(const e of ex){
+        let x=`- ${mode==='today'?'':e.date+' '}${e.type||'運動'}`;
+        if(Number(e.distance))x+=` ${Number(e.distance).toFixed(2)}km`;
+        if(Number(e.minutes))x+=` ${Math.round(Number(e.minutes))}分`;
+        lines.push(x);
+      }
+    }
+  }
+
+  if(cfg.nutrition){
+    const meals=d.meals.filter(m=>m.date>=r.start&&m.date<=r.end);
+    const n=meals.reduce((a,m)=>{a.k+=Number(m.kcal)||0;a.p+=Number(m.p)||0;a.f+=Number(m.f)||0;a.c+=Number(m.c)||0;return a},{k:0,p:0,f:0,c:0});
+    if(n.k||n.p||n.f||n.c){
+      lines.push('');
+      if(mode==='today'){
+        lines.push(`栄養合計(入力分): ${Math.round(n.k)}kcal / P${n.p.toFixed(0)} F${n.f.toFixed(0)} C${n.c.toFixed(0)}g`);
+      }else{
+        lines.push(`1日平均(入力分): ${Math.round(n.k/r.days)}kcal / P${(n.p/r.days).toFixed(0)} F${(n.f/r.days).toFixed(0)} C${(n.c/r.days).toFixed(0)}g`);
+      }
+    }
+  }
+
+  lines.push('');
+  lines.push(cfg.tail||defaultShareSettings().tail);
+  return lines.join('\n');
+}
+function renderSharePreview(){
+  const t=buildFreeShare(shareMode);
+  if(q('sharePreviewHome'))q('sharePreviewHome').textContent=t;
+  document.querySelectorAll('[data-share-mode]').forEach(b=>b.classList.toggle('active',b.dataset.shareMode===shareMode));
+}
+document.querySelectorAll('[data-share-mode]').forEach(b=>b.onclick=()=>{shareMode=b.dataset.shareMode;renderSharePreview()});
+
+function saveShareHistory(mode,text){
+  const d=load();
+  d.meta=d.meta||{};
+  d.meta.shareHistory=Array.isArray(d.meta.shareHistory)?d.meta.shareHistory:[];
+  d.meta.shareHistory.unshift({at:new Date().toISOString(),mode,preview:text.slice(0,220)});
+  d.meta.shareHistory=d.meta.shareHistory.slice(0,20);
+  save(d);
+}
+async function copyText(text){
+  try{
+    await navigator.clipboard.writeText(text);return true;
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
+    let ok=false;try{ok=document.execCommand('copy')}catch(_){}
+    ta.remove();return ok;
+  }
+}
+if(q('copyForChatGPT'))q('copyForChatGPT').onclick=async()=>{
+  const text=buildFreeShare(shareMode);
+  const ok=await copyText(text);
+  if(ok){saveShareHistory(shareMode,text);renderShareHistory();toast('ChatGPT用にコピーしたで🔥')}
+  else toast('コピーできなかったよ');
+};
+if(q('openChatGPT'))q('openChatGPT').onclick=async()=>{
+  const text=buildFreeShare(shareMode);
+  const ok=await copyText(text);
+  if(ok)saveShareHistory(shareMode,text);
+  renderShareHistory();
+  // Universal HTTPS fallback works even if the native app is not installed.
+  window.open('https://chatgpt.com/','_blank','noopener');
+};
+
+function fillShareSettings(){
+  if(!q('sharePromptTail'))return;
+  const s=getShareSettings();
+  q('sharePromptTail').value=s.tail;
+  q('shareWeight').checked=s.weight;
+  q('shareMeals').checked=s.meals;
+  q('shareExercise').checked=s.exercise;
+  q('shareNutrition').checked=s.nutrition;
+}
+if(q('saveShareSettings'))q('saveShareSettings').onclick=()=>{
+  const d=load();
+  d.settings.share={
+    tail:q('sharePromptTail').value.trim()||defaultShareSettings().tail,
+    weight:q('shareWeight').checked,
+    meals:q('shareMeals').checked,
+    exercise:q('shareExercise').checked,
+    nutrition:q('shareNutrition').checked
+  };
+  save(d);renderSharePreview();toast('共有設定を保存したで👌');
+};
+function renderShareHistory(){
+  if(!q('shareHistory'))return;
+  const h=load().meta?.shareHistory||[];
+  q('shareHistory').innerHTML=h.map(x=>`<div class="share-history-item"><div class="share-history-date">${new Date(x.at).toLocaleString('ja-JP')} ・ ${x.mode==='today'?'今日':x.mode==='week'?'7日':'30日'}</div><div class="small">${esc(x.preview)}</div></div>`).join('');
+  q('shareHistoryEmpty').style.display=h.length?'none':'block';
+}
+
+/* In Phase10 AI remains optional/off by default. */
+function renderFreeMode(){
+  if(q('connectorStatus')&&!load().settings.aiProxyUrl){
+    q('connectorStatus').innerHTML='<span class="badge-ok">無料モード：ChatGPT共有で利用中</span>';
+  }
+}
+
+/* Disable cloud-AI emphasis in quick action labels */
+if(q('quickPhotoAI'))q('quickPhotoAI').textContent='食事写真';
+if(q('prodState')&&!load().settings.aiProxyUrl)q('prodState').textContent='無料モード';
+
+const p10Render=render;
+render=function(){
+  p10Render();
+  renderSharePreview();
+  fillShareSettings();
+  renderShareHistory();
+  renderFreeMode();
+}
+const p10Switch=switchPage;
+switchPage=function(id){
+  p10Switch(id);
+  if(id==='history')renderShareHistory();
+  if(id==='settings')fillShareSettings();
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchPage(b.dataset.p));
+
+renderSharePreview();fillShareSettings();renderShareHistory();renderFreeMode();
+
+
+/* ===== Phase10.1: visible delete + duplicate cleanup ===== */
+function deleteHistoryRecord(kind,idx){
+  const d=load();
+  if(kind==='weight'){
+    if(idx<0||idx>=d.weights.length)return;
+    d.weights.splice(idx,1);
+  }else if(kind==='meal'){
+    if(idx<0||idx>=d.meals.length)return;
+    const m=d.meals[idx];
+    if(m?.photoId){try{deletePhotoBlob(m.photoId)}catch(e){}}
+    d.meals.splice(idx,1);
+  }else if(kind==='exercise'){
+    if(idx<0||idx>=d.exercises.length)return;
+    d.exercises.splice(idx,1);
+  }
+  save(d);render();history();renderSharePreview();toast('削除したで👌');
+}
+
+history=function(){
+  const d=load();
+  const dates=[...new Set([...d.weights.map(x=>x[0]),...d.meals.map(x=>x.date),...d.exercises.map(x=>x.date)])].sort((a,b)=>b.localeCompare(a));
+  const groups=dates.slice(0,60).map(date=>{
+    const lines=[];
+    if(historyFilter==='all'||historyFilter==='weight'){
+      d.weights.forEach((w,i)=>{if(w[0]===date)lines.push({label:'体重',text:`${Number(w[1]).toFixed(1)} kg`,kind:'weight',idx:i})});
+    }
+    if(historyFilter==='all'||historyFilter==='meal'){
+      ['朝','昼','夜','間食'].forEach(t=>{
+        d.meals.forEach((m,i)=>{if(m.date===date&&m.type===t)lines.push({label:t,text:m.text,kind:'meal',idx:i})});
+      });
+    }
+    if(historyFilter==='all'||historyFilter==='exercise'){
+      d.exercises.forEach((e,i)=>{
+        if(e.date===date)lines.push({label:'運動',text:`${e.type}${e.distance?` ${e.distance}km`:''}${e.minutes?` ${e.minutes}分`:''}${e.memo?` · ${e.memo}`:''}`,kind:'exercise',idx:i});
+      });
+    }
+    if(!lines.length)return'';
+    return `<div class="daygroup">
+      <div class="dayhead"><b>${date}</b><span class="tag">${lines.length}件</span></div>
+      <div class="daybody">
+        ${lines.map(l=>`<div class="dayline"><strong>${l.label}</strong><span>${esc(l.text)}</span><button class="hist-delete" onclick="deleteHistoryRecord('${l.kind}',${l.idx})">削除</button></div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  q('hist').innerHTML=groups||'<div class="empty">この条件の記録はまだないよ</div>';
+}
+
+function cleanupDuplicatesForDate(date){
+  if(!date)return toast('日付を選んでね');
+  const d=load(),seen=new Set(),kept=[],removed=[];
+  d.meals.forEach(m=>{
+    if(m.date!==date){kept.push(m);return}
+    const key=[m.date,m.type,String(m.text||'').trim(),Number(m.kcal)||0,Number(m.p)||0,Number(m.f)||0,Number(m.c)||0].join('|');
+    if(seen.has(key))removed.push(m);
+    else{seen.add(key);kept.push(m)}
+  });
+  if(!removed.length)return toast('重複はなかったで👍');
+  removed.forEach(m=>{if(m.photoId){try{deletePhotoBlob(m.photoId)}catch(e){}}});
+  d.meals=kept;save(d);render();history();renderSharePreview();
+  toast(`${removed.length}件の重複を削除したで🔥`);
+}
+if(q('cleanupDate'))q('cleanupDate').value=localDate();
+if(q('cleanupDuplicates'))q('cleanupDuplicates').onclick=()=>cleanupDuplicatesForDate(q('cleanupDate').value);
+
+/* Re-render history now that the fixed renderer is active */
+history();
+
+
+/* ===== Phase10.2: selectable history deletion ===== */
+let historySelectMode=false;
+let selectedRecords=new Set();
+
+function recordKey(kind,idx){return kind+':'+idx}
+function updateBulkUI(){
+  if(q('selectedCount'))q('selectedCount').textContent=`${selectedRecords.size}件選択`;
+  if(q('deleteSelected'))q('deleteSelected').disabled=selectedRecords.size===0;
+  if(q('toggleSelectMode'))q('toggleSelectMode').textContent=historySelectMode?'選択終了':'選択モード';
+}
+function toggleHistorySelection(){
+  historySelectMode=!historySelectMode;
+  if(!historySelectMode)selectedRecords.clear();
+  history();
+}
+function toggleRecordPick(kind,idx,checked){
+  const k=recordKey(kind,idx);
+  if(checked)selectedRecords.add(k); else selectedRecords.delete(k);
+  updateBulkUI();
+}
+function findDuplicateMealKeys(){
+  const d=load(),seen=new Map(),dups=[];
+  d.meals.forEach((m,i)=>{
+    const key=[m.date,m.type,String(m.text||'').trim(),Number(m.kcal)||0,Number(m.p)||0,Number(m.f)||0,Number(m.c)||0].join('|');
+    if(seen.has(key))dups.push(recordKey('meal',i));
+    else seen.set(key,i);
+  });
+  return dups;
+}
+function selectDuplicateRecords(){
+  historySelectMode=true;
+  selectedRecords=new Set(findDuplicateMealKeys());
+  history();
+  toast(selectedRecords.size?`${selectedRecords.size}件の重複を選択したで`:'重複はなかったで👍');
+}
+async function deleteSelectedRecords(){
+  if(!selectedRecords.size)return;
+  const d=load(),mealIdx=[],weightIdx=[],exIdx=[];
+  for(const k of selectedRecords){
+    const [kind,raw]=k.split(':'),idx=Number(raw);
+    if(kind==='meal')mealIdx.push(idx);
+    if(kind==='weight')weightIdx.push(idx);
+    if(kind==='exercise')exIdx.push(idx);
+  }
+  for(const i of mealIdx){
+    const m=d.meals[i];
+    if(m?.photoId){try{await deletePhotoBlob(m.photoId)}catch(e){}}
+  }
+  mealIdx.sort((a,b)=>b-a).forEach(i=>d.meals.splice(i,1));
+  weightIdx.sort((a,b)=>b-a).forEach(i=>d.weights.splice(i,1));
+  exIdx.sort((a,b)=>b-a).forEach(i=>d.exercises.splice(i,1));
+  const count=selectedRecords.size;
+  selectedRecords.clear();
+  historySelectMode=false;
+  save(d);
+  render();
+  history();
+  if(typeof renderSharePreview==='function')renderSharePreview();
+  toast(`${count}件削除したで👌`);
+}
+
+history=function(){
+  const d=load();
+  const dates=[...new Set([...d.weights.map(x=>x[0]),...d.meals.map(x=>x.date),...d.exercises.map(x=>x.date)])].sort((a,b)=>b.localeCompare(a));
+  const groups=dates.slice(0,60).map(date=>{
+    const lines=[];
+    if(historyFilter==='all'||historyFilter==='weight'){
+      d.weights.forEach((w,i)=>{if(w[0]===date)lines.push({label:'体重',text:`${Number(w[1]).toFixed(1)} kg`,kind:'weight',idx:i})});
+    }
+    if(historyFilter==='all'||historyFilter==='meal'){
+      ['朝','昼','夜','間食'].forEach(t=>{
+        d.meals.forEach((m,i)=>{if(m.date===date&&m.type===t)lines.push({label:t,text:m.text,kind:'meal',idx:i})});
+      });
+    }
+    if(historyFilter==='all'||historyFilter==='exercise'){
+      d.exercises.forEach((e,i)=>{
+        if(e.date===date)lines.push({label:'運動',text:`${e.type}${e.distance?` ${e.distance}km`:''}${e.minutes?` ${e.minutes}分`:''}${e.memo?` · ${e.memo}`:''}`,kind:'exercise',idx:i});
+      });
+    }
+    if(!lines.length)return'';
+    return `<div class="daygroup">
+      <div class="dayhead"><b>${date}</b><span class="tag">${lines.length}件</span></div>
+      <div class="daybody">
+        ${lines.map(l=>{
+          const key=recordKey(l.kind,l.idx),checked=selectedRecords.has(key)?' checked':'';
+          if(historySelectMode){
+            return `<div class="dayline selectable">
+              <input class="pickbox" type="checkbox"${checked} onchange="toggleRecordPick('${l.kind}',${l.idx},this.checked)">
+              <strong>${l.label}</strong><span>${esc(l.text)}</span>
+            </div>`;
+          }
+          return `<div class="dayline">
+            <strong>${l.label}</strong><span>${esc(l.text)}</span>
+            <button class="hist-delete" onclick="selectedRecords=new Set(['${key}']);deleteSelectedRecords()">削除</button>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  q('hist').innerHTML=groups||'<div class="empty">この条件の記録はまだないよ</div>';
+  updateBulkUI();
+}
+
+if(q('toggleSelectMode'))q('toggleSelectMode').onclick=toggleHistorySelection;
+if(q('selectDuplicates'))q('selectDuplicates').onclick=selectDuplicateRecords;
+if(q('deleteSelected'))q('deleteSelected').onclick=deleteSelectedRecords;
+history();
+updateBulkUI();
+
+</script>
+
+<script>
+/* Phase10.3 isolated iPhone-safe selection/delete controller */
+(() => {
+  let selectMode = false;
+  let selected = new Set();
+  let filter = 'all';
+
+  const $ = (id) => document.getElementById(id);
+  const esc2 = (s) => String(s ?? '').replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[m]));
+
+  function getData(){
+    try{
+      if(typeof load === 'function') return load();
+      return JSON.parse(localStorage.getItem('vamos_v2') || '{"weights":[],"meals":[],"exercises":[]}');
+    }catch(e){
+      return {weights:[],meals:[],exercises:[]};
+    }
+  }
+  function putData(d){
+    if(typeof save === 'function') save(d);
+    else localStorage.setItem('vamos_v2', JSON.stringify(d));
+  }
+  function say(msg){
+    try{ if(typeof toast === 'function') return toast(msg); }catch(e){}
+    alert(msg);
+  }
+  function key(kind, idx){ return kind + ':' + idx; }
+
+  function updateButtons(){
+    const c = $('selectedCount');
+    const del = $('deleteSelected');
+    const mode = $('toggleSelectMode');
+    if(c) c.textContent = `${selected.size}件選択`;
+    if(del) del.disabled = selected.size === 0;
+    if(mode) mode.textContent = selectMode ? '選択終了' : '選択モード';
+  }
+
+  function rowsForDate(d, date){
+    const rows = [];
+    if(filter === 'all' || filter === 'weight'){
+      (d.weights || []).forEach((w,i)=>{
+        if(w[0] === date) rows.push({kind:'weight',idx:i,label:'体重',text:`${Number(w[1]).toFixed(1)} kg`});
+      });
+    }
+    if(filter === 'all' || filter === 'meal'){
+      ['朝','昼','夜','間食'].forEach(t=>{
+        (d.meals || []).forEach((m,i)=>{
+          if(m.date === date && m.type === t) rows.push({kind:'meal',idx:i,label:t,text:m.text || ''});
+        });
+      });
+    }
+    if(filter === 'all' || filter === 'exercise'){
+      (d.exercises || []).forEach((e,i)=>{
+        if(e.date === date){
+          let text = e.type || '運動';
+          if(Number(e.distance)) text += ` ${e.distance}km`;
+          if(Number(e.minutes)) text += ` ${e.minutes}分`;
+          if(e.memo) text += ` · ${e.memo}`;
+          rows.push({kind:'exercise',idx:i,label:'運動',text});
+        }
+      });
+    }
+    return rows;
+  }
+
+  function renderBulkHistory(){
+    const hist = $('hist');
+    if(!hist) return;
+    const d = getData();
+    const dates = [...new Set([
+      ...(d.weights || []).map(x=>x[0]),
+      ...(d.meals || []).map(x=>x.date),
+      ...(d.exercises || []).map(x=>x.date)
+    ].filter(Boolean))].sort((a,b)=>b.localeCompare(a));
+
+    const out = [];
+    dates.slice(0,60).forEach(date=>{
+      const rows = rowsForDate(d,date);
+      if(!rows.length) return;
+      out.push(`<div class="daygroup">
+        <div class="dayhead"><b>${date}</b><span class="tag">${rows.length}件</span></div>
+        <div class="daybody">`);
+      rows.forEach(r=>{
+        const k = key(r.kind,r.idx);
+        if(selectMode){
+          out.push(`<label class="dayline selectable" style="cursor:pointer">
+            <input class="pickbox" type="checkbox" data-pick="${k}" ${selected.has(k)?'checked':''}>
+            <strong>${r.label}</strong><span>${esc2(r.text)}</span>
+          </label>`);
+        }else{
+          out.push(`<div class="dayline">
+            <strong>${r.label}</strong><span>${esc2(r.text)}</span>
+            <button type="button" class="hist-delete" data-single-delete="${k}">削除</button>
+          </div>`);
+        }
+      });
+      out.push(`</div></div>`);
+    });
+    hist.innerHTML = out.join('') || '<div class="empty">この条件の記録はまだないよ</div>';
+    updateButtons();
+  }
+
+  function duplicateKeys(){
+    const d = getData();
+    const seen = new Set();
+    const dups = [];
+    (d.meals || []).forEach((m,i)=>{
+      const signature = [
+        m.date,m.type,String(m.text || '').trim(),
+        Number(m.kcal)||0,Number(m.p)||0,Number(m.f)||0,Number(m.c)||0
+      ].join('|');
+      if(seen.has(signature)) dups.push(key('meal',i));
+      else seen.add(signature);
+    });
+    return dups;
+  }
+
+  async function deleteKeys(keys){
+    if(!keys.length) return;
+    const d = getData();
+    const wi=[], mi=[], ei=[];
+    keys.forEach(k=>{
+      const [kind,s] = k.split(':');
+      const idx = Number(s);
+      if(kind==='weight') wi.push(idx);
+      if(kind==='meal') mi.push(idx);
+      if(kind==='exercise') ei.push(idx);
+    });
+
+    // Best-effort photo cleanup.
+    if(typeof deletePhotoBlob === 'function'){
+      for(const i of mi){
+        const id = d.meals?.[i]?.photoId;
+        if(id){ try{ await deletePhotoBlob(id); }catch(e){} }
+      }
+    }
+
+    wi.sort((a,b)=>b-a).forEach(i=>d.weights?.splice(i,1));
+    mi.sort((a,b)=>b-a).forEach(i=>d.meals?.splice(i,1));
+    ei.sort((a,b)=>b-a).forEach(i=>d.exercises?.splice(i,1));
+
+    putData(d);
+    selected.clear();
+    selectMode = false;
+
+    // Refresh main widgets if the old app functions are healthy.
+    try{ if(typeof render === 'function') render(); }catch(e){}
+    renderBulkHistory();
+    try{ if(typeof renderSharePreview === 'function') renderSharePreview(); }catch(e){}
+    say(`${keys.length}件削除したで👌`);
+  }
+
+  // Capture phase: works even if older handlers are broken or overwritten.
+  document.addEventListener('click', async (e)=>{
+    const t = e.target.closest('button,[data-single-delete]');
+    if(!t) return;
+
+    if(t.id === 'toggleSelectMode'){
+      e.preventDefault(); e.stopPropagation();
+      selectMode = !selectMode;
+      if(!selectMode) selected.clear();
+      renderBulkHistory();
+      return;
+    }
+
+    if(t.id === 'selectDuplicates'){
+      e.preventDefault(); e.stopPropagation();
+      selectMode = true;
+      selected = new Set(duplicateKeys());
+      renderBulkHistory();
+      say(selected.size ? `${selected.size}件の重複を選択したで` : '重複はなかったで👍');
+      return;
+    }
+
+    if(t.id === 'deleteSelected'){
+      e.preventDefault(); e.stopPropagation();
+      if(!selected.size) return;
+      await deleteKeys([...selected]);
+      return;
+    }
+
+    if(t.dataset.singleDelete){
+      e.preventDefault(); e.stopPropagation();
+      await deleteKeys([t.dataset.singleDelete]);
+      return;
+    }
+
+    if(t.dataset.f){
+      filter = t.dataset.f;
+      document.querySelectorAll('#historyFilters [data-f]').forEach(b=>b.classList.toggle('active',b.dataset.f===filter));
+      setTimeout(renderBulkHistory,0);
+    }
+  }, true);
+
+  document.addEventListener('change', (e)=>{
+    const cb = e.target.closest('input[data-pick]');
+    if(!cb) return;
+    if(cb.checked) selected.add(cb.dataset.pick);
+    else selected.delete(cb.dataset.pick);
+    updateButtons();
+  }, true);
+
+  // Re-render when History tab is opened.
+  document.addEventListener('click', (e)=>{
+    const nav = e.target.closest('nav button[data-p="history"]');
+    if(nav) setTimeout(renderBulkHistory, 50);
+  }, true);
+
+  // Initialize after all prior scripts have finished.
+  setTimeout(renderBulkHistory, 0);
+})();
+</script>
+
+</body>
+</html>
