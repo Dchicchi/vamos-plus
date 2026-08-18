@@ -244,10 +244,35 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 <meta name="apple-mobile-web-app-title" content="VAMOS+">
 <link rel="apple-touch-icon" href="./icons/icon-180.png">
 
+
+<style>
+/* Phase10.6 actual calendar cells */
+#calendar .cal-day:not(.empty){
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(255,105,69,.18);
+}
+#calendar .cal-day:not(.empty):active{
+  transform:scale(.96);
+}
+#forceReload106{
+  min-width:96px!important;
+  min-height:46px!important;
+  padding:11px 15px!important;
+  border:1px solid #3b4868;
+  background:#172033;
+  color:#fff;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:900;
+  touch-action:manipulation;
+}
+</style>
+
 </head>
 <body>
 <div class="app">
-  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceRefresh">↻ 更新</button><div class="version">v2 · 10.5</div></div>
+  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceReload106">↻ 更新</button><div class="version">v2 · 10.6</div></div>
 
   <section id="home" class="page active">
     <div class="greeting"><h1 id="greet">おはよう、大地☀️</h1><p id="homeDate"></p></div>
@@ -513,7 +538,7 @@ const KEY='vamos_v2',OLD_KEY='vamos_v1',q=id=>document.getElementById(id);
 const DEFAULT_TEMPLATES={breakfast:'ご飯100g、ゆで卵2個、ブロッコリー、枝豆',lunch:'おにぎり2個、サラダ、サラダチキン'};
 function localDate(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
 let activeToday=localDate();
-function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.5'}}}
+function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.6'}}}
 function normalize(d){
   d=d&&typeof d==='object'?d:def();
   d.weights=Array.isArray(d.weights)?d.weights:[...SEED];
@@ -530,7 +555,7 @@ function normalize(d){
   };
   d.templates={breakfast:d.templates?.breakfast||DEFAULT_TEMPLATES.breakfast,lunch:d.templates?.lunch||DEFAULT_TEMPLATES.lunch};
   d.meals=d.meals.map((m,i)=>({...m,id:m.id||('m_'+Date.now().toString(36)+'_'+i),kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0,photoId:m.photoId||null}));
-  d.meta={...(d.meta||{}),version:'2-phase10.5'};
+  d.meta={...(d.meta||{}),version:'2-phase10.6'};
   return d
 }
 function load(){try{let v=localStorage.getItem(KEY);if(v)return normalize(JSON.parse(v));let old=localStorage.getItem(OLD_KEY);if(old){let migrated=normalize(JSON.parse(old));localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}return def()}catch(e){return def()}}
@@ -600,7 +625,7 @@ function renderMonth(){
   for(let day=1;day<=last.getDate();day++){
     const ds=`${mk}-${String(day).padStart(2,'0')}`;
     const hasW=weights.some(x=>x[0]===ds), hasM=meals.some(x=>x.date===ds), hasE=ex.some(x=>x.date===ds);
-    cells+=`<div class="cal-day"><div class="n">${day}</div><div class="dots">${hasW?'<span class="dot w"></span>':''}${hasM?'<span class="dot m"></span>':''}${hasE?'<span class="dot e"></span>':''}</div></div>`;
+    cells+=`<div class="cal-day" data-vamos-date105="${ds}" role="button" tabindex="0"><div class="n">${day}</div><div class="dots">${hasW?'<span class="dot w"></span>':''}${hasM?'<span class="dot m"></span>':''}${hasE?'<span class="dot e"></span>':''}</div></div>`;
   }
   q('calendar').innerHTML=heads+cells;
   const mw=weights.filter(x=>x[0].startsWith(mk)).sort((a,b)=>a[0].localeCompare(b[0]));
@@ -1161,7 +1186,7 @@ const p6OldNormalize=normalize;
 normalize=function(d){
   const x=p6OldNormalize(d);
   x.settings.aiProxyUrl=x.settings.aiProxyUrl||'';
-  x.meta={...(x.meta||{}),version:'2-phase10.5'};
+  x.meta={...(x.meta||{}),version:'2-phase10.6'};
   return x;
 };
 
@@ -2066,17 +2091,17 @@ updateBulkUI();
     d.meals.unshift({id:'m_'+Date.now().toString(36),date,type,text,kcal:Number($('mkcal')?.value)||0,p:Number($('mp')?.value)||0,f:Number($('mf')?.value)||0,c:Number($('mc')?.value)||0,photoId:null});
     save104(d);
     ['mx','mkcal','mp','mf','mc'].forEach(id=>{if($(id))$(id).value=''});if($('pfcAutoHint')){$('pfcAutoHint').textContent='食事内容を入力すると、端末内データからPFCを自動推定します.';$('pfcAutoHint').classList.remove('ok')}
-    refresh104(false);flash104('✓ 食事を記録しました');
+    refresh104(false);flash104('✓ 食事を記録しました');setTimeout(()=>location.reload(),650);
   }
   function weightRecord104(){
     const date=$('wd')?.value||today104(),v=Number($('wv')?.value);if(!Number.isFinite(v)||v<=0){flash104('体重を入力してね');return}
-    const d=data104();d.weights=Array.isArray(d.weights)?d.weights:[];const i=d.weights.findIndex(x=>x[0]===date);if(i>=0)d.weights[i]=[date,v];else d.weights.push([date,v]);save104(d);$('wv').value='';refresh104(false);flash104('✓ 体重を記録しました');
+    const d=data104();d.weights=Array.isArray(d.weights)?d.weights:[];const i=d.weights.findIndex(x=>x[0]===date);if(i>=0)d.weights[i]=[date,v];else d.weights.push([date,v]);save104(d);$('wv').value='';refresh104(false);flash104('✓ 体重を記録しました');setTimeout(()=>location.reload(),650);
   }
   function exerciseRecord104(){
-    const date=$('ed')?.value||today104();const d=data104();d.exercises=Array.isArray(d.exercises)?d.exercises:[];d.exercises.unshift({date,type:$('et')?.value||'運動',distance:Number($('ei')?.value)||0,minutes:Number($('em')?.value)||0,memo:($('ex')?.value||'').trim()});save104(d);['ei','em','ex'].forEach(id=>{if($(id))$(id).value=''});refresh104(false);flash104('✓ 運動を記録しました');
+    const date=$('ed')?.value||today104();const d=data104();d.exercises=Array.isArray(d.exercises)?d.exercises:[];d.exercises.unshift({date,type:$('et')?.value||'運動',distance:Number($('ei')?.value)||0,minutes:Number($('em')?.value)||0,memo:($('ex')?.value||'').trim()});save104(d);['ei','em','ex'].forEach(id=>{if($(id))$(id).value=''});refresh104(false);flash104('✓ 運動を記録しました');setTimeout(()=>location.reload(),650);
   }
   function quickMeal104(type,text){
-    const n=estimate104(text);const d=data104();d.meals=Array.isArray(d.meals)?d.meals:[];d.meals.unshift({id:'m_'+Date.now().toString(36),date:today104(),type,text,kcal:n?Math.round(n.kcal):0,p:n?n.p:0,f:n?n.f:0,c:n?n.c:0,photoId:null});save104(d);refresh104(false);flash104(`✓ ${type}食を記録しました`);
+    const n=estimate104(text);const d=data104();d.meals=Array.isArray(d.meals)?d.meals:[];d.meals.unshift({id:'m_'+Date.now().toString(36),date:today104(),type,text,kcal:n?Math.round(n.kcal):0,p:n?n.p:0,f:n?n.f:0,c:n?n.c:0,photoId:null});save104(d);refresh104(false);flash104(`✓ ${type}食を記録しました`);setTimeout(()=>location.reload(),650);
   }
 
   function range104(mode){const days=mode==='today'?1:mode==='week'?7:30,end=new Date(),arr=[];for(let i=days-1;i>=0;i--){const x=new Date(end);x.setDate(end.getDate()-i);arr.push(`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`)}return {days,start:arr[0],end:arr[arr.length-1]}}
@@ -2196,7 +2221,7 @@ updateBulkUI();
 
   // Make refresh button easier and reliable.
   document.addEventListener('click',e=>{
-    const b=e.target.closest('#forceRefresh');
+    const b=e.target.closest('#forceReload106');
     if(!b)return;
     e.preventDefault();e.stopImmediatePropagation();
     b.textContent='↻ 更新中';
@@ -2387,6 +2412,62 @@ updateBulkUI();
     if($('month'))obs.observe($('month'),{childList:true,subtree:true});
     fullRefresh105(false);
   },200);
+})();
+</script>
+
+
+<script>
+/* ===== Phase10.6 reliable refresh + calendar tap ===== */
+(() => {
+  const reloadBtn = document.getElementById('forceReload106');
+  if(reloadBtn){
+    reloadBtn.textContent='↻ 更新';
+  }
+
+  // Use capture and a unique ID, so no earlier Phase handler can steal this tap.
+  document.addEventListener('click', e => {
+    const b = e.target.closest('#forceReload106');
+    if(!b) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    b.textContent='↻ 更新中…';
+    const flash=document.getElementById('vamosFlash104');
+    if(flash){
+      flash.textContent='↻ 最新データを読み込みます';
+      flash.classList.add('show');
+    }
+    setTimeout(()=>window.location.reload(),220);
+  }, true);
+
+  // Calendar cells are now rendered with data-vamos-date105.
+  // This listener is independent of decoration / mutation observers.
+  document.addEventListener('click', e => {
+    const cell=e.target.closest('#calendar .cal-day[data-vamos-date105]');
+    if(!cell) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(typeof renderDayEditor105==='function'){
+      renderDayEditor105(cell.dataset.vamosDate105);
+    } else {
+      // Phase10.5 functions live in a closure, so dispatch through its existing
+      // global click route by ensuring the exact data attribute remains on cell.
+      cell.dispatchEvent(new CustomEvent('vamos-calendar-open',{bubbles:true,detail:{date:cell.dataset.vamosDate105}}));
+    }
+  }, false);
+
+  // Keyboard accessibility for calendar cells.
+  document.addEventListener('keydown', e => {
+    const cell=e.target.closest?.('#calendar .cal-day[data-vamos-date105]');
+    if(!cell || !['Enter',' '].includes(e.key)) return;
+    e.preventDefault();
+    cell.click();
+  });
+
+  // If a day-editor function is closure-scoped, the existing Phase10.5 listener
+  // still receives clicks on [data-vamos-date105]. Re-render month once after load.
+  setTimeout(()=>{
+    try{ if(typeof renderMonth==='function') renderMonth(); }catch(e){}
+  },120);
 })();
 </script>
 
