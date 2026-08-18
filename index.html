@@ -158,6 +158,82 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 .pfc-auto-hint.ok{color:#85e7aa}
 .share-status{font-size:10px;color:#95a1ba;margin-top:8px}
 
+
+/* ===== Phase10.5 calendar day editor + PFC detail + refresh UX ===== */
+#forceRefresh{
+  min-width:86px!important;
+  min-height:42px!important;
+  padding:10px 14px!important;
+  font-size:13px!important;
+  touch-action:manipulation;
+}
+.dayline .pfc-detail{
+  display:block;
+  margin-top:4px;
+  font-size:10px;
+  color:#9aa7c0;
+  line-height:1.35;
+}
+.calendar-day.has-data{position:relative}
+.calendar-day.has-data::after{
+  content:'';
+  position:absolute;
+  width:5px;height:5px;border-radius:50%;
+  bottom:5px;left:50%;transform:translateX(-50%);
+  background:currentColor;opacity:.8;
+}
+.calendar-day.selected{
+  outline:2px solid #ff6945;
+  outline-offset:-2px;
+  border-radius:10px;
+}
+.day-editor-backdrop{
+  position:fixed;inset:0;z-index:10020;background:rgba(4,8,17,.76);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.day-editor-backdrop.open{display:flex}
+.day-editor-sheet{
+  width:min(720px,100%);max-height:88vh;overflow:auto;
+  background:#101828;border:1px solid #34415f;border-radius:22px 22px 0 0;
+  padding:18px 16px calc(22px + env(safe-area-inset-bottom));
+  box-shadow:0 -16px 50px rgba(0,0,0,.42)
+}
+.day-editor-head{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.day-editor-head h3{margin:0;font-size:18px}
+.day-editor-close{margin-left:auto;border:1px solid #3c4864;background:#182238;color:#fff;border-radius:999px;width:38px;height:38px;font-size:20px}
+.day-editor-section{border-top:1px solid #26324a;padding-top:13px;margin-top:13px}
+.day-editor-section:first-of-type{border-top:0;padding-top:0}
+.day-editor-title{font-weight:900;font-size:13px;margin-bottom:8px}
+.day-editor-row{
+  display:grid;grid-template-columns:54px 1fr auto;gap:8px;align-items:start;
+  padding:10px 0;border-bottom:1px solid #202b40;
+}
+.day-editor-row:last-child{border-bottom:0}
+.day-editor-label{font-weight:900;font-size:12px}
+.day-editor-text{font-size:12px;line-height:1.45}
+.day-editor-pfc{display:block;color:#9aa7c0;font-size:10px;margin-top:3px}
+.day-editor-actions{display:flex;gap:6px}
+.day-mini-btn{border:1px solid #3c4864;background:#172033;color:#fff;border-radius:9px;padding:7px 8px;font-size:11px;font-weight:900}
+.day-mini-btn.danger{background:#351c24;border-color:#64313e;color:#ffd5de}
+.day-add-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.day-add-btn{border:1px solid #3c4864;background:#172033;color:#fff;border-radius:12px;padding:11px 8px;font-size:12px;font-weight:900}
+.edit-modal{
+  position:fixed;inset:0;z-index:10030;background:rgba(4,8,17,.82);
+  display:none;align-items:center;justify-content:center;padding:18px;
+}
+.edit-modal.open{display:flex}
+.edit-card{
+  width:min(520px,100%);max-height:86vh;overflow:auto;background:#101828;border:1px solid #34415f;border-radius:18px;padding:16px
+}
+.edit-card h3{margin:0 0 12px}
+.edit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.edit-card input,.edit-card select,.edit-card textarea{
+  width:100%;box-sizing:border-box;background:#0d1422;color:#fff;border:1px solid #34415f;border-radius:10px;padding:10px
+}
+.edit-card textarea{min-height:84px;resize:vertical}
+.edit-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.auto-refresh-note{font-size:10px;color:#95a1ba;margin-left:8px}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -171,7 +247,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 </head>
 <body>
 <div class="app">
-  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceRefresh">↻ 更新</button><div class="version">v2 · 10.4</div></div>
+  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceRefresh">↻ 更新</button><div class="version">v2 · 10.5</div></div>
 
   <section id="home" class="page active">
     <div class="greeting"><h1 id="greet">おはよう、大地☀️</h1><p id="homeDate"></p></div>
@@ -437,7 +513,7 @@ const KEY='vamos_v2',OLD_KEY='vamos_v1',q=id=>document.getElementById(id);
 const DEFAULT_TEMPLATES={breakfast:'ご飯100g、ゆで卵2個、ブロッコリー、枝豆',lunch:'おにぎり2個、サラダ、サラダチキン'};
 function localDate(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
 let activeToday=localDate();
-function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.4'}}}
+function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.5'}}}
 function normalize(d){
   d=d&&typeof d==='object'?d:def();
   d.weights=Array.isArray(d.weights)?d.weights:[...SEED];
@@ -454,7 +530,7 @@ function normalize(d){
   };
   d.templates={breakfast:d.templates?.breakfast||DEFAULT_TEMPLATES.breakfast,lunch:d.templates?.lunch||DEFAULT_TEMPLATES.lunch};
   d.meals=d.meals.map((m,i)=>({...m,id:m.id||('m_'+Date.now().toString(36)+'_'+i),kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0,photoId:m.photoId||null}));
-  d.meta={...(d.meta||{}),version:'2-phase10.4'};
+  d.meta={...(d.meta||{}),version:'2-phase10.5'};
   return d
 }
 function load(){try{let v=localStorage.getItem(KEY);if(v)return normalize(JSON.parse(v));let old=localStorage.getItem(OLD_KEY);if(old){let migrated=normalize(JSON.parse(old));localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}return def()}catch(e){return def()}}
@@ -1085,7 +1161,7 @@ const p6OldNormalize=normalize;
 normalize=function(d){
   const x=p6OldNormalize(d);
   x.settings.aiProxyUrl=x.settings.aiProxyUrl||'';
-  x.meta={...(x.meta||{}),version:'2-phase10.4'};
+  x.meta={...(x.meta||{}),version:'2-phase10.5'};
   return x;
 };
 
@@ -2046,6 +2122,271 @@ updateBulkUI();
 
   // Initial stable render after older scripts settle.
   setTimeout(()=>{renderNutrition104();renderShare104();refresh104(false)},120);
+})();
+</script>
+
+
+<div id="dayEditor105" class="day-editor-backdrop" aria-hidden="true">
+  <div class="day-editor-sheet">
+    <div class="day-editor-head">
+      <h3 id="dayEditorTitle105">日付の記録</h3>
+      <button id="dayEditorClose105" class="day-editor-close" type="button">×</button>
+    </div>
+    <div id="dayEditorBody105"></div>
+  </div>
+</div>
+
+<div id="editModal105" class="edit-modal" aria-hidden="true">
+  <div class="edit-card">
+    <h3 id="editTitle105">記録を修正</h3>
+    <div id="editBody105"></div>
+    <div class="edit-actions">
+      <button id="editCancel105" class="day-mini-btn" type="button">キャンセル</button>
+      <button id="editSave105" class="day-mini-btn" type="button">保存</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ===== Phase10.5 controller ===== */
+(() => {
+  const $ = id => document.getElementById(id);
+  let selectedDate105 = null;
+  let editing105 = null;
+  let autoRefreshTimer105 = null;
+
+  function d105(){
+    try{ if(typeof load==='function') return load(); }catch(e){}
+    try{return JSON.parse(localStorage.getItem('vamos_v2')||'{}')}catch(e){return {}}
+  }
+  function s105(d){
+    try{ if(typeof save==='function') return save(d); }catch(e){}
+    localStorage.setItem('vamos_v2',JSON.stringify(d));
+  }
+  function fmtPfc105(m){
+    const k=Number(m.kcal)||0,p=Number(m.p)||0,f=Number(m.f)||0,c=Number(m.c)||0;
+    if(!(k||p||f||c)) return '';
+    return `${Math.round(k)}kcal / P${p.toFixed(0)} F${f.toFixed(0)} C${c.toFixed(0)}g`;
+  }
+  function esc105(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+  function today105(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+
+  function flash105(t){
+    try{ if(typeof flash104==='function') return flash104(t); }catch(e){}
+    const el=$('vamosFlash104'); if(el){el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1100)}
+  }
+
+  function fullRefresh105(show=false){
+    // Fresh render on all visible panels, debounced to avoid partial UI.
+    clearTimeout(autoRefreshTimer105);
+    autoRefreshTimer105=setTimeout(()=>{
+      try{ if(typeof render==='function') render(); }catch(e){}
+      try{ if(typeof renderNutrition104==='function') renderNutrition104(); }catch(e){}
+      try{ if(typeof renderShare104==='function') renderShare104(); }catch(e){}
+      try{ if(typeof history==='function') history(); }catch(e){}
+      try{ if(typeof analysis==='function') analysis(); }catch(e){}
+      try{ if(typeof renderMonth==='function') renderMonth(); }catch(e){}
+      decorateHistoryPfc105();
+      decorateCalendar105();
+      if(selectedDate105 && $('dayEditor105')?.classList.contains('open')) renderDayEditor105(selectedDate105);
+      if(show) flash105('↻ 最新の記録に更新しました');
+    },60);
+  }
+
+  // Make refresh button easier and reliable.
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('#forceRefresh');
+    if(!b)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    b.textContent='↻ 更新中';
+    fullRefresh105(true);
+    setTimeout(()=>{b.textContent='↻ 更新'},500);
+  },true);
+
+  // Always re-render immediately after any likely record/save action.
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('button');
+    if(!b)return;
+    const ids=['abw','abm','abe','quickBreakfast','quickLunch','editSave105'];
+    if(ids.includes(b.id)) setTimeout(()=>fullRefresh105(false),100);
+  },false);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)fullRefresh105(false)});
+  window.addEventListener('focus',()=>fullRefresh105(false));
+  window.addEventListener('pageshow',()=>fullRefresh105(false));
+
+  // PFC in history: append nutritional breakdown under each meal row.
+  function decorateHistoryPfc105(){
+    const hist=$('hist'); if(!hist)return;
+    const d=d105(), mealRows=[...hist.querySelectorAll('.daygroup')];
+    mealRows.forEach(group=>{
+      const date=group.querySelector('.dayhead b')?.textContent?.trim();
+      if(!date)return;
+      const meals=(d.meals||[]).filter(m=>m.date===date);
+      const used=new Set();
+      [...group.querySelectorAll('.dayline')].forEach(row=>{
+        const label=row.querySelector('strong')?.textContent?.trim();
+        if(!['朝','昼','夜','間食'].includes(label))return;
+        const text=row.querySelector('span')?.childNodes?.[0]?.textContent?.trim() || row.querySelector('span')?.textContent?.trim() || '';
+        let idx=meals.findIndex((m,i)=>!used.has(i)&&m.type===label&&String(m.text||'').trim()===text);
+        if(idx<0) idx=meals.findIndex((m,i)=>!used.has(i)&&m.type===label);
+        if(idx<0)return; used.add(idx);
+        const pfc=fmtPfc105(meals[idx]); if(!pfc)return;
+        const span=row.querySelector('span'); if(!span || span.querySelector('.pfc-detail'))return;
+        const detail=document.createElement('small');detail.className='pfc-detail';detail.textContent=pfc;span.appendChild(detail);
+      });
+    });
+  }
+
+  function dateFromCalendarCell105(cell){
+    if(cell.dataset.date) return cell.dataset.date;
+    const txt=cell.textContent.trim().match(/^\d{1,2}/)?.[0];
+    if(!txt)return null;
+    const monthTitle=[...document.querySelectorAll('#month h2,#month .month-title,#month h3')].map(x=>x.textContent).find(x=>/\d{4}.+\d{1,2}/.test(x));
+    const m=(monthTitle||'').match(/(20\d{2}).*?(\d{1,2})/);
+    if(!m)return null;
+    return `${m[1]}-${String(m[2]).padStart(2,'0')}-${String(txt).padStart(2,'0')}`;
+  }
+
+  function decorateCalendar105(){
+    const d=d105();
+    const dates=new Set([...(d.weights||[]).map(x=>x[0]),...(d.meals||[]).map(x=>x.date),...(d.exercises||[]).map(x=>x.date)]);
+    const root=$('month'); if(!root)return;
+    const cells=[...root.querySelectorAll('[data-date],.calendar-day,.calday,.day')].filter(el=>/^\s*\d{1,2}\s*$/.test(el.textContent.trim())||el.dataset.date);
+    cells.forEach(cell=>{
+      const date=dateFromCalendarCell105(cell); if(!date)return;
+      cell.dataset.vamosDate105=date;
+      cell.classList.toggle('has-data',dates.has(date));
+      cell.classList.toggle('selected',date===selectedDate105);
+      cell.style.cursor='pointer';
+    });
+  }
+
+  function rows105(date){
+    const d=d105(),arr=[];
+    (d.weights||[]).forEach((w,i)=>{if(w[0]===date)arr.push({kind:'weight',i,label:'体重',text:`${Number(w[1]).toFixed(1)} kg`})});
+    ['朝','昼','夜','間食'].forEach(t=>(d.meals||[]).forEach((m,i)=>{if(m.date===date&&m.type===t)arr.push({kind:'meal',i,label:t,text:m.text||'',pfc:fmtPfc105(m)})}));
+    (d.exercises||[]).forEach((x,i)=>{if(x.date===date){let t=x.type||'運動';if(Number(x.distance))t+=` ${x.distance}km`;if(Number(x.minutes))t+=` ${x.minutes}分`;if(x.memo)t+=` · ${x.memo}`;arr.push({kind:'exercise',i,label:'運動',text:t})}});
+    return arr;
+  }
+
+  function renderDayEditor105(date){
+    selectedDate105=date;
+    $('dayEditorTitle105').textContent=`${date} の記録`;
+    const rs=rows105(date);
+    let h='';
+    if(!rs.length) h+='<div class="small">この日の記録はまだないよ。</div>';
+    else {
+      h+='<div class="day-editor-section"><div class="day-editor-title">この日の記録</div>';
+      rs.forEach(r=>{
+        h+=`<div class="day-editor-row">
+          <div class="day-editor-label">${esc105(r.label)}</div>
+          <div class="day-editor-text">${esc105(r.text)}${r.pfc?`<span class="day-editor-pfc">${esc105(r.pfc)}</span>`:''}</div>
+          <div class="day-editor-actions"><button class="day-mini-btn" type="button" data-edit105="${r.kind}:${r.i}">修正</button></div>
+        </div>`;
+      });
+      h+='</div>';
+    }
+    h+=`<div class="day-editor-section">
+      <div class="day-editor-title">この日に追加</div>
+      <div class="day-add-grid">
+        <button class="day-add-btn" type="button" data-add105="weight">体重</button>
+        <button class="day-add-btn" type="button" data-add105="meal">食事</button>
+        <button class="day-add-btn" type="button" data-add105="exercise">運動</button>
+      </div>
+    </div>`;
+    $('dayEditorBody105').innerHTML=h;
+    $('dayEditor105').classList.add('open');$('dayEditor105').setAttribute('aria-hidden','false');
+    decorateCalendar105();
+  }
+
+  function closeDay105(){$('dayEditor105').classList.remove('open');$('dayEditor105').setAttribute('aria-hidden','true')}
+
+  document.addEventListener('click',e=>{
+    const cell=e.target.closest('[data-vamos-date105]');
+    if(cell){e.preventDefault();renderDayEditor105(cell.dataset.vamosDate105);return}
+    const close=e.target.closest('#dayEditorClose105');
+    if(close){e.preventDefault();closeDay105();return}
+    if(e.target===$('dayEditor105')){closeDay105();return}
+  },true);
+
+  function openEdit105(kind,index=null,date=selectedDate105){
+    editing105={kind,index,date};
+    const d=d105();let h='';
+    if(kind==='weight'){
+      const old=index!=null?d.weights[index]:null;
+      h=`<label>日付<input id="eDate105" type="date" value="${esc105(date)}"></label>
+         <label>体重(kg)<input id="eWeight105" type="number" step="0.1" value="${old?esc105(old[1]):''}"></label>`;
+    }else if(kind==='meal'){
+      const old=index!=null?d.meals[index]:{};
+      h=`<div class="edit-grid">
+        <label>日付<input id="eDate105" type="date" value="${esc105(old.date||date)}"></label>
+        <label>区分<select id="eMealType105"><option ${old.type==='朝'?'selected':''}>朝</option><option ${old.type==='昼'?'selected':''}>昼</option><option ${old.type==='夜'?'selected':''}>夜</option><option ${old.type==='間食'?'selected':''}>間食</option></select></label>
+      </div>
+      <label>食事内容<textarea id="eMealText105">${esc105(old.text||'')}</textarea></label>
+      <div class="edit-grid">
+        <label>kcal<input id="eK105" type="number" value="${Number(old.kcal)||''}"></label>
+        <label>P(g)<input id="eP105" type="number" step="0.1" value="${Number(old.p)||''}"></label>
+        <label>F(g)<input id="eF105" type="number" step="0.1" value="${Number(old.f)||''}"></label>
+        <label>C(g)<input id="eC105" type="number" step="0.1" value="${Number(old.c)||''}"></label>
+      </div>`;
+    }else{
+      const old=index!=null?d.exercises[index]:{};
+      h=`<div class="edit-grid">
+        <label>日付<input id="eDate105" type="date" value="${esc105(old.date||date)}"></label>
+        <label>運動<input id="eExType105" value="${esc105(old.type||'ランニング')}"></label>
+        <label>距離(km)<input id="eDist105" type="number" step="0.1" value="${Number(old.distance)||''}"></label>
+        <label>時間(分)<input id="eMin105" type="number" value="${Number(old.minutes)||''}"></label>
+      </div>
+      <label>メモ<textarea id="eMemo105">${esc105(old.memo||'')}</textarea></label>`;
+    }
+    $('editTitle105').textContent=index==null?'記録を追加':'記録を修正';
+    $('editBody105').innerHTML=h;$('editModal105').classList.add('open');
+  }
+
+  document.addEventListener('click',e=>{
+    const add=e.target.closest('[data-add105]');
+    if(add){e.preventDefault();openEdit105(add.dataset.add105,null,selectedDate105);return}
+    const edit=e.target.closest('[data-edit105]');
+    if(edit){e.preventDefault();const [kind,i]=edit.dataset.edit105.split(':');openEdit105(kind,Number(i),selectedDate105);return}
+    if(e.target.closest('#editCancel105')){$('editModal105').classList.remove('open');return}
+    if(e.target===$('editModal105')){$('editModal105').classList.remove('open');return}
+  },true);
+
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('#editSave105');if(!b)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    if(!editing105)return;
+    const d=d105(),{kind,index}=editing105,date=$('eDate105')?.value||selectedDate105||today105();
+    if(kind==='weight'){
+      const v=Number($('eWeight105')?.value);if(!v){flash105('体重を入力してね');return}
+      d.weights=Array.isArray(d.weights)?d.weights:[];
+      if(index==null)d.weights.push([date,v]);else d.weights[index]=[date,v];
+    }else if(kind==='meal'){
+      const obj={date,type:$('eMealType105')?.value||'朝',text:($('eMealText105')?.value||'').trim(),kcal:Number($('eK105')?.value)||0,p:Number($('eP105')?.value)||0,f:Number($('eF105')?.value)||0,c:Number($('eC105')?.value)||0};
+      if(!obj.text){flash105('食事内容を入力してね');return}
+      d.meals=Array.isArray(d.meals)?d.meals:[];
+      if(index==null)d.meals.unshift({...obj,id:'m_'+Date.now().toString(36)});else d.meals[index]={...d.meals[index],...obj};
+    }else{
+      const obj={date,type:($('eExType105')?.value||'運動').trim(),distance:Number($('eDist105')?.value)||0,minutes:Number($('eMin105')?.value)||0,memo:($('eMemo105')?.value||'').trim()};
+      d.exercises=Array.isArray(d.exercises)?d.exercises:[];
+      if(index==null)d.exercises.unshift(obj);else d.exercises[index]={...d.exercises[index],...obj};
+    }
+    s105(d);
+    selectedDate105=date;
+    $('editModal105').classList.remove('open');
+    fullRefresh105(false);
+    setTimeout(()=>renderDayEditor105(date),120);
+    flash105(index==null?'✓ 記録しました':'✓ 修正しました');
+  },true);
+
+  // Observe month/history redraws and re-decorate without manual refresh.
+  const obs=new MutationObserver(()=>{clearTimeout(obs.t);obs.t=setTimeout(()=>{decorateHistoryPfc105();decorateCalendar105()},80)});
+  setTimeout(()=>{
+    if($('hist'))obs.observe($('hist'),{childList:true,subtree:true});
+    if($('month'))obs.observe($('month'),{childList:true,subtree:true});
+    fullRefresh105(false);
+  },200);
 })();
 </script>
 
