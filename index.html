@@ -148,6 +148,16 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 .pickbox{width:22px;height:22px;accent-color:#ff6238}
 .bulk-count{font-size:11px;color:var(--muted);font-weight:800}
 
+
+/* Phase10.4 stability + instant feedback */
+.vamos-flash{position:fixed;left:50%;top:calc(18px + env(safe-area-inset-top));transform:translate(-50%,-18px);z-index:9999;background:#13261d;border:1px solid #2f7a50;color:#baf5ce;padding:11px 16px;border-radius:999px;font-size:13px;font-weight:950;opacity:0;pointer-events:none;transition:.18s ease;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.vamos-flash.show{opacity:1;transform:translate(-50%,0)}
+.refresh-btn{border:1px solid #3b4868;background:#172033;color:#fff;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;margin-left:auto}
+.refresh-btn.spinning{opacity:.65}
+.pfc-auto-hint{font-size:10px;color:#95a1ba;margin-top:7px;line-height:1.45}
+.pfc-auto-hint.ok{color:#85e7aa}
+.share-status{font-size:10px;color:#95a1ba;margin-top:8px}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -161,7 +171,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 </head>
 <body>
 <div class="app">
-  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><div class="version">v2 · Phase 2</div></div>
+  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceRefresh">↻ 更新</button><div class="version">v2 · 10.4</div></div>
 
   <section id="home" class="page active">
     <div class="greeting"><h1 id="greet">おはよう、大地☀️</h1><p id="homeDate"></p></div>
@@ -227,7 +237,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
           <div class="share-actions">
             <button class="btn" id="copyForChatGPT">共有文をコピー</button>
             <button class="btn secondary" id="openChatGPT">ChatGPTを開く</button>
-          </div>
+          </div><div id="shareStatus104" class="share-status">共有文は自動更新されます。</div>
         </div>
       </div>
 
@@ -253,7 +263,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
           <div><label>たんぱく質 P（g）</label><input type="number" inputmode="decimal" step="0.1" id="mp" placeholder="任意"></div>
           <div><label>脂質 F（g）</label><input type="number" inputmode="decimal" step="0.1" id="mf" placeholder="任意"></div>
           <div><label>炭水化物 C（g）</label><input type="number" inputmode="decimal" step="0.1" id="mc" placeholder="任意"></div>
-        </div>
+        </div><div id="pfcAutoHint" class="pfc-auto-hint">食事内容を入力すると、端末内データからPFCを自動推定します。</div>
         <div class="photo-box">
           <label>食事写真（任意）</label>
           <input type="file" accept="image/*" capture="environment" id="mealPhoto">
@@ -420,14 +430,14 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
   <button class="mini-btn" id="applyUpdate">更新</button>
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="vamosFlash104" class="vamos-flash">✓ 記録しました</div><div id="toast" class="toast"></div>
 <script>
 const SEED=[["2026-06-15",65.0],["2026-06-16",64.4],["2026-06-18",64.0],["2026-06-24",64.6],["2026-06-25",64.0],["2026-06-26",64.4],["2026-06-27",65.0],["2026-06-28",64.5],["2026-06-29",64.0],["2026-06-30",64.4],["2026-07-01",65.0],["2026-07-02",65.0],["2026-07-03",64.6],["2026-07-04",64.0],["2026-07-05",65.8],["2026-07-06",64.5],["2026-07-07",64.4],["2026-07-08",64.6],["2026-07-09",65.4],["2026-07-10",64.6],["2026-07-11",63.8],["2026-07-13",64.8],["2026-07-15",64.8],["2026-07-16",64.8],["2026-07-17",65.0],["2026-07-18",64.8],["2026-07-19",64.2],["2026-07-20",65.6],["2026-07-21",65.4],["2026-07-22",64.6]];
 const KEY='vamos_v2',OLD_KEY='vamos_v1',q=id=>document.getElementById(id);
 const DEFAULT_TEMPLATES={breakfast:'ご飯100g、ゆで卵2個、ブロッコリー、枝豆',lunch:'おにぎり2個、サラダ、サラダチキン'};
 function localDate(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
 let activeToday=localDate();
-function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.3'}}}
+function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.4'}}}
 function normalize(d){
   d=d&&typeof d==='object'?d:def();
   d.weights=Array.isArray(d.weights)?d.weights:[...SEED];
@@ -444,7 +454,7 @@ function normalize(d){
   };
   d.templates={breakfast:d.templates?.breakfast||DEFAULT_TEMPLATES.breakfast,lunch:d.templates?.lunch||DEFAULT_TEMPLATES.lunch};
   d.meals=d.meals.map((m,i)=>({...m,id:m.id||('m_'+Date.now().toString(36)+'_'+i),kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0,photoId:m.photoId||null}));
-  d.meta={...(d.meta||{}),version:'2-phase10.3'};
+  d.meta={...(d.meta||{}),version:'2-phase10.4'};
   return d
 }
 function load(){try{let v=localStorage.getItem(KEY);if(v)return normalize(JSON.parse(v));let old=localStorage.getItem(OLD_KEY);if(old){let migrated=normalize(JSON.parse(old));localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}return def()}catch(e){return def()}}
@@ -1075,7 +1085,7 @@ const p6OldNormalize=normalize;
 normalize=function(d){
   const x=p6OldNormalize(d);
   x.settings.aiProxyUrl=x.settings.aiProxyUrl||'';
-  x.meta={...(x.meta||{}),version:'2-phase10.3'};
+  x.meta={...(x.meta||{}),version:'2-phase10.4'};
   return x;
 };
 
@@ -1864,6 +1874,178 @@ updateBulkUI();
 
   // Initialize after all prior scripts have finished.
   setTimeout(renderBulkHistory, 0);
+})();
+</script>
+
+
+<script>
+/* ===== Phase10.4: isolated stable controller ===== */
+(() => {
+  const $ = id => document.getElementById(id);
+  const STORE = 'vamos_v2';
+  let shareMode104 = 'today';
+  let pfcTimer104 = null;
+
+  function data104(){
+    try{
+      if(typeof load === 'function') return load();
+      return JSON.parse(localStorage.getItem(STORE) || '{}');
+    }catch(e){ return {weights:[],meals:[],exercises:[],settings:{},templates:{}}; }
+  }
+  function save104(d){
+    try{ if(typeof save === 'function') save(d); else localStorage.setItem(STORE,JSON.stringify(d)); }
+    catch(e){ localStorage.setItem(STORE,JSON.stringify(d)); }
+  }
+  function today104(){
+    const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+  function flash104(text='✓ 記録しました'){
+    const el=$('vamosFlash104'); if(!el)return;
+    el.textContent=text; el.classList.add('show');
+    clearTimeout(flash104.t); flash104.t=setTimeout(()=>el.classList.remove('show'),1250);
+  }
+
+  // Local estimation data. Values are rough per typical serving.
+  const DB104 = [
+    {n:'いつもの朝食',k:['いつもの朝','ご飯100g、ゆで卵2個、ブロッコリー、枝豆'],kcal:390,p:22,f:12,c:50},
+    {n:'いつもの昼食',k:['いつもの昼','おにぎり2個、サラダ、サラダチキン'],kcal:500,p:30,f:8,c:76},
+    {n:'ご飯100g',k:['ご飯100g','白ご飯100g'],kcal:156,p:2.5,f:.3,c:37},
+    {n:'ゆで卵2個',k:['ゆで卵2個','卵2個'],kcal:150,p:13,f:10,c:1},
+    {n:'ブロッコリー',k:['ブロッコリー'],kcal:30,p:3,f:.4,c:5},
+    {n:'枝豆',k:['枝豆'],kcal:70,p:6,f:3,c:5},
+    {n:'おにぎり2個',k:['おにぎり2個'],kcal:360,p:7,f:2,c:78},
+    {n:'サラダチキン',k:['サラダチキン'],kcal:120,p:24,f:2,c:2},
+    {n:'サラダ',k:['サラダ'],kcal:40,p:2,f:1,c:7},
+    {n:'焼き鮭',k:['焼き鮭','鮭','サーモン','紅鮭'],kcal:220,p:25,f:13,c:0},
+    {n:'海鮮丼',k:['海鮮丼','まぐろ丼','マグロ丼'],kcal:560,p:32,f:12,c:78},
+    {n:'砂肝炒め',k:['砂肝'],kcal:260,p:30,f:12,c:7},
+    {n:'軟骨炒め',k:['軟骨','鶏軟骨'],kcal:280,p:23,f:18,c:6},
+    {n:'せせり炒め',k:['せせり'],kcal:360,p:28,f:25,c:5},
+    {n:'豚ハラミ炒め',k:['豚ハラミ','ハラミ'],kcal:420,p:28,f:30,c:8},
+    {n:'生姜焼き',k:['生姜焼き'],kcal:470,p:28,f:24,c:28},
+    {n:'ガパオライス',k:['ガパオ'],kcal:650,p:28,f:22,c:82},
+    {n:'スンドゥブ',k:['スンドゥブ'],kcal:360,p:24,f:19,c:22},
+    {n:'醤油ラーメン',k:['醤油ラーメン'],kcal:520,p:20,f:15,c:72},
+    {n:'味噌ラーメン',k:['味噌ラーメン'],kcal:650,p:22,f:22,c:82},
+    {n:'ラーメン',k:['ラーメン'],kcal:580,p:20,f:18,c:78},
+    {n:'坦々そば',k:['坦々そば','担々そば'],kcal:620,p:22,f:22,c:80},
+    {n:'つけ麺',k:['つけ麺'],kcal:720,p:26,f:18,c:105},
+    {n:'チャーシュー丼小',k:['チャーシュー丼'],kcal:350,p:16,f:12,c:46},
+    {n:'ホットドッグ',k:['ホットドッグ','ホットドック'],kcal:380,p:14,f:20,c:35},
+    {n:'菓子パン',k:['菓子パン'],kcal:360,p:7,f:16,c:48},
+    {n:'BBQ',k:['BBQ','バーベキュー'],kcal:800,p:45,f:45,c:45},
+    {n:'豆腐',k:['豆腐','冷奴','湯豆腐'],kcal:110,p:10,f:6,c:3},
+    {n:'納豆',k:['納豆'],kcal:100,p:8,f:5,c:6},
+    {n:'きのこマリネ',k:['きのこマリネ','キノコマリネ'],kcal:90,p:3,f:5,c:9},
+    {n:'ピーマン塩昆布',k:['ピーマン塩昆布'],kcal:80,p:2,f:4,c:9}
+  ];
+  function norm104(s){return String(s||'').toLowerCase().replace(/[\s　]/g,'')}
+  function estimate104(text){
+    const t=norm104(text); if(!t)return null;
+    // Prefer whole-meal/template matches first to avoid double counting their components.
+    const whole=DB104.filter(x=>x.n.includes('いつもの')||['海鮮丼','ガパオライス','醤油ラーメン','味噌ラーメン','坦々そば','つけ麺','BBQ'].includes(x.n));
+    for(const x of whole){ if(x.k.some(k=>t.includes(norm104(k)))) return {...x,items:[x.n]}; }
+    const hits=[];
+    for(const x of DB104.filter(x=>!whole.includes(x))){ if(x.k.some(k=>t.includes(norm104(k)))) hits.push(x); }
+    if(!hits.length)return null;
+    const unique=[];const seen=new Set();
+    for(const x of hits){if(!seen.has(x.n)){seen.add(x.n);unique.push(x)}}
+    return unique.reduce((a,x)=>{a.kcal+=x.kcal;a.p+=x.p;a.f+=x.f;a.c+=x.c;a.items.push(x.n);return a},{kcal:0,p:0,f:0,c:0,items:[]});
+  }
+  function fillPfc104(force=false){
+    const text=$('mx')?.value||''; const n=estimate104(text); const hint=$('pfcAutoHint');
+    if(!n){ if(hint){hint.textContent='自動推定できない料理はPFCを手入力できます。';hint.classList.remove('ok')} return null; }
+    if(force || !$('mkcal')?.value) $('mkcal').value=Math.round(n.kcal);
+    if(force || !$('mp')?.value) $('mp').value=Number(n.p).toFixed(1);
+    if(force || !$('mf')?.value) $('mf').value=Number(n.f).toFixed(1);
+    if(force || !$('mc')?.value) $('mc').value=Number(n.c).toFixed(1);
+    if(hint){hint.textContent=`自動推定: 約${Math.round(n.kcal)}kcal / P${n.p.toFixed(1)} F${n.f.toFixed(1)} C${n.c.toFixed(1)}g（目安）`;hint.classList.add('ok')}
+    return n;
+  }
+
+  function nutrition104(date=today104()){
+    const d=data104();return (d.meals||[]).filter(m=>m.date===date).reduce((a,m)=>{a.k+=Number(m.kcal)||0;a.p+=Number(m.p)||0;a.f+=Number(m.f)||0;a.c+=Number(m.c)||0;return a},{k:0,p:0,f:0,c:0});
+  }
+  function renderNutrition104(){
+    if(!$('todayKcal'))return;const d=data104(),n=nutrition104(),s=d.settings||{};
+    const tk=Number(s.targetKcal)||2000,tp=Number(s.targetP)||100,tf=Number(s.targetF)||55,tc=Number(s.targetC)||250;
+    $('todayKcal').textContent=Math.round(n.k);$('todayP').textContent=n.p.toFixed(0);$('todayF').textContent=n.f.toFixed(0);$('todayC').textContent=n.c.toFixed(0);
+    if($('kcalTargetText'))$('kcalTargetText').textContent=`/ ${tk}`;if($('pTargetText'))$('pTargetText').textContent=`/ ${tp} g`;if($('fTargetText'))$('fTargetText').textContent=`/ ${tf} g`;if($('cTargetText'))$('cTargetText').textContent=`/ ${tc} g`;
+    if($('kcalBar'))$('kcalBar').style.width=Math.min(100,n.k/Math.max(1,tk)*100)+'%';
+  }
+  function refresh104(show=true){
+    try{if(typeof render==='function')render()}catch(e){}
+    try{if(typeof history==='function' && document.getElementById('history')?.classList.contains('active'))history()}catch(e){}
+    try{if(typeof analysis==='function' && document.getElementById('analysis')?.classList.contains('active'))analysis()}catch(e){}
+    try{if(typeof renderMonth==='function')renderMonth()}catch(e){}
+    renderNutrition104();renderShare104();
+    if(show)flash104('↻ 更新しました');
+  }
+
+  function mealRecord104(){
+    const date=$('md')?.value||today104(),type=$('mt')?.value||'朝',text=($('mx')?.value||'').trim();
+    if(!text){flash104('食事内容を入力してね');return}
+    fillPfc104(false);
+    const d=data104();d.meals=Array.isArray(d.meals)?d.meals:[];
+    d.meals.unshift({id:'m_'+Date.now().toString(36),date,type,text,kcal:Number($('mkcal')?.value)||0,p:Number($('mp')?.value)||0,f:Number($('mf')?.value)||0,c:Number($('mc')?.value)||0,photoId:null});
+    save104(d);
+    ['mx','mkcal','mp','mf','mc'].forEach(id=>{if($(id))$(id).value=''});if($('pfcAutoHint')){$('pfcAutoHint').textContent='食事内容を入力すると、端末内データからPFCを自動推定します.';$('pfcAutoHint').classList.remove('ok')}
+    refresh104(false);flash104('✓ 食事を記録しました');
+  }
+  function weightRecord104(){
+    const date=$('wd')?.value||today104(),v=Number($('wv')?.value);if(!Number.isFinite(v)||v<=0){flash104('体重を入力してね');return}
+    const d=data104();d.weights=Array.isArray(d.weights)?d.weights:[];const i=d.weights.findIndex(x=>x[0]===date);if(i>=0)d.weights[i]=[date,v];else d.weights.push([date,v]);save104(d);$('wv').value='';refresh104(false);flash104('✓ 体重を記録しました');
+  }
+  function exerciseRecord104(){
+    const date=$('ed')?.value||today104();const d=data104();d.exercises=Array.isArray(d.exercises)?d.exercises:[];d.exercises.unshift({date,type:$('et')?.value||'運動',distance:Number($('ei')?.value)||0,minutes:Number($('em')?.value)||0,memo:($('ex')?.value||'').trim()});save104(d);['ei','em','ex'].forEach(id=>{if($(id))$(id).value=''});refresh104(false);flash104('✓ 運動を記録しました');
+  }
+  function quickMeal104(type,text){
+    const n=estimate104(text);const d=data104();d.meals=Array.isArray(d.meals)?d.meals:[];d.meals.unshift({id:'m_'+Date.now().toString(36),date:today104(),type,text,kcal:n?Math.round(n.kcal):0,p:n?n.p:0,f:n?n.f:0,c:n?n.c:0,photoId:null});save104(d);refresh104(false);flash104(`✓ ${type}食を記録しました`);
+  }
+
+  function range104(mode){const days=mode==='today'?1:mode==='week'?7:30,end=new Date(),arr=[];for(let i=days-1;i>=0;i--){const x=new Date(end);x.setDate(end.getDate()-i);arr.push(`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`)}return {days,start:arr[0],end:arr[arr.length-1]}}
+  function shareText104(mode=shareMode104){
+    const d=data104(),r=range104(mode),lines=['VAMOS+ 健康記録',`期間: ${r.start}${r.start===r.end?'':' 〜 '+r.end}`,''];
+    const ws=(d.weights||[]).filter(x=>x[0]>=r.start&&x[0]<=r.end).sort((a,b)=>a[0].localeCompare(b[0]));
+    if(ws.length){if(mode==='today')lines.push(`体重: ${Number(ws.at(-1)[1]).toFixed(1)}kg`);else lines.push(`体重: 平均${(ws.reduce((s,x)=>s+Number(x[1]),0)/ws.length).toFixed(1)}kg / 最新${Number(ws.at(-1)[1]).toFixed(1)}kg`)}
+    const meals=(d.meals||[]).filter(m=>m.date>=r.start&&m.date<=r.end).sort((a,b)=>a.date.localeCompare(b.date));
+    if(meals.length){lines.push('','食事:');let ld='';for(const m of meals){if(mode!=='today'&&m.date!==ld){lines.push(`【${m.date}】`);ld=m.date}let s=`- ${m.type}: ${m.text}`;if(m.kcal||m.p||m.f||m.c)s+=` (${Math.round(Number(m.kcal)||0)}kcal / P${Number(m.p||0).toFixed(0)} F${Number(m.f||0).toFixed(0)} C${Number(m.c||0).toFixed(0)}g)`;lines.push(s)}}
+    const ex=(d.exercises||[]).filter(e=>e.date>=r.start&&e.date<=r.end).sort((a,b)=>a.date.localeCompare(b.date));
+    if(ex.length){lines.push('','運動:');for(const e of ex){let s=`- ${mode==='today'?'':e.date+' '}${e.type||'運動'}`;if(Number(e.distance))s+=` ${Number(e.distance)}km`;if(Number(e.minutes))s+=` ${Number(e.minutes)}分`;lines.push(s)}}
+    const totals=meals.reduce((a,m)=>{a.k+=Number(m.kcal)||0;a.p+=Number(m.p)||0;a.f+=Number(m.f)||0;a.c+=Number(m.c)||0;return a},{k:0,p:0,f:0,c:0});if(totals.k||totals.p){lines.push('',mode==='today'?`栄養合計: ${Math.round(totals.k)}kcal / P${totals.p.toFixed(0)} F${totals.f.toFixed(0)} C${totals.c.toFixed(0)}g`:`1日平均(入力分): ${Math.round(totals.k/r.days)}kcal / P${(totals.p/r.days).toFixed(0)} F${(totals.f/r.days).toFixed(0)} C${(totals.c/r.days).toFixed(0)}g`)}
+    lines.push('','この記録を見て、減量・健康・ランニングの観点から短く評価して。改善点があれば1〜2個だけ教えて。');return lines.join('\n');
+  }
+  function renderShare104(){if($('sharePreviewHome'))$('sharePreviewHome').textContent=shareText104();document.querySelectorAll('[data-share-mode]').forEach(b=>b.classList.toggle('active',b.dataset.shareMode===shareMode104));}
+  function copy104(text){
+    const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,999999);let ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();
+    if(navigator.clipboard?.writeText)navigator.clipboard.writeText(text).catch(()=>{});return ok||!!navigator.clipboard;
+  }
+
+  // Capture before older/broken handlers. This also prevents duplicate records.
+  document.addEventListener('click', e=>{
+    const b=e.target.closest('button');if(!b)return;
+    if(b.id==='abw'){e.preventDefault();e.stopImmediatePropagation();weightRecord104();return}
+    if(b.id==='abm'){e.preventDefault();e.stopImmediatePropagation();mealRecord104();return}
+    if(b.id==='abe'){e.preventDefault();e.stopImmediatePropagation();exerciseRecord104();return}
+    if(b.id==='quickBreakfast'){e.preventDefault();e.stopImmediatePropagation();const d=data104();quickMeal104('朝',d.templates?.breakfast||'ご飯100g、ゆで卵2個、ブロッコリー、枝豆');return}
+    if(b.id==='quickLunch'){e.preventDefault();e.stopImmediatePropagation();const d=data104();quickMeal104('昼',d.templates?.lunch||'おにぎり2個、サラダ、サラダチキン');return}
+    if(b.id==='forceRefresh'){e.preventDefault();e.stopImmediatePropagation();b.classList.add('spinning');refresh104(true);setTimeout(()=>b.classList.remove('spinning'),500);return}
+    if(b.dataset.shareMode){e.preventDefault();e.stopImmediatePropagation();shareMode104=b.dataset.shareMode;renderShare104();return}
+    if(b.id==='copyForChatGPT'){e.preventDefault();e.stopImmediatePropagation();const ok=copy104(shareText104());if($('shareStatus104'))$('shareStatus104').textContent=ok?'共有文をコピーしました。ChatGPTに貼り付けて送信してね。':'コピーできなかったよ';flash104(ok?'✓ 共有文をコピーしました':'コピーできなかったよ');return}
+    if(b.id==='openChatGPT'){e.preventDefault();e.stopImmediatePropagation();copy104(shareText104());if($('shareStatus104'))$('shareStatus104').textContent='共有文をコピーしてChatGPTを開きます。';flash104('✓ 共有文をコピーしました');setTimeout(()=>{window.location.href='https://chatgpt.com/';},120);return}
+  }, true);
+
+  // Auto PFC while typing.
+  document.addEventListener('input',e=>{if(e.target?.id==='mx'){clearTimeout(pfcTimer104);pfcTimer104=setTimeout(()=>fillPfc104(true),350)}},true);
+  document.addEventListener('change',e=>{if(e.target?.id==='mt'||e.target?.id==='mx')fillPfc104(true)},true);
+
+  // Refresh whenever returning to the app; no relaunch needed.
+  window.addEventListener('focus',()=>refresh104(false));
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh104(false)});
+  window.addEventListener('pageshow',()=>refresh104(false));
+
+  // Initial stable render after older scripts settle.
+  setTimeout(()=>{renderNutrition104();renderShare104();refresh104(false)},120);
 })();
 </script>
 
