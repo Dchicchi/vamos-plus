@@ -234,6 +234,10 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 .edit-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 .auto-refresh-note{font-size:10px;color:#95a1ba;margin-left:8px}
 
+
+/* Phase10.7 PFC v2 styles */
+.pfc-breakdown{margin-top:6px;padding:8px 10px;border:1px solid #2e3a55;border-radius:10px;background:#101827;font-size:10px;color:#9eb0cc;line-height:1.5}
+.pfc-breakdown b{color:#dce7ff}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -272,7 +276,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 </head>
 <body>
 <div class="app">
-  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceReload106">↻ 更新</button><div class="version">v2 · 10.6</div></div>
+  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceReload106">↻ 更新</button><div class="version">v2 · 10.9</div></div>
 
   <section id="home" class="page active">
     <div class="greeting"><h1 id="greet">おはよう、大地☀️</h1><p id="homeDate"></p></div>
@@ -364,7 +368,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
           <div><label>たんぱく質 P（g）</label><input type="number" inputmode="decimal" step="0.1" id="mp" placeholder="任意"></div>
           <div><label>脂質 F（g）</label><input type="number" inputmode="decimal" step="0.1" id="mf" placeholder="任意"></div>
           <div><label>炭水化物 C（g）</label><input type="number" inputmode="decimal" step="0.1" id="mc" placeholder="任意"></div>
-        </div><div id="pfcAutoHint" class="pfc-auto-hint">食事内容を入力すると、端末内データからPFCを自動推定します。</div>
+        </div><div id="pfcAutoHint" class="pfc-auto-hint">食事内容を入力すると、端末内データからPFCを自動推定します。</div><div id="pfcBreakdown107" class="pfc-breakdown" style="display:none"></div>
         <div class="photo-box">
           <label>食事写真（任意）</label>
           <input type="file" accept="image/*" capture="environment" id="mealPhoto">
@@ -512,7 +516,15 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 
     <div class="card"><h2>食事テンプレート</h2><label>いつもの朝食</label><textarea id="tb"></textarea><label style="margin-top:10px">いつもの昼食</label><textarea id="tlunch"></textarea><button class="btn" id="saveTemplates">保存</button></div>
     <div class="card"><h2>チャッピー共有</h2><div class="sharebox"><button class="btn" id="shareToday">今日をコピー</button><button class="btn secondary" id="shareWeek">直近7日をコピー</button></div><p class="small">ChatGPTに貼りやすい形でクリップボードへコピーします。</p></div>
-    <div class="card"><h2>バックアップ</h2><button class="btn secondary" id="exp">JSONを書き出す</button><label style="margin-top:12px">バックアップを読み込む</label><input type="file" accept="application/json" id="imp"><p class="small">データはこのブラウザ内に保存されます。v1データは初回起動時に自動移行します。</p></div>
+    
+<div class="card" id="dataProtection109">
+  <h2>データ保護</h2>
+  <div class="small">バージョンアップしても同じ保存領域を使います。旧VAMOSの記録も自動で統合します。</div>
+  <div class="summaryrow"><b>保存状態</b><span id="persistStatus109">確認中…</span></div>
+  <div class="summaryrow"><b>保存先</b><span>VAMOS共通データ v1</span></div>
+  <div class="small" style="margin-top:8px">※ホーム画面のVAMOS+を削除すると、iPhone側でアプリデータまで消える場合があります。アップデート時は削除せず、そのまま使ってください。</div>
+</div>
+<div class="card"><h2>バックアップ</h2><button class="btn secondary" id="exp">JSONを書き出す</button><label style="margin-top:12px">バックアップを読み込む</label><input type="file" accept="application/json" id="imp"><p class="small">データはこのブラウザ内に保存されます。v1データは初回起動時に自動移行します。</p></div>
   </div></section>
 </div>
 <nav><button class="active" data-p="home">ホーム</button><button data-p="record">記録</button><button data-p="analysis">分析</button><button data-p="month">月間</button><button data-p="history">履歴</button><button data-p="settings">設定</button></nav>
@@ -534,11 +546,12 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 <div id="vamosFlash104" class="vamos-flash">✓ 記録しました</div><div id="toast" class="toast"></div>
 <script>
 const SEED=[["2026-06-15",65.0],["2026-06-16",64.4],["2026-06-18",64.0],["2026-06-24",64.6],["2026-06-25",64.0],["2026-06-26",64.4],["2026-06-27",65.0],["2026-06-28",64.5],["2026-06-29",64.0],["2026-06-30",64.4],["2026-07-01",65.0],["2026-07-02",65.0],["2026-07-03",64.6],["2026-07-04",64.0],["2026-07-05",65.8],["2026-07-06",64.5],["2026-07-07",64.4],["2026-07-08",64.6],["2026-07-09",65.4],["2026-07-10",64.6],["2026-07-11",63.8],["2026-07-13",64.8],["2026-07-15",64.8],["2026-07-16",64.8],["2026-07-17",65.0],["2026-07-18",64.8],["2026-07-19",64.2],["2026-07-20",65.6],["2026-07-21",65.4],["2026-07-22",64.6]];
-const KEY='vamos_v2',OLD_KEY='vamos_v1',q=id=>document.getElementById(id);
+const KEY='vamos_data_v1',COMPAT_KEY='vamos_v2',OLD_KEY='vamos_v1',q=id=>document.getElementById(id);
+const VAMOS_STORAGE_VERSION=1;
 const DEFAULT_TEMPLATES={breakfast:'ご飯100g、ゆで卵2個、ブロッコリー、枝豆',lunch:'おにぎり2個、サラダ、サラダチキン'};
 function localDate(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
 let activeToday=localDate();
-function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.6'}}}
+function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.9',storageVersion:VAMOS_STORAGE_VERSION}}}
 function normalize(d){
   d=d&&typeof d==='object'?d:def();
   d.weights=Array.isArray(d.weights)?d.weights:[...SEED];
@@ -555,11 +568,86 @@ function normalize(d){
   };
   d.templates={breakfast:d.templates?.breakfast||DEFAULT_TEMPLATES.breakfast,lunch:d.templates?.lunch||DEFAULT_TEMPLATES.lunch};
   d.meals=d.meals.map((m,i)=>({...m,id:m.id||('m_'+Date.now().toString(36)+'_'+i),kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0,photoId:m.photoId||null}));
-  d.meta={...(d.meta||{}),version:'2-phase10.6'};
+  d.meta={...(d.meta||{}),version:'2-phase10.9',storageVersion:VAMOS_STORAGE_VERSION,updatedAt:d.meta?.updatedAt||new Date().toISOString()};
   return d
 }
-function load(){try{let v=localStorage.getItem(KEY);if(v)return normalize(JSON.parse(v));let old=localStorage.getItem(OLD_KEY);if(old){let migrated=normalize(JSON.parse(old));localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}return def()}catch(e){return def()}}
-function save(d){localStorage.setItem(KEY,JSON.stringify(normalize(d)))}
+function dataScore(d){
+  try{
+    d=normalize(structuredClone(d));
+    return (d.weights?.length||0)*3+(d.meals?.length||0)*4+(d.exercises?.length||0)*4+
+      (d.settings?2:0)+(d.templates?1:0);
+  }catch(e){return 0}
+}
+function mealSig(m){return [m.date,m.type,String(m.text||'').trim(),Number(m.kcal)||0,Number(m.p)||0,Number(m.f)||0,Number(m.c)||0].join('|')}
+function exSig(e){return [e.date,e.type,Number(e.distance)||0,Number(e.minutes)||0,String(e.memo||'').trim()].join('|')}
+function mergeData(base,extra){
+  base=normalize(base);extra=normalize(extra);
+  const w=new Map();
+  [...base.weights,...extra.weights].forEach(x=>{
+    if(Array.isArray(x)&&x[0])w.set(x[0],[x[0],Number(x[1])]);
+  });
+  const meals=[],ms=new Set();
+  [...base.meals,...extra.meals].forEach(x=>{
+    const sig=mealSig(x);
+    if(!ms.has(sig)){ms.add(sig);meals.push(x)}
+  });
+  const exercises=[],es=new Set();
+  [...base.exercises,...extra.exercises].forEach(x=>{
+    const sig=exSig(x);
+    if(!es.has(sig)){es.add(sig);exercises.push(x)}
+  });
+  const baseUpdated=Date.parse(base.meta?.updatedAt||0)||0;
+  const extraUpdated=Date.parse(extra.meta?.updatedAt||0)||0;
+  const newer=extraUpdated>baseUpdated?extra:base;
+  return normalize({
+    ...base,
+    weights:[...w.values()].sort((a,b)=>a[0].localeCompare(b[0])),
+    meals,
+    exercises,
+    settings:{...base.settings,...newer.settings},
+    templates:{...base.templates,...newer.templates},
+    meta:{...base.meta,...newer.meta,updatedAt:new Date(Math.max(baseUpdated,extraUpdated,Date.now())).toISOString()}
+  })
+}
+function discoverStoredData(){
+  const candidates=[];
+  const known=[KEY,COMPAT_KEY,OLD_KEY];
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&/^vamos(_|$)/i.test(k)&&!known.includes(k))known.push(k);
+    }
+  }catch(e){}
+  for(const k of known){
+    try{
+      const raw=localStorage.getItem(k);
+      if(raw){
+        const parsed=JSON.parse(raw);
+        if(parsed&&typeof parsed==='object')candidates.push({key:k,data:normalize(parsed),score:dataScore(parsed)});
+      }
+    }catch(e){}
+  }
+  return candidates.sort((a,b)=>b.score-a.score)
+}
+function load(){
+  try{
+    const candidates=discoverStoredData();
+    if(!candidates.length)return def();
+    let merged=candidates[0].data;
+    for(const c of candidates.slice(1))merged=mergeData(merged,c.data);
+    const out=normalize(merged);
+    localStorage.setItem(KEY,JSON.stringify(out));
+    localStorage.setItem(COMPAT_KEY,JSON.stringify(out));
+    return out;
+  }catch(e){return def()}
+}
+function save(d){
+  const out=normalize(d);
+  out.meta.updatedAt=new Date().toISOString();
+  localStorage.setItem(KEY,JSON.stringify(out));
+  localStorage.setItem(COMPAT_KEY,JSON.stringify(out));
+  if(window.VAMOS_PERSIST?.backup)window.VAMOS_PERSIST.backup(out);
+}
 function toast(s){q('toast').textContent=s;q('toast').classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>q('toast').classList.remove('show'),1700)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function fmtDate(s){if(!s)return'';const [y,m,d]=s.split('-').map(Number);return `${m}/${d}`}
@@ -602,7 +690,7 @@ q('recordDay').onchange=()=>{const d=q('recordDay').value;if(d)setRecordDate(d,t
 ['wd','md','ed','recordDay'].forEach(id=>bindDate(q(id)));
 function shareText(days=1){const d=load(),end=localDate(),dates=[];for(let i=days-1;i>=0;i--){let dt=new Date();dt.setDate(dt.getDate()-i);dates.push(`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`)}let out=['VAMOS+ 健康記録'];dates.forEach(date=>{const x=dayData(d,date);if(!x.weight&&!x.meals.length&&!x.exercises.length)return;out.push(`\n${date}`);if(x.weight)out.push(`体重: ${Number(x.weight[1]).toFixed(1)}kg`);['朝','昼','夜','間食'].forEach(t=>x.meals.filter(m=>m.type===t).forEach(m=>out.push(`${t}: ${m.text}`)));x.exercises.forEach(e=>out.push(`運動: ${e.type}${e.distance?` ${e.distance}km`:''}${e.minutes?` ${e.minutes}分`:''}${e.memo?` ${e.memo}`:''}`))});return out.join('\n')}
 async function copyText(text){try{await navigator.clipboard.writeText(text);toast('コピーしたよ🔥')}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('コピーしたよ🔥')}}q('shareToday').onclick=()=>copyText(shareText(1));q('shareWeek').onclick=()=>copyText(shareText(7));
-q('exp').onclick=()=>{let b=new Blob([JSON.stringify(load(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='vamos_v2_backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+q('exp').onclick=()=>{let b=new Blob([JSON.stringify(load(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='VAMOS_backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 q('imp').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader;r.onload=()=>{try{save(JSON.parse(r.result));render();toast('バックアップを読み込んだよ')}catch(err){toast('読み込みに失敗したよ')}};r.readAsText(f)};
 function switchPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.p===id));q(id).classList.add('active');if(id==='analysis')analysis();if(id==='history')history();if(id==='home')render();window.scrollTo({top:0,behavior:'smooth'})}
 q('analysisRange').onchange=analysis;document.querySelectorAll('#historyFilters .chip').forEach(b=>b.onclick=()=>{historyFilter=b.dataset.f;document.querySelectorAll('#historyFilters .chip').forEach(x=>x.classList.toggle('active',x===b));history()});
@@ -1186,7 +1274,7 @@ const p6OldNormalize=normalize;
 normalize=function(d){
   const x=p6OldNormalize(d);
   x.settings.aiProxyUrl=x.settings.aiProxyUrl||'';
-  x.meta={...(x.meta||{}),version:'2-phase10.6'};
+  x.meta={...(x.meta||{}),version:'2-phase10.9'};
   return x;
 };
 
@@ -2468,6 +2556,271 @@ updateBulkUI();
   setTimeout(()=>{
     try{ if(typeof renderMonth==='function') renderMonth(); }catch(e){}
   },120);
+})();
+</script>
+
+
+
+
+
+<script>
+/* ===== Phase10.8 日本人向け定番料理DB v1 ===== */
+(() => {
+  const $ = id => document.getElementById(id);
+  const FOOD_DB_108 = [{"name": "白ご飯", "aliases": ["ご飯", "白ご飯", "白米", "ライス"], "unit": "g", "default": 150, "kcal": 156, "p": 2.5, "f": 0.3, "c": 37.1}, {"name": "おにぎり", "aliases": ["おにぎり", "おむすび"], "unit": "piece", "default": 1, "kcal": 180, "p": 3.5, "f": 1.0, "c": 39}, {"name": "鮭おにぎり", "aliases": ["鮭おにぎり", "しゃけおにぎり"], "unit": "piece", "default": 1, "kcal": 190, "p": 5.0, "f": 2.0, "c": 38}, {"name": "ツナマヨおにぎり", "aliases": ["ツナマヨおにぎり"], "unit": "piece", "default": 1, "kcal": 230, "p": 5.0, "f": 8.0, "c": 35}, {"name": "梅おにぎり", "aliases": ["梅おにぎり"], "unit": "piece", "default": 1, "kcal": 175, "p": 3.0, "f": 0.5, "c": 39}, {"name": "チャーハン", "aliases": ["チャーハン", "炒飯"], "unit": "serving", "default": 1, "kcal": 650, "p": 18, "f": 22, "c": 92}, {"name": "オムライス", "aliases": ["オムライス"], "unit": "serving", "default": 1, "kcal": 760, "p": 24, "f": 28, "c": 101}, {"name": "親子丼", "aliases": ["親子丼"], "unit": "serving", "default": 1, "kcal": 650, "p": 28, "f": 18, "c": 88}, {"name": "牛丼", "aliases": ["牛丼"], "unit": "serving", "default": 1, "kcal": 730, "p": 24, "f": 25, "c": 96}, {"name": "豚丼", "aliases": ["豚丼"], "unit": "serving", "default": 1, "kcal": 760, "p": 26, "f": 28, "c": 95}, {"name": "カツ丼", "aliases": ["カツ丼"], "unit": "serving", "default": 1, "kcal": 850, "p": 30, "f": 32, "c": 105}, {"name": "天丼", "aliases": ["天丼"], "unit": "serving", "default": 1, "kcal": 780, "p": 20, "f": 24, "c": 112}, {"name": "海鮮丼", "aliases": ["海鮮丼"], "unit": "serving", "default": 1, "kcal": 560, "p": 32, "f": 12, "c": 78}, {"name": "まぐろ丼", "aliases": ["まぐろ丼", "マグロ丼"], "unit": "serving", "default": 1, "kcal": 520, "p": 31, "f": 8, "c": 80}, {"name": "そぼろ丼", "aliases": ["そぼろ丼", "鶏そぼろ丼"], "unit": "serving", "default": 1, "kcal": 620, "p": 27, "f": 18, "c": 78}, {"name": "ロコモコ丼", "aliases": ["ロコモコ丼", "ロコモコ"], "unit": "serving", "default": 1, "kcal": 820, "p": 31, "f": 35, "c": 92}, {"name": "カレーライス", "aliases": ["カレーライス", "カレー"], "unit": "serving", "default": 1, "kcal": 720, "p": 18, "f": 24, "c": 105}, {"name": "キーマカレー", "aliases": ["キーマカレー"], "unit": "serving", "default": 1, "kcal": 690, "p": 24, "f": 26, "c": 88}, {"name": "ハヤシライス", "aliases": ["ハヤシライス", "ハッシュドビーフ"], "unit": "serving", "default": 1, "kcal": 700, "p": 21, "f": 24, "c": 96}, {"name": "麻婆丼", "aliases": ["麻婆丼", "マーボー丼"], "unit": "serving", "default": 1, "kcal": 720, "p": 24, "f": 28, "c": 90}, {"name": "うどん", "aliases": ["うどん"], "unit": "g", "default": 250, "kcal": 105, "p": 2.6, "f": 0.4, "c": 21.6}, {"name": "きつねうどん", "aliases": ["きつねうどん"], "unit": "serving", "default": 1, "kcal": 470, "p": 16, "f": 10, "c": 78}, {"name": "月見うどん", "aliases": ["月見うどん"], "unit": "serving", "default": 1, "kcal": 430, "p": 17, "f": 10, "c": 67}, {"name": "カレーうどん", "aliases": ["カレーうどん"], "unit": "serving", "default": 1, "kcal": 600, "p": 18, "f": 18, "c": 88}, {"name": "キーマカレーうどん", "aliases": ["キーマカレーうどん"], "unit": "serving", "default": 1, "kcal": 650, "p": 24, "f": 23, "c": 86}, {"name": "そば", "aliases": ["そば", "蕎麦"], "unit": "g", "default": 200, "kcal": 114, "p": 4.8, "f": 1.0, "c": 22.1}, {"name": "かけそば", "aliases": ["かけそば"], "unit": "serving", "default": 1, "kcal": 350, "p": 14, "f": 3, "c": 70}, {"name": "ざるそば", "aliases": ["ざるそば"], "unit": "serving", "default": 1, "kcal": 360, "p": 14, "f": 2, "c": 74}, {"name": "天ぷらそば", "aliases": ["天ぷらそば", "天そば"], "unit": "serving", "default": 1, "kcal": 590, "p": 20, "f": 18, "c": 84}, {"name": "焼きそば", "aliases": ["焼きそば"], "unit": "serving", "default": 1, "kcal": 560, "p": 17, "f": 20, "c": 78}, {"name": "醤油ラーメン", "aliases": ["醤油ラーメン", "しょうゆラーメン"], "unit": "serving", "default": 1, "kcal": 520, "p": 20, "f": 15, "c": 72}, {"name": "味噌ラーメン", "aliases": ["味噌ラーメン"], "unit": "serving", "default": 1, "kcal": 650, "p": 22, "f": 22, "c": 82}, {"name": "塩ラーメン", "aliases": ["塩ラーメン"], "unit": "serving", "default": 1, "kcal": 500, "p": 19, "f": 13, "c": 73}, {"name": "豚骨ラーメン", "aliases": ["豚骨ラーメン", "とんこつラーメン"], "unit": "serving", "default": 1, "kcal": 670, "p": 24, "f": 28, "c": 78}, {"name": "担々麺", "aliases": ["担々麺", "坦々麺"], "unit": "serving", "default": 1, "kcal": 720, "p": 26, "f": 32, "c": 86}, {"name": "つけ麺", "aliases": ["つけ麺"], "unit": "serving", "default": 1, "kcal": 720, "p": 26, "f": 18, "c": 105}, {"name": "ナポリタン", "aliases": ["ナポリタン"], "unit": "serving", "default": 1, "kcal": 650, "p": 20, "f": 20, "c": 95}, {"name": "ミートソース", "aliases": ["ミートソース", "ミートソースパスタ"], "unit": "serving", "default": 1, "kcal": 680, "p": 24, "f": 20, "c": 98}, {"name": "カルボナーラ", "aliases": ["カルボナーラ"], "unit": "serving", "default": 1, "kcal": 780, "p": 26, "f": 34, "c": 88}, {"name": "ペペロンチーノ", "aliases": ["ペペロンチーノ", "ぺぺたま"], "unit": "serving", "default": 1, "kcal": 650, "p": 18, "f": 26, "c": 85}, {"name": "鶏の唐揚げ", "aliases": ["唐揚げ", "からあげ", "鶏唐揚げ"], "unit": "piece", "default": 1, "kcal": 95, "p": 6.5, "f": 6, "c": 4}, {"name": "とんかつ", "aliases": ["とんかつ", "トンカツ"], "unit": "serving", "default": 1, "kcal": 520, "p": 28, "f": 32, "c": 25}, {"name": "チキン南蛮", "aliases": ["チキン南蛮"], "unit": "serving", "default": 1, "kcal": 650, "p": 32, "f": 38, "c": 35}, {"name": "生姜焼き", "aliases": ["生姜焼き", "しょうが焼き", "豚の生姜焼き"], "unit": "serving", "default": 1, "kcal": 470, "p": 28, "f": 24, "c": 28}, {"name": "ハンバーグ", "aliases": ["ハンバーグ"], "unit": "serving", "default": 1, "kcal": 420, "p": 24, "f": 28, "c": 18}, {"name": "照り焼きチキン", "aliases": ["照り焼きチキン", "鶏の照り焼き"], "unit": "serving", "default": 1, "kcal": 390, "p": 31, "f": 22, "c": 16}, {"name": "チキンステーキ", "aliases": ["チキンステーキ"], "unit": "serving", "default": 1, "kcal": 360, "p": 35, "f": 20, "c": 5}, {"name": "豚キムチ", "aliases": ["豚キムチ", "豚ニラキムチ"], "unit": "serving", "default": 1, "kcal": 420, "p": 26, "f": 28, "c": 14}, {"name": "肉野菜炒め", "aliases": ["肉野菜炒め"], "unit": "serving", "default": 1, "kcal": 430, "p": 24, "f": 25, "c": 24}, {"name": "回鍋肉", "aliases": ["回鍋肉", "ホイコーロー"], "unit": "serving", "default": 1, "kcal": 480, "p": 23, "f": 30, "c": 27}, {"name": "青椒肉絲", "aliases": ["青椒肉絲", "チンジャオロース"], "unit": "serving", "default": 1, "kcal": 420, "p": 24, "f": 24, "c": 25}, {"name": "酢豚", "aliases": ["酢豚"], "unit": "serving", "default": 1, "kcal": 520, "p": 21, "f": 25, "c": 48}, {"name": "麻婆豆腐", "aliases": ["麻婆豆腐", "マーボー豆腐"], "unit": "serving", "default": 1, "kcal": 380, "p": 22, "f": 24, "c": 16}, {"name": "餃子", "aliases": ["餃子", "ぎょうざ"], "unit": "piece", "default": 1, "kcal": 55, "p": 2.5, "f": 2.5, "c": 6}, {"name": "焼売", "aliases": ["焼売", "シュウマイ"], "unit": "piece", "default": 1, "kcal": 45, "p": 2.5, "f": 2, "c": 4.5}, {"name": "焼肉", "aliases": ["焼肉", "焼き肉"], "unit": "serving", "default": 1, "kcal": 650, "p": 38, "f": 45, "c": 12}, {"name": "カルビ焼肉", "aliases": ["カルビ", "カルビ焼肉"], "unit": "serving", "default": 1, "kcal": 720, "p": 34, "f": 55, "c": 10}, {"name": "豚ハラミ", "aliases": ["豚ハラミ"], "unit": "g", "default": 150, "kcal": 220, "p": 18, "f": 17, "c": 0}, {"name": "砂肝", "aliases": ["砂肝"], "unit": "g", "default": 150, "kcal": 94, "p": 18.3, "f": 1.8, "c": 0}, {"name": "せせり", "aliases": ["せせり"], "unit": "g", "default": 150, "kcal": 215, "p": 20, "f": 15, "c": 0}, {"name": "鶏軟骨", "aliases": ["鶏軟骨", "軟骨"], "unit": "g", "default": 150, "kcal": 125, "p": 12, "f": 7, "c": 3}, {"name": "焼き鳥もも", "aliases": ["焼き鳥もも", "もも串"], "unit": "piece", "default": 1, "kcal": 90, "p": 7, "f": 6, "c": 3}, {"name": "焼き鳥ねぎま", "aliases": ["ねぎま", "ねぎま串"], "unit": "piece", "default": 1, "kcal": 85, "p": 7, "f": 5, "c": 4}, {"name": "焼き鳥つくね", "aliases": ["つくね", "つくね串"], "unit": "piece", "default": 1, "kcal": 95, "p": 6, "f": 6, "c": 6}, {"name": "焼き鳥皮", "aliases": ["鶏皮", "皮串"], "unit": "piece", "default": 1, "kcal": 120, "p": 5, "f": 10, "c": 2}, {"name": "焼き鮭", "aliases": ["焼き鮭", "鮭", "紅鮭", "サーモン"], "unit": "serving", "default": 1, "kcal": 220, "p": 25, "f": 13, "c": 0}, {"name": "サバ塩焼き", "aliases": ["サバ塩焼き", "鯖塩焼き"], "unit": "serving", "default": 1, "kcal": 300, "p": 25, "f": 22, "c": 0}, {"name": "サバ味噌煮", "aliases": ["サバ味噌煮", "鯖味噌煮"], "unit": "serving", "default": 1, "kcal": 340, "p": 24, "f": 22, "c": 14}, {"name": "ホッケ焼き", "aliases": ["ホッケ", "ほっけ"], "unit": "serving", "default": 1, "kcal": 250, "p": 28, "f": 15, "c": 0}, {"name": "ブリ照り焼き", "aliases": ["ブリ照り焼き", "ぶり照り焼き"], "unit": "serving", "default": 1, "kcal": 320, "p": 25, "f": 20, "c": 10}, {"name": "アジフライ", "aliases": ["アジフライ", "あじフライ"], "unit": "piece", "default": 1, "kcal": 220, "p": 13, "f": 13, "c": 16}, {"name": "白身魚フライ", "aliases": ["白身魚フライ"], "unit": "piece", "default": 1, "kcal": 210, "p": 13, "f": 12, "c": 15}, {"name": "タイフライ", "aliases": ["タイフライ", "鯛フライ", "たいフライ"], "unit": "piece", "default": 1, "kcal": 200, "p": 14, "f": 11, "c": 13}, {"name": "エビフライ", "aliases": ["エビフライ", "海老フライ"], "unit": "piece", "default": 1, "kcal": 170, "p": 9, "f": 9, "c": 14}, {"name": "刺身盛り", "aliases": ["刺身盛り", "刺身", "さしみ"], "unit": "serving", "default": 1, "kcal": 180, "p": 30, "f": 6, "c": 0}, {"name": "まぐろ刺身", "aliases": ["まぐろ刺身", "マグロ刺身"], "unit": "serving", "default": 1, "kcal": 150, "p": 29, "f": 3, "c": 0}, {"name": "サーモン刺身", "aliases": ["サーモン刺身"], "unit": "serving", "default": 1, "kcal": 220, "p": 24, "f": 14, "c": 0}, {"name": "寿司", "aliases": ["寿司", "すし"], "unit": "piece", "default": 1, "kcal": 55, "p": 3, "f": 1, "c": 9}, {"name": "まぐろ寿司", "aliases": ["まぐろ寿司", "マグロ寿司"], "unit": "piece", "default": 1, "kcal": 45, "p": 4, "f": 0.5, "c": 7}, {"name": "サーモン寿司", "aliases": ["サーモン寿司"], "unit": "piece", "default": 1, "kcal": 60, "p": 4, "f": 2, "c": 7}, {"name": "ゆで卵", "aliases": ["ゆで卵", "茹で卵"], "unit": "piece", "default": 1, "kcal": 75, "p": 6.5, "f": 5, "c": 0.5}, {"name": "目玉焼き", "aliases": ["目玉焼き"], "unit": "piece", "default": 1, "kcal": 90, "p": 6.5, "f": 7, "c": 0.5}, {"name": "卵焼き", "aliases": ["卵焼き", "玉子焼き", "だし巻き卵"], "unit": "serving", "default": 1, "kcal": 150, "p": 9, "f": 10, "c": 6}, {"name": "納豆", "aliases": ["納豆"], "unit": "pack", "default": 1, "kcal": 95, "p": 7.5, "f": 5, "c": 6}, {"name": "豆腐", "aliases": ["豆腐", "冷奴", "湯豆腐"], "unit": "g", "default": 150, "kcal": 73, "p": 6.6, "f": 4.2, "c": 1.6}, {"name": "厚揚げ", "aliases": ["厚揚げ"], "unit": "serving", "default": 1, "kcal": 190, "p": 12, "f": 14, "c": 5}, {"name": "サラダチキン", "aliases": ["サラダチキン"], "unit": "serving", "default": 1, "kcal": 120, "p": 24, "f": 2, "c": 2}, {"name": "ハム", "aliases": ["ハム"], "unit": "piece", "default": 1, "kcal": 25, "p": 3, "f": 1.5, "c": 0.5}, {"name": "ウインナー", "aliases": ["ウインナー", "ソーセージ"], "unit": "piece", "default": 1, "kcal": 60, "p": 3, "f": 5, "c": 1}, {"name": "味噌汁", "aliases": ["味噌汁"], "unit": "serving", "default": 1, "kcal": 45, "p": 3, "f": 1.5, "c": 5}, {"name": "豚汁", "aliases": ["豚汁"], "unit": "serving", "default": 1, "kcal": 180, "p": 9, "f": 10, "c": 14}, {"name": "けんちん汁", "aliases": ["けんちん汁"], "unit": "serving", "default": 1, "kcal": 120, "p": 5, "f": 5, "c": 14}, {"name": "コーンスープ", "aliases": ["コーンスープ"], "unit": "serving", "default": 1, "kcal": 140, "p": 4, "f": 6, "c": 18}, {"name": "わかめスープ", "aliases": ["わかめスープ"], "unit": "serving", "default": 1, "kcal": 40, "p": 2, "f": 1, "c": 5}, {"name": "サラダ", "aliases": ["サラダ"], "unit": "serving", "default": 1, "kcal": 40, "p": 2, "f": 1, "c": 7}, {"name": "ポテトサラダ", "aliases": ["ポテトサラダ", "ポテサラ"], "unit": "serving", "default": 1, "kcal": 180, "p": 4, "f": 11, "c": 18}, {"name": "マカロニサラダ", "aliases": ["マカロニサラダ"], "unit": "serving", "default": 1, "kcal": 200, "p": 5, "f": 11, "c": 22}, {"name": "ひじき煮", "aliases": ["ひじき煮"], "unit": "serving", "default": 1, "kcal": 90, "p": 4, "f": 3, "c": 12}, {"name": "きんぴらごぼう", "aliases": ["きんぴら", "きんぴらごぼう"], "unit": "serving", "default": 1, "kcal": 110, "p": 2, "f": 5, "c": 15}, {"name": "ほうれん草おひたし", "aliases": ["ほうれん草おひたし", "おひたし"], "unit": "serving", "default": 1, "kcal": 35, "p": 3, "f": 0.5, "c": 4}, {"name": "枝豆", "aliases": ["枝豆"], "unit": "g", "default": 50, "kcal": 125, "p": 11.7, "f": 6.2, "c": 8.8}, {"name": "ブロッコリー", "aliases": ["ブロッコリー"], "unit": "g", "default": 70, "kcal": 37, "p": 5.4, "f": 0.6, "c": 6.6}, {"name": "冷やしトマト", "aliases": ["冷やしトマト", "トマト"], "unit": "serving", "default": 1, "kcal": 35, "p": 1.5, "f": 0.3, "c": 7}, {"name": "漬物", "aliases": ["漬物", "つけもの"], "unit": "serving", "default": 1, "kcal": 25, "p": 1, "f": 0, "c": 5}, {"name": "キムチ", "aliases": ["キムチ"], "unit": "serving", "default": 1, "kcal": 45, "p": 2, "f": 1, "c": 8}, {"name": "食パン", "aliases": ["食パン", "トースト"], "unit": "piece", "default": 1, "kcal": 160, "p": 5.5, "f": 2.5, "c": 29}, {"name": "たまごサンド", "aliases": ["たまごサンド", "卵サンド"], "unit": "serving", "default": 1, "kcal": 320, "p": 12, "f": 18, "c": 28}, {"name": "ツナサンド", "aliases": ["ツナサンド"], "unit": "serving", "default": 1, "kcal": 300, "p": 12, "f": 15, "c": 30}, {"name": "ハムサンド", "aliases": ["ハムサンド"], "unit": "serving", "default": 1, "kcal": 290, "p": 13, "f": 12, "c": 34}, {"name": "カレーパン", "aliases": ["カレーパン"], "unit": "piece", "default": 1, "kcal": 330, "p": 8, "f": 17, "c": 36}, {"name": "あんぱん", "aliases": ["あんぱん"], "unit": "piece", "default": 1, "kcal": 290, "p": 7, "f": 5, "c": 54}, {"name": "メロンパン", "aliases": ["メロンパン"], "unit": "piece", "default": 1, "kcal": 390, "p": 8, "f": 14, "c": 58}, {"name": "クリームパン", "aliases": ["クリームパン"], "unit": "piece", "default": 1, "kcal": 320, "p": 7, "f": 12, "c": 48}, {"name": "肉まん", "aliases": ["肉まん"], "unit": "piece", "default": 1, "kcal": 260, "p": 10, "f": 8, "c": 39}, {"name": "フランクフルト", "aliases": ["フランクフルト"], "unit": "piece", "default": 1, "kcal": 250, "p": 10, "f": 20, "c": 5}, {"name": "からあげ棒", "aliases": ["からあげ棒"], "unit": "serving", "default": 1, "kcal": 250, "p": 14, "f": 16, "c": 12}, {"name": "ホットドッグ", "aliases": ["ホットドッグ", "ホットドック"], "unit": "piece", "default": 1, "kcal": 380, "p": 14, "f": 20, "c": 35}, {"name": "プロテインドリンク", "aliases": ["プロテイン", "ザバス"], "unit": "serving", "default": 1, "kcal": 110, "p": 20, "f": 0, "c": 7}, {"name": "ハンバーガー", "aliases": ["ハンバーガー"], "unit": "piece", "default": 1, "kcal": 300, "p": 15, "f": 12, "c": 32}, {"name": "チーズバーガー", "aliases": ["チーズバーガー"], "unit": "piece", "default": 1, "kcal": 350, "p": 18, "f": 17, "c": 32}, {"name": "フライドポテト", "aliases": ["フライドポテト", "ポテト"], "unit": "serving", "default": 1, "kcal": 410, "p": 5, "f": 20, "c": 55}, {"name": "ピザ", "aliases": ["ピザ"], "unit": "piece", "default": 1, "kcal": 260, "p": 11, "f": 10, "c": 32}, {"name": "グラタン", "aliases": ["グラタン"], "unit": "serving", "default": 1, "kcal": 500, "p": 20, "f": 25, "c": 50}, {"name": "ドリア", "aliases": ["ドリア"], "unit": "serving", "default": 1, "kcal": 650, "p": 22, "f": 25, "c": 85}, {"name": "ステーキ", "aliases": ["ステーキ", "ビーフステーキ"], "unit": "serving", "default": 1, "kcal": 500, "p": 40, "f": 34, "c": 5}, {"name": "ローストビーフ", "aliases": ["ローストビーフ"], "unit": "serving", "default": 1, "kcal": 300, "p": 32, "f": 18, "c": 4}, {"name": "唐揚げ定食", "aliases": ["唐揚げ定食", "からあげ定食"], "unit": "serving", "default": 1, "kcal": 850, "p": 36, "f": 30, "c": 105}, {"name": "生姜焼き定食", "aliases": ["生姜焼き定食", "しょうが焼き定食"], "unit": "serving", "default": 1, "kcal": 800, "p": 34, "f": 28, "c": 100}, {"name": "とんかつ定食", "aliases": ["とんかつ定食"], "unit": "serving", "default": 1, "kcal": 900, "p": 38, "f": 36, "c": 110}, {"name": "焼き魚定食", "aliases": ["焼き魚定食"], "unit": "serving", "default": 1, "kcal": 680, "p": 35, "f": 20, "c": 88}, {"name": "ハンバーグ定食", "aliases": ["ハンバーグ定食"], "unit": "serving", "default": 1, "kcal": 820, "p": 34, "f": 32, "c": 96}, {"name": "焼肉定食", "aliases": ["焼肉定食"], "unit": "serving", "default": 1, "kcal": 900, "p": 40, "f": 38, "c": 105}, {"name": "刺身定食", "aliases": ["刺身定食"], "unit": "serving", "default": 1, "kcal": 650, "p": 38, "f": 15, "c": 84}, {"name": "ヨーグルト", "aliases": ["ヨーグルト"], "unit": "serving", "default": 1, "kcal": 90, "p": 5, "f": 3, "c": 11}, {"name": "バナナ", "aliases": ["バナナ"], "unit": "piece", "default": 1, "kcal": 90, "p": 1, "f": 0.2, "c": 23}, {"name": "りんご", "aliases": ["りんご", "リンゴ"], "unit": "piece", "default": 1, "kcal": 120, "p": 0.5, "f": 0.3, "c": 31}, {"name": "チョコレート", "aliases": ["チョコ", "チョコレート"], "unit": "piece", "default": 1, "kcal": 30, "p": 0.4, "f": 2, "c": 3}, {"name": "ポテトチップス", "aliases": ["ポテトチップス", "ポテチ"], "unit": "serving", "default": 1, "kcal": 340, "p": 4, "f": 22, "c": 32}, {"name": "アイスクリーム", "aliases": ["アイスクリーム", "アイス"], "unit": "serving", "default": 1, "kcal": 220, "p": 4, "f": 12, "c": 25}, {"name": "プリン", "aliases": ["プリン"], "unit": "piece", "default": 1, "kcal": 160, "p": 6, "f": 6, "c": 20}];
+
+  const norm = s => String(s||'')
+    .toLowerCase()
+    .replace(/[　]/g,' ')
+    .replace(/，/g,',')
+    .replace(/．/g,'.')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+
+  function calcEntry(entry, amount, explicitUnit) {
+    let mult = 1;
+    let label = entry.name;
+
+    if(entry.unit === 'g') {
+      const g = explicitUnit === 'g' ? amount : entry.default;
+      mult = g / 100;
+      label += ` ${Math.round(g)}g${explicitUnit==='g'?'':'(推定)'}`;
+    } else if(entry.unit === 'piece' || entry.unit === 'pack') {
+      const count = explicitUnit === 'count' ? amount : entry.default;
+      mult = count;
+      label += ` ×${count}`;
+    } else {
+      mult = 1;
+      label += ' 1食';
+    }
+
+    return {
+      kcal: entry.kcal * mult,
+      p: entry.p * mult,
+      f: entry.f * mult,
+      c: entry.c * mult,
+      label
+    };
+  }
+
+  function detectAmount(text, alias, entry) {
+    const a = escRe(alias);
+    if(entry.unit === 'g') {
+      const pats = [
+        new RegExp(a + '\\s*(\\d+(?:\\.\\d+)?)\\s*g','i'),
+        new RegExp('(\\d+(?:\\.\\d+)?)\\s*g\\s*' + a,'i')
+      ];
+      for(const p of pats) {
+        const m = text.match(p);
+        if(m) return {amount:Number(m[1]), unit:'g', raw:m[0]};
+      }
+    }
+    if(entry.unit === 'piece' || entry.unit === 'pack') {
+      const pats = [
+        new RegExp(a + '\\s*(\\d+(?:\\.\\d+)?)\\s*(枚|個|本|杯|パック|串)','i'),
+        new RegExp('(\\d+(?:\\.\\d+)?)\\s*(枚|個|本|杯|パック|串)\\s*' + a,'i')
+      ];
+      for(const p of pats) {
+        const m = text.match(p);
+        if(m) return {amount:Number(m[1]), unit:'count', raw:m[0]};
+      }
+    }
+    return {amount:entry.default, unit:null, raw:''};
+  }
+
+  function parse(text) {
+    const raw = norm(text);
+    if(!raw) return null;
+
+    // Prefer more specific names first so "味噌ラーメン" beats "ラーメン".
+    const aliases = [];
+    FOOD_DB_108.forEach(entry => entry.aliases.forEach(alias => aliases.push({entry, alias:norm(alias)})));
+    aliases.sort((a,b)=>b.alias.length-a.alias.length);
+
+    let work = ' ' + raw + ' ';
+    const usedEntries = new Set();
+    const items = [];
+    const total = {kcal:0,p:0,f:0,c:0};
+
+    for(const {entry,alias} of aliases) {
+      if(usedEntries.has(entry.name)) continue;
+      if(!work.includes(alias)) continue;
+
+      // Prevent generic shorter aliases after a specific dish was already matched.
+      const amt = detectAmount(work, alias, entry);
+      const r = calcEntry(entry, amt.amount, amt.unit);
+      total.kcal += r.kcal;
+      total.p += r.p;
+      total.f += r.f;
+      total.c += r.c;
+      items.push({name:r.label,kcal:r.kcal,p:r.p,f:r.f,c:r.c});
+      usedEntries.add(entry.name);
+
+      const idx = work.indexOf(alias);
+      if(idx >= 0) work = work.slice(0,idx) + ' '.repeat(alias.length) + work.slice(idx+alias.length);
+    }
+
+    if(!items.length) return null;
+
+    let leftover = work
+      .replace(/\d+(?:\.\d+)?\s*(g|kg|枚|個|本|杯|パック|串)/gi,' ')
+      .replace(/[、,・/＋+と]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+
+    // Ignore common connective words.
+    leftover = leftover
+      .replace(/^(大盛り|並盛り|小盛り|少なめ|多め)$/g,'')
+      .trim();
+
+    const confidence = leftover ? '中' : (items.length >= 2 ? '高め' : '中');
+
+    return {
+      kcal:total.kcal,p:total.p,f:total.f,c:total.c,
+      items,leftover,confidence
+    };
+  }
+
+  function apply() {
+    const input = $('mx');
+    if(!input) return null;
+    const r = parse(input.value);
+    const hint = $('pfcAutoHint');
+    const box = $('pfcBreakdown107');
+
+    if(!r) {
+      if(hint) {
+        hint.textContent='定番料理DB v1: 推定できない料理はPFCを手入力できます。';
+        hint.classList.remove('ok');
+      }
+      if(box) {
+        box.style.display='none';
+        box.innerHTML='';
+      }
+      return null;
+    }
+
+    if($('mkcal')) $('mkcal').value = Math.round(r.kcal);
+    if($('mp')) $('mp').value = r.p.toFixed(1);
+    if($('mf')) $('mf').value = r.f.toFixed(1);
+    if($('mc')) $('mc').value = r.c.toFixed(1);
+
+    if(hint) {
+      hint.textContent = `定番料理DB v1: 約${Math.round(r.kcal)}kcal / P${r.p.toFixed(1)} F${r.f.toFixed(1)} C${r.c.toFixed(1)}g（推定精度: ${r.confidence}）`;
+      hint.classList.add('ok');
+    }
+
+    if(box) {
+      box.style.display='block';
+      const rows = r.items.map(x =>
+        `・${x.name}: ${Math.round(x.kcal)}kcal / P${x.p.toFixed(1)} F${x.f.toFixed(1)} C${x.c.toFixed(1)}`
+      ).join('<br>');
+      box.innerHTML = `<b>推定内訳</b><br>${rows}` +
+        (r.leftover ? `<br><br><b>未解析:</b> ${r.leftover}` : '');
+    }
+    return r;
+  }
+
+  let timer;
+  document.addEventListener('input', e => {
+    if(e.target?.id !== 'mx') return;
+    clearTimeout(timer);
+    timer = setTimeout(apply, 220);
+  }, true);
+
+  document.addEventListener('change', e => {
+    if(e.target?.id === 'mx' || e.target?.id === 'mt') apply();
+  }, true);
+
+  document.addEventListener('click', e => {
+    if(e.target.closest('#abm')) apply();
+  }, true);
+
+  // Public API for future phases
+  window.VAMOS_FOOD_DB_V1 = FOOD_DB_108;
+  window.VAMOS_PFC_V2 = { parse, apply, count: FOOD_DB_108.length };
+
+  setTimeout(apply, 200);
+})();
+</script>
+
+
+<script>
+/* ===== Phase10.9 persistent data layer ===== */
+(() => {
+  const DB_NAME='VAMOS_PERSISTENT_DB';
+  const DB_VERSION=1;
+  const STORE='snapshots';
+  const SLOT='latest';
+
+  function openDb(){
+    return new Promise((resolve,reject)=>{
+      const req=indexedDB.open(DB_NAME,DB_VERSION);
+      req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(STORE))db.createObjectStore(STORE)};
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error);
+    });
+  }
+  async function backup(data){
+    try{
+      const db=await openDb();
+      await new Promise((resolve,reject)=>{
+        const tx=db.transaction(STORE,'readwrite');
+        tx.objectStore(STORE).put({data,updatedAt:new Date().toISOString()},SLOT);
+        tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
+      });
+      db.close();
+      updateStatus('保護中 ✓');
+    }catch(e){updateStatus('端末バックアップ失敗')}
+  }
+  async function readBackup(){
+    try{
+      const db=await openDb();
+      const val=await new Promise((resolve,reject)=>{
+        const tx=db.transaction(STORE,'readonly');
+        const r=tx.objectStore(STORE).get(SLOT);
+        r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);
+      });
+      db.close();
+      return val?.data||null;
+    }catch(e){return null}
+  }
+  function updateStatus(text){
+    const el=document.getElementById('persistStatus109');
+    if(el)el.textContent=text;
+  }
+  async function recover(){
+    try{
+      const local=load();
+      const backupData=await readBackup();
+      if(backupData){
+        const merged=mergeData(local,backupData);
+        if(dataScore(merged)>dataScore(local)){
+          localStorage.setItem(KEY,JSON.stringify(merged));
+          localStorage.setItem(COMPAT_KEY,JSON.stringify(merged));
+          await backup(merged);
+          try{render()}catch(e){}
+          try{history()}catch(e){}
+          try{renderMonth()}catch(e){}
+          updateStatus('旧記録を復元しました ✓');
+          const flash=document.getElementById('vamosFlash104');
+          if(flash){
+            flash.textContent='✓ 過去のVAMOSデータを復元しました';
+            flash.classList.add('show');
+            setTimeout(()=>flash.classList.remove('show'),1800);
+          }
+          return;
+        }
+      }
+      await backup(local);
+      updateStatus('保護中 ✓');
+    }catch(e){updateStatus('保存状態を確認できません')}
+  }
+
+  window.VAMOS_PERSIST={backup,readBackup,recover};
+  setTimeout(recover,250);
 })();
 </script>
 
