@@ -276,7 +276,7 @@ nav button{padding:9px 8px;font-size:11px;flex:1}
 </head>
 <body>
 <div class="app">
-  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceReload106">↻ 更新</button><div class="version">v2 · 10.9</div></div>
+  <div class="brandrow"><div class="brand"><div class="mark"><span>V+</span></div>VAMOS+</div><button class="refresh-btn" id="forceReload106">↻ 更新</button><div class="version">v2 · 10.10</div></div>
 
   <section id="home" class="page active">
     <div class="greeting"><h1 id="greet">おはよう、大地☀️</h1><p id="homeDate"></p></div>
@@ -551,7 +551,7 @@ const VAMOS_STORAGE_VERSION=1;
 const DEFAULT_TEMPLATES={breakfast:'ご飯100g、ゆで卵2個、ブロッコリー、枝豆',lunch:'おにぎり2個、サラダ、サラダチキン'};
 function localDate(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
 let activeToday=localDate();
-function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.9',storageVersion:VAMOS_STORAGE_VERSION}}}
+function def(){return{weights:[...SEED],meals:[],exercises:[],settings:{start:65,target:60,name:'大地',targetKcal:2000,targetP:100,targetF:55,targetC:250},templates:{...DEFAULT_TEMPLATES},meta:{version:'2-phase10.10',storageVersion:VAMOS_STORAGE_VERSION}}}
 function normalize(d){
   d=d&&typeof d==='object'?d:def();
   d.weights=Array.isArray(d.weights)?d.weights:[...SEED];
@@ -568,7 +568,7 @@ function normalize(d){
   };
   d.templates={breakfast:d.templates?.breakfast||DEFAULT_TEMPLATES.breakfast,lunch:d.templates?.lunch||DEFAULT_TEMPLATES.lunch};
   d.meals=d.meals.map((m,i)=>({...m,id:m.id||('m_'+Date.now().toString(36)+'_'+i),kcal:Number(m.kcal)||0,p:Number(m.p)||0,f:Number(m.f)||0,c:Number(m.c)||0,photoId:m.photoId||null}));
-  d.meta={...(d.meta||{}),version:'2-phase10.9',storageVersion:VAMOS_STORAGE_VERSION,updatedAt:d.meta?.updatedAt||new Date().toISOString()};
+  d.meta={...(d.meta||{}),version:'2-phase10.10',storageVersion:VAMOS_STORAGE_VERSION,updatedAt:d.meta?.updatedAt||new Date().toISOString()};
   return d
 }
 function dataScore(d){
@@ -1274,7 +1274,7 @@ const p6OldNormalize=normalize;
 normalize=function(d){
   const x=p6OldNormalize(d);
   x.settings.aiProxyUrl=x.settings.aiProxyUrl||'';
-  x.meta={...(x.meta||{}),version:'2-phase10.9'};
+  x.meta={...(x.meta||{}),version:'2-phase10.10'};
   return x;
 };
 
@@ -2821,6 +2821,46 @@ updateBulkUI();
 
   window.VAMOS_PERSIST={backup,readBackup,recover};
   setTimeout(recover,250);
+})();
+</script>
+
+
+<script>
+/* ===== Phase10.10 PWA auto-update ===== */
+(() => {
+  if(!('serviceWorker' in navigator)) return;
+
+  async function updateSW(){
+    try{
+      const reg = await navigator.serviceWorker.register('./sw.js?v=1010', {updateViaCache:'none'});
+      await reg.update();
+
+      if(reg.waiting){
+        reg.waiting.postMessage({type:'SKIP_WAITING'});
+      }
+
+      reg.addEventListener('updatefound', () => {
+        const worker = reg.installing;
+        if(!worker) return;
+        worker.addEventListener('statechange', () => {
+          if(worker.state === 'installed' && navigator.serviceWorker.controller){
+            worker.postMessage({type:'SKIP_WAITING'});
+          }
+        });
+      });
+
+      let refreshing=false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if(refreshing) return;
+        refreshing=true;
+        location.reload();
+      });
+    }catch(e){
+      console.warn('SW update failed', e);
+    }
+  }
+
+  window.addEventListener('load', updateSW);
 })();
 </script>
 
